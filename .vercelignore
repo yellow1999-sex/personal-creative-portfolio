@@ -1,0 +1,6 @@
+node_modules
+dist
+outputs
+work
+public/videos/homepage-123.mp4
+*.log

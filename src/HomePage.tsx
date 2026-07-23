@@ -443,7 +443,7 @@ export function HomePage() {
         window.setTimeout(() => ripple.remove(), 640)
       }}
     >
-      {imageConfig.ambientAudio ? <audio ref={audioRef} src={imageConfig.ambientAudio} autoPlay loop preload="metadata" /> : null}
+      {imageConfig.ambientAudio ? <audio ref={audioRef} src={imageConfig.ambientAudio} autoPlay loop preload="auto" /> : null}
       <SceneMedia scene={scene} />
       <div className="clean-noise" aria-hidden="true" />
       <AnimatePresence mode="wait" initial={false}>

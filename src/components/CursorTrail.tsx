@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useLayoutEffect, useRef } from 'react'
 
 const TRAIL_COUNT = 5
 
@@ -8,7 +8,7 @@ export function CursorTrail() {
   const clickRef = useRef<HTMLSpanElement>(null)
   const dotRefs = useRef<Array<HTMLSpanElement | null>>([])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const media = window.matchMedia('(hover: hover) and (pointer: fine)')
     if (!media.matches) return
 

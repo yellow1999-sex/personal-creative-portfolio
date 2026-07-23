@@ -10,6 +10,7 @@ import {
   WorkLightbox,
 } from '../components'
 import { siteConfig, WorkCategory, WorkItem, worksByCategory } from '../config'
+import { BackgroundVideo } from '../components/BackgroundVideo'
 
 const sections: Array<{ category: WorkCategory; label: string; square?: boolean }> = [
   { category: 'composite', label: '大合成' },
@@ -41,6 +42,12 @@ export function PortfolioPage() {
 
   return (
     <div className="inner-page portfolio-page">
+      <BackgroundVideo
+        className="portfolio-video-background"
+        desktopSrc="/videos/works-background-1080p.mp4"
+        mobileSrc="/videos/works-background-720p.mp4"
+        poster="/images/works/composite-01.webp"
+      />
       <main className="inner-page-shell">
         <header className="inner-page-header">
           <Link className="page-back-link" to="/" aria-label="返回首页"><ArrowLeft size={18} /></Link>

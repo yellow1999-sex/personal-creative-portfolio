@@ -7,7 +7,6 @@ import {
   Pause,
   Play,
   QrCode,
-  Sparkles,
   X,
 } from 'lucide-react'
 import {
@@ -115,7 +114,9 @@ export function FloatingNav() {
     <header className="floating-nav-wrap">
       <nav className="floating-nav" aria-label="主导航">
         <Link className="nav-brand" to="/" aria-label="返回首页" onClick={() => setOpen(false)}>
-          <span className="nav-brand-mark"><Sparkles size={13} /></span>
+          <span className="nav-brand-mark">
+            <img className="nav-brand-avatar" src="/images/avatar/profile-avatar.jpg" alt="" />
+          </span>
           <span>{siteConfig.brand.title}</span>
         </Link>
 

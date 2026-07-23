@@ -11,12 +11,18 @@ import {
   trackPointerGlow,
 } from '../components'
 import { getWorkflowModule, workflowModules } from '../workflowConfig'
+import { BackgroundVideo } from '../components/BackgroundVideo'
 
 const spring = { type: 'spring' as const, stiffness: 300, damping: 24, mass: 0.72 }
+
+function WorkflowVideoBackground() {
+  return <BackgroundVideo className="workflow-video-background" desktopSrc="/videos/workflow-background-1080p.mp4" mobileSrc="/videos/workflow-background-720p.mp4" />
+}
 
 export function WorkflowPage() {
   return (
     <div className="inner-page workflow-page">
+      <WorkflowVideoBackground />
       <main className="inner-page-shell">
         <header className="inner-page-header workflow-page-header">
           <Link className="page-back-link" to="/" aria-label="返回首页"><ArrowLeft size={18} /></Link>
@@ -27,9 +33,7 @@ export function WorkflowPage() {
           {workflowModules.map((module, index) => (
             <Reveal key={module.slug} delay={index * 0.055}>
               <motion.div whileHover={{ y: -9 }} whileTap={{ scale: 0.987 }} transition={spring}>
-                <Link className={'workflow-hub-card glow-surface' + (module.cover.includes('white') ? ' is-light' : '')} to={'/workflow/' + module.slug}>
-                  <img src={module.cover} alt={module.title + '封面'} width={1100} height={720} />
-                  <div className="workflow-hub-shade" aria-hidden="true" />
+                <Link className="workflow-hub-card glow-surface" to={'/workflow/' + module.slug}>
                   <span>{String(index + 1).padStart(2, '0')}</span>
                   <h2>{module.title}</h2>
                   <i><ArrowUpRight size={20} /></i>
@@ -53,6 +57,7 @@ export function WorkflowDetailPage() {
 
   return (
     <div className="inner-page workflow-detail-page">
+      <WorkflowVideoBackground />
       <main className="inner-page-shell">
         <header className="inner-page-header workflow-detail-header">
           <Link className="page-back-link" to="/workflow" aria-label="返回工作流分享"><ArrowLeft size={18} /></Link>
@@ -60,7 +65,7 @@ export function WorkflowDetailPage() {
         </header>
 
         <div className={'workflow-detail-cover' + (module.cover.includes('white') ? ' is-light' : '')}>
-          <img src={module.cover} alt={module.title + '封面'} width={1800} height={800} />
+          <img src={module.cover} alt={module.title + '封面'} width={1800} height={800} decoding="async" />
         </div>
 
         <div className="workflow-detail-grid">
@@ -86,7 +91,7 @@ export function WorkflowDetailPage() {
                   })}
                   aria-label={`查看${step.title}效果图与详情`}
                 />
-                <img src={step.image} alt={step.title + '步骤图片'} width={900} height={560} loading="lazy" />
+                <img src={step.image} alt={step.title + '步骤图片'} width={900} height={560} loading="lazy" decoding="async" />
                 <div className="workflow-detail-card-copy">
                   <div>
                     <span>{step.id}</span>

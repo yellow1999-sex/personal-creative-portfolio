@@ -61,7 +61,7 @@ export const imageConfig: ImageConfig = {
   // 后续把视频放进 public/videos/，再改成 `/videos/文件名.mp4`。
   heroVideo: '/videos/homepage-1080p.mp4',
   // 背景音乐：把音频放到 public/audio/ 后填入，例如 `/audio/ambient.mp3`。
-  ambientAudio: null,
+  ambientAudio: '/audio/elegant-fantasy-piano.wav',
   hero: BLACK_PLACEHOLDER,
   // 首页视频下方背景：可填 `/videos/loop.mp4` 或 `/images/loop.gif`。
   homeBackground: {
@@ -69,7 +69,7 @@ export const imageConfig: ImageConfig = {
     image: null,
     opacity: 0.46,
   },
-  qqGroupQr: null,
+  qqGroupQr: '/images/contact/qq-group-qr.png',
   works: {
     composite: [
       '/images/works/composite-01.webp',

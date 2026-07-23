@@ -398,6 +398,7 @@ export function HomePage() {
   useEffect(() => {
     const audio = audioRef.current
     if (!audio || !imageConfig.ambientAudio) return
+    audio.volume = 0.18
     audio.muted = !audioOn
     if (audioOn) void audio.play().catch(() => undefined)
     else audio.pause()
@@ -428,6 +429,8 @@ export function HomePage() {
         touchStart.current = null
       }}
       onPointerDown={(event) => {
+        const audio = audioRef.current
+        if (audioOn && audio?.paused) void audio.play().catch(() => undefined)
         const target = (event.target as HTMLElement).closest('button, a') as HTMLElement | null
         if (!target) return
         const rect = target.getBoundingClientRect()

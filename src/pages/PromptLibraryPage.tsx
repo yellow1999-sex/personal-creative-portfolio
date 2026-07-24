@@ -18,6 +18,10 @@ import {
   PromptLibraryItem,
 } from '../promptLibraryConfig'
 
+type PromptLibraryViewId = PromptLibraryCategoryId | 'personal-common'
+
+const PERSONAL_COMMON_ID = 'personal-common'
+
 const dialogData = (item: PromptLibraryItem): PromptDialogData => ({
   id: item.id,
   title: item.title,
@@ -40,18 +44,22 @@ function PromptRow({ item, index, onOpen }: { item: PromptLibraryItem; index: nu
 }
 
 export function PromptLibraryPage() {
-  const [activeCategory, setActiveCategory] = useState<PromptLibraryCategoryId>('all')
-  const [openSubcategory, setOpenSubcategory] = useState<string | null>(null)
+  const [activeCategory, setActiveCategory] = useState<PromptLibraryViewId>(PERSONAL_COMMON_ID)
+  const [openSubcategory, setOpenSubcategory] = useState<string | null>(PERSONAL_COMMON_ID)
   const [query, setQuery] = useState('')
   const [selectedPrompt, setSelectedPrompt] = useState<PromptDialogData | null>(null)
   const deferredQuery = useDeferredValue(query.trim().toLocaleLowerCase('zh-CN'))
 
   const availableSubcategories = useMemo(() => promptLibrarySubcategories.filter((subcategory) => (
-    activeCategory === 'all' || subcategory.category === activeCategory
+    activeCategory === PERSONAL_COMMON_ID
+      ? subcategory.id === PERSONAL_COMMON_ID
+      : activeCategory === 'all' || subcategory.category === activeCategory
   )), [activeCategory])
 
   const categoryItems = useMemo(() => promptLibraryItems.filter((item) => (
-    activeCategory === 'all' || item.category === activeCategory
+    activeCategory === PERSONAL_COMMON_ID
+      ? item.subCategory === PERSONAL_COMMON_ID
+      : activeCategory === 'all' || item.category === activeCategory
   )), [activeCategory])
 
   const categoryCounts = useMemo(() => {
@@ -102,6 +110,19 @@ export function PromptLibraryPage() {
         </div>
 
         <div className="prompt-category-tabs" role="tablist" aria-label="提示词分类">
+          <button
+            type="button"
+            role="tab"
+            aria-selected={activeCategory === PERSONAL_COMMON_ID}
+            className={activeCategory === PERSONAL_COMMON_ID ? 'is-active' : ''}
+            onClick={() => {
+              setActiveCategory(PERSONAL_COMMON_ID)
+              setOpenSubcategory(PERSONAL_COMMON_ID)
+            }}
+          >
+            <span>个人常用</span>
+            <small>10</small>
+          </button>
           {promptLibraryCategories.map((category) => (
             <button
               type="button"

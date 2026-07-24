@@ -291,7 +291,7 @@ function ContactScene() {
         <div className="clean-contact-cards">
           <div><span>个人 QQ</span><strong>{siteConfig.contact.qq}</strong></div>
           <div><span>QQ群</span><strong>{siteConfig.contact.group}</strong></div>
-          <div><span>抖音</span><strong>搜索：酸奶奶奶奶奶</strong></div>
+          <div><span>抖音</span><strong>搜索：一勺炒酸奶</strong></div>
         </div>
       </div>
       <div className="clean-qr-panel">

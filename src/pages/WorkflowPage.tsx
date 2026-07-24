@@ -19,6 +19,19 @@ function WorkflowVideoBackground() {
   return <BackgroundVideo className="workflow-video-background" desktopSrc="/videos/workflow-background-1080p.mp4" mobileSrc="/videos/workflow-background-720p.mp4" />
 }
 
+const workflowThanksCards = [
+  {
+    image: '/images/thanks/open-source-huihui.png',
+    text: '感谢开源工作者小T',
+    alt: '感谢开源工作者小T',
+  },
+  {
+    image: '/images/thanks/open-source-xiaot.png',
+    text: '感谢开源工作者惠惠',
+    alt: '感谢开源工作者惠惠',
+  },
+]
+
 export function WorkflowPage() {
   return (
     <div className="inner-page workflow-page">
@@ -108,6 +121,37 @@ export function WorkflowDetailPage() {
             </Reveal>
           ))}
         </div>
+
+        {isComfyUi ? (
+          <section className="workflow-thanks-section" aria-label="开源工作流致谢">
+            <div className="workflow-thanks-panel">
+              {workflowThanksCards.map((card) => (
+                <motion.button
+                  className="workflow-thanks-card glow-surface"
+                  type="button"
+                  key={card.image}
+                  onClick={() => setSelectedPrompt({
+                    id: `workflow-thanks-${card.image}`,
+                    title: card.text,
+                    category: '开源工作流致谢',
+                    prompt: card.text,
+                    meta: '点击关闭大图',
+                    image: card.image,
+                    imageAlt: card.alt,
+                    hideCopyButton: true,
+                  })}
+                  aria-label={`查看${card.text}大图`}
+                  whileHover={{ y: -4 }}
+                  whileTap={{ scale: 0.99 }}
+                  transition={spring}
+                >
+                  <img src={card.image} alt={card.alt} width={872} height={512} loading="lazy" decoding="async" />
+                  <span>{card.text}</span>
+                </motion.button>
+              ))}
+            </div>
+          </section>
+        ) : null}
 
         <SiteFooter />
       </main>

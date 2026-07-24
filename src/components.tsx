@@ -42,6 +42,7 @@ export type PromptDialogData = {
   summary?: string
   image?: string
   imageAlt?: string
+  hideCopyButton?: boolean
 }
 
 const elasticSpring = {
@@ -997,7 +998,7 @@ function PromptDialogPanel({
           <div className="prompt-dialog-text">{data.prompt}</div>
           <div className="prompt-dialog-footer">
             <span>{data.meta || '完整提示词 / 可直接复制'}</span>
-            <CopyPromptButton id={'dialog-' + data.id} prompt={data.prompt} />
+            {!data.hideCopyButton ? <CopyPromptButton id={'dialog-' + data.id} prompt={data.prompt} /> : null}
           </div>
         </div>
       </motion.section>

@@ -157,7 +157,7 @@ export const siteConfig = {
     { label: '场景包预设', href: '/works' },
     { label: '提示词库', href: '/prompts' },
     { label: '工作流分享', href: '/workflow' },
-    { label: '联系', href: '/#contact' },
+    { label: '联系方式', href: '/#contact' },
   ],
   contact: {
     qq: '1140761073',

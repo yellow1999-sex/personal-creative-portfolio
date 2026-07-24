@@ -6056,6 +6056,61 @@ body {
   pointer-events: auto;
 }
 
+.workflow-thanks-section {
+  margin-top: 48px;
+}
+
+.workflow-thanks-panel {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  width: min(940px, 100%);
+  margin: 0 auto;
+}
+
+.workflow-thanks-card {
+  display: block;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+  color: var(--cream);
+  border: 1px solid rgba(244, 246, 238, 0.34);
+  border-radius: 7px;
+  background: rgba(12, 22, 16, 0.68);
+  cursor: zoom-in;
+  text-align: left;
+}
+
+.workflow-thanks-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.workflow-thanks-card span {
+  display: block;
+  margin: 0;
+  padding: 12px 14px 14px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.workflow-detail-page.is-comfyui .workflow-detail-card-copy {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.workflow-detail-page.is-comfyui .workflow-detail-card-copy .copy-button {
+  align-self: flex-end;
+}
+
+@media (max-width: 760px) {
+  .workflow-thanks-panel {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 560px) {
   .workflow-detail-card-copy {
     gap: 8px;

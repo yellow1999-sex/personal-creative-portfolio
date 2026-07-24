@@ -20,13 +20,14 @@ const sections: Array<{ category: WorkCategory; label: string; square?: boolean 
 
 const thankCard: PromptDialogData = {
   id: 'black-thanks-card',
-  title: '感谢贺卡',
+  title: '感谢',
   category: '场景提示词支持',
   summary: '本页场景提示词完全由 BLACK 大独家提供。',
   prompt: '场景提示词完全由black大独家提供',
   meta: 'BLACK 大 / 场景提示词',
   image: '/images/thanks/black-profile.png',
   imageAlt: 'BLACK 大资料图感谢贺卡',
+  hideCopyButton: true,
 }
 
 const promptFromWork = (work: WorkItem): PromptDialogData => ({
@@ -75,7 +76,7 @@ export function PortfolioPage() {
               {section.category === 'portrait' ? (
                 <button className="thanks-card" type="button" onClick={() => setSelectedPrompt(thankCard)}>
                   <img src={thankCard.image} alt="BLACK 大感谢贺卡预览" width={640} height={360} />
-                  <span>感谢贺卡</span>
+                  <span>感谢</span>
                   <strong>{thankCard.prompt}</strong>
                 </button>
               ) : null}

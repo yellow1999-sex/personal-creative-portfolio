@@ -51,7 +51,7 @@ export function PortfolioPage() {
       <main className="inner-page-shell">
         <header className="inner-page-header">
           <Link className="page-back-link" to="/" aria-label="返回首页"><ArrowLeft size={18} /></Link>
-          <h1>完整作品</h1>
+          <h1>场景包预设</h1>
         </header>
 
         {sections.map((section) => (

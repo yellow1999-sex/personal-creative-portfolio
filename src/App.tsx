@@ -14,7 +14,7 @@ const BorderGlowDemo = lazy(() => import('./pages/BorderGlowDemo').then((module)
 
 const pageTitles: Record<string, string> = {
   '/': '酸奶奶奶奶奶 · 个人视觉作品集',
-  '/works': '完整作品 · 酸奶奶奶奶奶',
+  '/works': '场景包预设 · 酸奶奶奶奶奶',
   '/prompts': '提示词库 · 酸奶奶奶奶奶',
   '/workflow': '工作流分享 · 酸奶奶奶奶奶',
 }

@@ -107,6 +107,16 @@ export const imageConfig: ImageConfig = {
       BLACK_PLACEHOLDER, // 08
       BLACK_PLACEHOLDER, // 09
       BLACK_PLACEHOLDER, // 10
+      BLACK_PLACEHOLDER, // 11
+      BLACK_PLACEHOLDER, // 12
+      BLACK_PLACEHOLDER, // 13
+      BLACK_PLACEHOLDER, // 14
+      BLACK_PLACEHOLDER, // 15
+      BLACK_PLACEHOLDER, // 16
+      BLACK_PLACEHOLDER, // 17
+      BLACK_PLACEHOLDER, // 18
+      BLACK_PLACEHOLDER, // 19
+      BLACK_PLACEHOLDER, // 20
     ],
   },
   promptCards: [
@@ -191,9 +201,9 @@ export const siteConfig = {
       tags: ['原始素材', '合成阶段', '细节调整'],
     },
     portrait: {
-      label: '人像人脸',
-      heading: '人像人脸',
-      count: 10,
+      label: '场照半合成预制菜',
+      heading: '场照半合成预制菜',
+      count: 20,
       speed: 24,
       tags: ['肤质修整', '轮廓塑造', '色彩氛围'],
     },

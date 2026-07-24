@@ -4120,6 +4120,51 @@ small {
   opacity: 0.62;
 }
 
+.thanks-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 128px minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  gap: 4px 12px;
+  width: min(100%, 390px);
+  padding: 8px;
+  color: inherit;
+  border: 1px solid currentColor;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  text-align: left;
+  transition: transform 0.28s ease, background-color 0.28s ease;
+}
+
+.thanks-card:hover {
+  background: rgba(255, 255, 255, 0.42);
+  transform: translateY(-3px);
+}
+
+.thanks-card img {
+  grid-row: 1 / 3;
+  width: 128px;
+  aspect-ratio: 16 / 9;
+  align-self: center;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.thanks-card span {
+  align-self: end;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  opacity: 0.66;
+}
+
+.thanks-card strong {
+  align-self: start;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
 .portfolio-grid {
   display: grid;
   gap: 12px;
@@ -4132,6 +4177,10 @@ small {
 
 .portfolio-grid.is-square {
   grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.portfolio-page .archive-section:nth-of-type(3) .work-card {
+  aspect-ratio: 16 / 9;
 }
 
 .portfolio-grid > div {
@@ -4844,7 +4893,7 @@ small {
 
 .workflow-detail-card {
   position: relative;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
   color: var(--cream);
   border: 1px solid rgba(17, 22, 17, 0.2);
@@ -4988,6 +5037,15 @@ small {
 
   .archive-section-heading h2 {
     font-size: 27px;
+  }
+
+  .archive-section-heading {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .thanks-card {
+    width: 100%;
   }
 
   .portfolio-grid.is-wide {

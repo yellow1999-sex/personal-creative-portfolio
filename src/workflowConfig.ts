@@ -37,7 +37,7 @@ const steps = (items: WorkflowStepSeed[]): WorkflowStep[] => items.map((item, in
 export const workflowModules: WorkflowModule[] = [
   {
     slug: 'composite',
-    title: '大合成过程分享',
+    title: '无思路快速合成分享',
     cover: black,
     steps: steps([
       {
@@ -74,7 +74,7 @@ export const workflowModules: WorkflowModule[] = [
   },
   {
     slug: 'semi-composite',
-    title: '半合成过程分享',
+    title: 'comfyui工作流分享',
     cover: white,
     steps: steps([
       {
@@ -106,6 +106,16 @@ export const workflowModules: WorkflowModule[] = [
         title: '导出复盘',
         summary: '记录有效参数和失败尝试，方便下一张立绘快速复用。',
         prompt: '立绘合成最终输出，人物比例稳定，线条清晰，颜色统一，细节完整，适合竖屏展示和后续继续调整，保留可复用图层逻辑。',
+      },
+      {
+        title: 'ComfyUI节点整理',
+        summary: '按加载模型、采样、放大和保存结果整理节点，保持连线清晰。',
+        prompt: 'ComfyUI工作流节点整理：加载模型、加载参考图、正负面提示词、采样器、潜空间放大、图像放大、细节修复、保存图像。节点命名清楚，连线方向统一，保留可复用参数，输出稳定的场照半合成结果。',
+      },
+      {
+        title: '工作流代码分享',
+        summary: '整理可直接导入的工作流代码，复制后即可在 ComfyUI 中继续修改。',
+        prompt: '请输出完整可导入的 ComfyUI 工作流 JSON 代码，包含模型加载、参考图输入、采样、放大、细节修复和保存节点；节点连接完整，参数使用明确数值，代码格式合法，不省略任何节点或连线。',
       },
     ]),
   },

@@ -54,9 +54,10 @@ export function WorkflowDetailPage() {
   const module = getWorkflowModule(slug)
   const [selectedPrompt, setSelectedPrompt] = useState<PromptDialogData | null>(null)
   if (!module) return <Navigate to="/workflow" replace />
+  const isComfyUi = module.slug === 'semi-composite'
 
   return (
-    <div className="inner-page workflow-detail-page">
+    <div className={'inner-page workflow-detail-page' + (isComfyUi ? ' is-comfyui' : '')}>
       <WorkflowVideoBackground />
       <main className="inner-page-shell">
         <header className="inner-page-header workflow-detail-header">
@@ -64,9 +65,9 @@ export function WorkflowDetailPage() {
           <h1>{module.title}</h1>
         </header>
 
-        <div className={'workflow-detail-cover' + (module.cover.includes('white') ? ' is-light' : '')}>
+        {!isComfyUi ? <div className={'workflow-detail-cover' + (module.cover.includes('white') ? ' is-light' : '')}>
           <img src={module.cover} alt={module.title + '封面'} width={1800} height={800} decoding="async" />
-        </div>
+        </div> : null}
 
         <div className="workflow-detail-grid">
           {module.steps.map((step, index) => (
@@ -100,7 +101,7 @@ export function WorkflowDetailPage() {
                   <CopyPromptButton
                     id={`workflow-copy-${module.slug}-${step.id}`}
                     prompt={step.prompt}
-                    label="复制提示词"
+                    label="复制完整工作流代码到插件添加"
                   />
                 </div>
               </motion.article>

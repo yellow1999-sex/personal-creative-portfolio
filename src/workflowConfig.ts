@@ -78,44 +78,28 @@ export const workflowModules: WorkflowModule[] = [
     cover: white,
     steps: steps([
       {
-        title: '分析立绘',
-        summary: '先拆分人物结构、服装材质和原始光线，再决定画面方向。',
-        prompt: '二次元立绘还原分析，保留人物五官与服装结构，明确镜头角度和姿态，建立清晰的光影参考，画面干净，细节可控。',
+        title: 'Krea2图生图一致性', summary: '', prompt: '2079780529599238146', image: '/images/workflow/comfyui/01.png',
       },
       {
-        title: '清理主体',
-        summary: '修整边缘与遮挡关系，让人物轮廓在新场景中保持完整。',
-        prompt: '干净的人物主体抠取，发丝和衣物边缘自然，去除杂色与残留背景，保留细小材质细节，轮廓清晰，适合继续合成。',
+        title: 'MJ审美之王', summary: '', prompt: '2079780529599238146', image: '/images/workflow/comfyui/02.png',
       },
       {
-        title: '建立背景',
-        summary: '先搭建简洁空间，再用材质和景深确定人物所处的氛围。',
-        prompt: '幻想感场景背景，空间层次清楚，材质细腻，色彩与人物服装协调，适度景深和空气透视，保持主体为视觉中心。',
+        title: '超级大礼包', summary: '', prompt: '2023976779043311618', image: '/images/workflow/comfyui/03.png',
       },
       {
-        title: '衔接光影',
-        summary: '为人物补充来自背景的色光与投影，消除贴图感。',
-        prompt: '人物与场景光影融合，环境色光轻微映射到衣物和发丝，脚下有自然投影，明暗方向一致，保留立绘线条和质感。',
+        title: '超清放大', summary: '', prompt: '2062492774783610882', image: '/images/workflow/comfyui/04.png',
       },
       {
-        title: '强化氛围',
-        summary: '用雾气、粒子和局部高光增加空间感，但不遮挡主体信息。',
-        prompt: '轻微薄雾与细小光尘，层次柔和，局部高光点缀，氛围梦幻但不过度，主体边缘清楚，画面保持高级留白。',
+        title: '韩式磨皮修脸', summary: '', prompt: '2072869891509669890', image: '/images/workflow/comfyui/05.png',
       },
       {
-        title: '导出复盘',
-        summary: '记录有效参数和失败尝试，方便下一张立绘快速复用。',
-        prompt: '立绘合成最终输出，人物比例稳定，线条清晰，颜色统一，细节完整，适合竖屏展示和后续继续调整，保留可复用图层逻辑。',
+        title: '究极抠图', summary: '', prompt: '2044018179520864257', image: '/images/workflow/comfyui/06.png',
       },
       {
-        title: 'ComfyUI节点整理',
-        summary: '按加载模型、采样、放大和保存结果整理节点，保持连线清晰。',
-        prompt: 'ComfyUI工作流节点整理：加载模型、加载参考图、正负面提示词、采样器、潜空间放大、图像放大、细节修复、保存图像。节点命名清楚，连线方向统一，保留可复用参数，输出稳定的场照半合成结果。',
+        title: '双图编辑 低色差，无偏移，宽审核', summary: '', prompt: '2072190882207584257', image: '/images/workflow/comfyui/07.png',
       },
       {
-        title: '工作流代码分享',
-        summary: '整理可直接导入的工作流代码，复制后即可在 ComfyUI 中继续修改。',
-        prompt: '请输出完整可导入的 ComfyUI 工作流 JSON 代码，包含模型加载、参考图输入、采样、放大、细节修复和保存节点；节点连接完整，参数使用明确数值，代码格式合法，不省略任何节点或连线。',
+        title: '照片级写实渲染', summary: '', prompt: '2013570680079523842', image: '/images/workflow/comfyui/08.png',
       },
     ]),
   },

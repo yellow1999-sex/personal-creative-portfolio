@@ -40,10 +40,19 @@ function normalizeStyles(styles: EditorOverride['styles']) {
   )
 }
 
+type ActionStatus = 'idle' | 'running' | 'success' | 'error'
+
+type ActionResult = {
+  output?: string
+  path?: string
+  github?: { status: string; message: string; commit?: string }
+  vercel?: { status: string; message: string }
+}
+
 async function api<T>(url: string, options?: RequestInit): Promise<T> {
   const response = await fetch(url, options)
-  const data = await response.json() as T & { message?: string }
-  if (!response.ok) throw new Error(data.message || '本地编辑器操作失败')
+  const data = await response.json() as T & { message?: string; output?: string }
+  if (!response.ok) throw new Error(data.message || data.output || '本地编辑器操作失败')
   return data
 }
 
@@ -57,6 +66,7 @@ export function EditorPage() {
   const [notice, setNotice] = useState('正在连接本地项目…')
   const [log, setLog] = useState('')
   const [busy, setBusy] = useState(false)
+  const [actionStatus, setActionStatus] = useState<ActionStatus>('idle')
 
   useEffect(() => {
     void api<EditorState>('/api/editor/state').then((next) => {
@@ -186,14 +196,22 @@ export function EditorPage() {
 
   const runAction = async (endpoint: string, success: string) => {
     setBusy(true)
+    setActionStatus('running')
     setLog('正在处理，请稍候…')
     try {
-      const result = await api<{ output?: string; path?: string }>(endpoint, { method: 'POST' })
-      setNotice(success)
+      const result = await api<ActionResult>(endpoint, { method: 'POST' })
+      setActionStatus('success')
+      if (endpoint === '/api/editor/publish') {
+        const githubMessage = result.github?.message || 'GitHub 上传状态待确认'
+        const vercelMessage = result.vercel?.message || 'Vercel 自动部署状态待确认'
+        setNotice(`${githubMessage}；${vercelMessage}`)
+      } else setNotice(success)
       setLog(result.output || result.path || success)
     } catch (error) {
-      setNotice('操作失败')
-      setLog(error instanceof Error ? error.message : '操作失败')
+      setActionStatus('error')
+      const message = error instanceof Error ? error.message : '操作失败'
+      setNotice(endpoint === '/api/editor/publish' ? '发布失败，请查看下方详细结果' : message)
+      setLog(message)
     } finally {
       setBusy(false)
     }
@@ -207,7 +225,7 @@ export function EditorPage() {
   return (
     <div className="visual-editor-shell">
       <header className="visual-editor-topbar">
-        <div className="visual-editor-brand"><WandSparkles size={21} /><div><strong>网站可视化编辑器</strong><span>{notice}</span></div></div>
+        <div className="visual-editor-brand"><WandSparkles size={21} /><div><strong>网站可视化编辑器</strong><span className={'editor-notice is-' + actionStatus} aria-live="polite">{notice}</span></div></div>
         <div className="visual-editor-actions">
           <button type="button" onClick={() => void runAction('/api/editor/backup', '已完成完整备份')} disabled={busy}><Save size={16} />一键备份</button>
           <button type="button" onClick={() => void runAction('/api/editor/build', '构建检查通过')} disabled={busy}><Settings2 size={16} />检查网站</button>

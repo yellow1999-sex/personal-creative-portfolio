@@ -154,7 +154,11 @@ async function handleApi(request, response, url) {
 
   if (url.pathname === '/api/editor/build' && request.method === 'POST') {
     try {
-      const result = await run(process.platform === 'win32' ? 'npm.cmd' : 'npm', ['run', 'build'])
+      const command = process.platform === 'win32' ? (process.env.ComSpec || 'cmd.exe') : 'npm'
+      const args = process.platform === 'win32'
+        ? ['/d', '/s', '/c', 'npm.cmd run build']
+        : ['run', 'build']
+      const result = await run(command, args)
       sendJson(response, 200, { ok: true, output: `${result.stdout}\n${result.stderr}` })
     } catch (error) {
       sendJson(response, 500, { ok: false, output: `${error.stdout || ''}\n${error.stderr || error.message}` })
@@ -184,7 +188,12 @@ async function handleApi(request, response, url) {
         commitOutput = '没有新的文件需要提交。'
       }
       const push = await run('git', ['push', 'origin', 'main'])
-      sendJson(response, 200, { ok: true, output: `${commitOutput}\n${push.stdout}\nVercel 将根据 GitHub 更新自动部署。` })
+      sendJson(response, 200, {
+        ok: true,
+        output: `${commitOutput}\n${push.stdout}\nVercel 将根据 GitHub 更新自动部署。`,
+        github: { status: 'success', message: 'GitHub 上传成功' },
+        vercel: { status: 'triggered', message: 'Vercel 自动部署已触发，线上完成状态待确认' },
+      })
     } catch (error) {
       sendJson(response, 500, { ok: false, output: `${error.stdout || ''}\n${error.stderr || error.message}` })
     }

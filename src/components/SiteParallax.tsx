@@ -5,6 +5,7 @@ export function SiteParallax() {
     const root = document.documentElement
     const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (!finePointer || reduced) return
     let pointerFrame = 0
     let scrollFrame = 0
     let targetX = 0
@@ -25,7 +26,6 @@ export function SiteParallax() {
     }
 
     const onPointerMove = (event: PointerEvent) => {
-      if (!finePointer || reduced) return
       targetX = event.clientX / window.innerWidth - 0.5
       targetY = event.clientY / window.innerHeight - 0.5
       if (!pointerFrame) pointerFrame = window.requestAnimationFrame(renderPointer)
@@ -39,7 +39,7 @@ export function SiteParallax() {
     }
 
     const onScroll = () => {
-      if (!scrollFrame && !reduced) scrollFrame = window.requestAnimationFrame(renderScroll)
+      if (!scrollFrame) scrollFrame = window.requestAnimationFrame(renderScroll)
     }
 
     renderScroll()

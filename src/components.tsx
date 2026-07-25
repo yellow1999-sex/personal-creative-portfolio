@@ -457,7 +457,7 @@ export function HeroWorksLoop({
 }) {
   const targetX = useMotionValue(0)
   const groupWidthValue = useMotionValue(1)
-  const springX = useSpring(targetX, { stiffness: 205, damping: 29, mass: 0.72 })
+  const springX = useSpring(targetX, { stiffness: 255, damping: 26, mass: 0.68 })
   const displayX = useTransform(() => wrap(-groupWidthValue.get(), 0, springX.get()))
   const viewportRef = useRef<HTMLDivElement>(null)
   const groupRef = useRef<HTMLDivElement>(null)

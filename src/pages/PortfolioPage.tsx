@@ -56,8 +56,8 @@ export function PortfolioPage() {
     <div className="inner-page portfolio-page">
       <BackgroundVideo
         className="portfolio-video-background"
-        desktopSrc="/videos/works-background-1080p.mp4"
-        mobileSrc="/videos/works-background-720p.mp4"
+        desktopSrc="/videos/works-background-web.mp4"
+        mobileSrc="/videos/works-background-mobile.mp4"
         poster="/images/works/composite-01.webp"
       />
       <main className="inner-page-shell">

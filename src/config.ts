@@ -26,6 +26,7 @@ type ImageConfig = {
     white: string
   }
   heroVideo: string | null
+  heroVideoMobile: string | null
   ambientAudio: string | null
   hero: string
   /**
@@ -59,9 +60,10 @@ export const imageConfig: ImageConfig = {
     white: WHITE_PLACEHOLDER,
   },
   // 后续把视频放进 public/videos/，再改成 `/videos/文件名.mp4`。
-  heroVideo: '/videos/homepage-1080p.mp4',
+  heroVideo: '/videos/homepage-desktop-clear.mp4',
+  heroVideoMobile: '/videos/homepage-mobile.mp4',
   // 背景音乐：把音频放到 public/audio/ 后填入，例如 `/audio/ambient.mp3`。
-  ambientAudio: '/audio/elegant-fantasy-piano.wav',
+  ambientAudio: '/audio/elegant-fantasy-piano.mp3',
   hero: BLACK_PLACEHOLDER,
   // 首页视频下方背景：可填 `/videos/loop.mp4` 或 `/images/loop.gif`。
   homeBackground: {

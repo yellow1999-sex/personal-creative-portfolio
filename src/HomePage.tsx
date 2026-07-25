@@ -23,7 +23,7 @@ const sceneItems: Array<{ id: SceneKey; number: string; label: string }> = [
 const homepageCompositeOrder = [1, 2, 3, 4, 8, 7, 9] as const
 const homepageWorks = homepageCompositeOrder.map((number) => worksByCategory.composite[number - 1])
 
-const sceneTransition = { type: 'spring' as const, stiffness: 210, damping: 30, mass: 0.72 }
+const sceneTransition = { type: 'spring' as const, stiffness: 255, damping: 26, mass: 0.7 }
 
 function promptDataFromWork(work: WorkItem): PromptDialogData {
   return {
@@ -39,6 +39,18 @@ function SceneMedia({ scene }: { scene: SceneKey }) {
   const hasVideo = Boolean(imageConfig.heroVideo)
   const extraClass = scene === 'home' ? ' is-home' : ''
   const videoRef = useRef<HTMLVideoElement>(null)
+  const [videoSource, setVideoSource] = useState(() => (
+    typeof window !== 'undefined' && window.matchMedia('(max-width: 760px)').matches
+      ? imageConfig.heroVideoMobile ?? imageConfig.heroVideo
+      : imageConfig.heroVideo
+  ))
+
+  useEffect(() => {
+    const mobile = window.matchMedia('(max-width: 760px)')
+    const updateSource = () => setVideoSource(mobile.matches ? imageConfig.heroVideoMobile ?? imageConfig.heroVideo : imageConfig.heroVideo)
+    mobile.addEventListener('change', updateSource)
+    return () => mobile.removeEventListener('change', updateSource)
+  }, [])
 
   useEffect(() => {
     const video = videoRef.current
@@ -50,13 +62,19 @@ function SceneMedia({ scene }: { scene: SceneKey }) {
     }
 
     document.addEventListener('visibilitychange', syncPlayback)
-    return () => document.removeEventListener('visibilitychange', syncPlayback)
-  }, [])
+    window.addEventListener('pointerdown', syncPlayback, { passive: true })
+    window.addEventListener('touchstart', syncPlayback, { passive: true })
+    return () => {
+      document.removeEventListener('visibilitychange', syncPlayback)
+      window.removeEventListener('pointerdown', syncPlayback)
+      window.removeEventListener('touchstart', syncPlayback)
+    }
+  }, [videoSource])
 
   return (
     <div className={'clean-scene-media' + extraClass} aria-hidden="true">
       {hasVideo ? (
-        <video ref={videoRef} src={imageConfig.heroVideo ?? undefined} poster={imageConfig.hero} autoPlay muted loop playsInline preload="metadata" />
+        <video ref={videoRef} src={videoSource ?? undefined} poster={imageConfig.hero} autoPlay muted loop playsInline preload="auto" controlsList="nodownload noremoteplayback" disablePictureInPicture disableRemotePlayback onCanPlay={(event) => { if (!document.hidden) void event.currentTarget.play().catch(() => undefined) }} />
       ) : <img src={imageConfig.hero} alt="" />}
       <i />
     </div>
@@ -67,7 +85,7 @@ function HomeScene({ suspended, onOpenWork }: { suspended: boolean; onOpenWork: 
   return (
     <motion.section className="clean-home-scene" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.45 }}>
       <div className="clean-home-loop" aria-label="首页七张作品循环预览">
-        <HeroWorksLoop works={homepageWorks} speed={78} suspended={suspended} onOpenWork={onOpenWork} />
+        <HeroWorksLoop works={homepageWorks} speed={72} suspended={suspended} onOpenWork={onOpenWork} />
       </div>
     </motion.section>
   )
@@ -126,6 +144,8 @@ function RailColumn({ works, title, reverse = false, onOpenWork }: { works: Work
   const dragRef = useRef<{ pointerId: number; startX: number; startY: number; startTarget: number; axis: 'horizontal' | 'vertical' | null } | null>(null)
   const suppressClickUntilRef = useRef(0)
   const reduced = useReducedMotion()
+  const coarsePointerRef = useRef(typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches)
+  const lastMobileFrameRef = useRef(0)
 
   useEffect(() => {
     const group = groupRef.current
@@ -147,6 +167,12 @@ function RailColumn({ works, title, reverse = false, onOpenWork }: { works: Work
   useAnimationFrame((_time, delta) => {
     const loopHeight = loopHeightRef.current
     if (!loopHeight || reduced || document.hidden || hoveredRef.current || focusPausedRef.current) return
+    if (coarsePointerRef.current) {
+      lastMobileFrameRef.current += delta
+      if (lastMobileFrameRef.current < 32) return
+      delta = lastMobileFrameRef.current
+      lastMobileFrameRef.current = 0
+    }
     const autoSpeed = loopHeight / (reverse ? 35 : 30)
     const direction = reverse ? 1 : -1
     targetY.set(targetY.get() + direction * autoSpeed * (Math.min(delta, 34) / 1000))
@@ -420,7 +446,7 @@ export function HomePage() {
 
   return (
     <div
-      className="clean-scene-home"
+      className={'clean-scene-home' + (scene === 'home' ? ' is-home-scene' : '')}
       onTouchStart={(event) => { touchStart.current = event.touches[0]?.clientX ?? null }}
       onTouchEnd={(event) => {
         if (touchStart.current === null) return
@@ -443,7 +469,7 @@ export function HomePage() {
         window.setTimeout(() => ripple.remove(), 640)
       }}
     >
-      {imageConfig.ambientAudio ? <audio ref={audioRef} src={imageConfig.ambientAudio} autoPlay loop preload="auto" /> : null}
+      {imageConfig.ambientAudio ? <audio ref={audioRef} src={imageConfig.ambientAudio} autoPlay loop preload="auto" controlsList="nodownload noremoteplayback" /> : null}
       <SceneMedia scene={scene} />
       <div className="clean-noise" aria-hidden="true" />
       <AnimatePresence mode="wait" initial={false}>

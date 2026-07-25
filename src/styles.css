@@ -3032,6 +3032,30 @@ body.clean-scene-lock { overflow: hidden; }
   transform: translateZ(0);
 }
 
+@media (min-width: 761px) {
+  .clean-scene-media.is-home {
+    inset: 0;
+  }
+
+  .clean-scene-media.is-home > video {
+    filter: none;
+    object-position: center;
+    transform: translate3d(0, 0, 0);
+  }
+
+  .clean-scene-home.is-home-scene .clean-noise {
+    opacity: .012;
+  }
+
+  .clean-scene-home.is-home-scene .clean-home-loop .hero-loop-viewport {
+    background: rgba(5, 16, 13, .54);
+  }
+
+  .clean-scene-home.is-home-scene .hero-loop-card {
+    transition: box-shadow .34s cubic-bezier(.16, 1, .3, 1), border-color .34s ease;
+  }
+}
+
 .clean-scene-media.is-home > img {
   filter: brightness(.78) saturate(.9);
 }
@@ -5011,6 +5035,31 @@ small {
 }
 
 @media (max-width: 760px) {
+  .clean-scene-media > video,
+  .portfolio-video-background > video,
+  .prompt-video-background > video,
+  .workflow-video-background > video {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+
+  .home-page::before,
+  .inner-page::before,
+  .inner-page-header,
+  .workflow-page-header,
+  .clean-gallery-copy,
+  .clean-rails,
+  .clean-rail-track {
+    will-change: auto;
+  }
+
+  .archive-section,
+  .prompt-subcategory-section,
+  .workflow-detail-grid {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 720px;
+  }
+
   .clean-portal-card,
   .clean-contact-cards > div,
   .clean-qr-panel,

@@ -88,7 +88,7 @@ export function PromptLibraryPage() {
 
   return (
     <div className="inner-page prompt-library-page">
-      <BackgroundVideo className="prompt-video-background" desktopSrc="/videos/prompts-background-1080p.mp4" mobileSrc="/videos/prompts-background-720p.mp4" />
+      <BackgroundVideo className="prompt-video-background" desktopSrc="/videos/prompts-background-web.mp4" mobileSrc="/videos/prompts-background-mobile.mp4" />
       <main className="inner-page-shell">
         <header className="inner-page-header prompt-page-header">
           <Link className="page-back-link" to="/" aria-label="返回首页"><ArrowLeft size={18} /></Link>

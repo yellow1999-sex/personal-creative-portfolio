@@ -1,0 +1,127 @@
+{
+  "version": 1,
+  "overrides": {
+    "#root > div.route-transition:nth-of-type(2) > div.inner-page.workflow-page:nth-of-type(1) > main.inner-page-shell:nth-of-type(1) > header.inner-page-header.workflow-page-header:nth-of-type(1) > h1:nth-of-type(1)": {
+      "selector": "#root > div.route-transition:nth-of-type(2) > div.inner-page.workflow-page:nth-of-type(1) > main.inner-page-shell:nth-of-type(1) > header.inner-page-header.workflow-page-header:nth-of-type(1) > h1:nth-of-type(1)",
+      "page": "/workflow",
+      "kind": "text",
+      "value": "外星人来了都能学会的合成分享，三分钟直接闭眼合成",
+      "src": "",
+      "alt": "",
+      "hidden": false,
+      "styles": {}
+    },
+    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(1) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(6) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
+      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(1) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(6) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
+      "page": "/works",
+      "kind": "text",
+      "value": "死神",
+      "src": "",
+      "alt": "",
+      "hidden": false,
+      "styles": {}
+    },
+    "#root > div.route-transition:nth-of-type(2) > div.inner-page.portfolio-page:nth-of-type(1) > div.modal-backdrop.work-lightbox-backdrop:nth-of-type(2) > section.work-lightbox:nth-of-type(1) > div.lightbox-footer:nth-of-type(2) > div:nth-of-type(1) > h2:nth-of-type(1)": {
+      "selector": "#root > div.route-transition:nth-of-type(2) > div.inner-page.portfolio-page:nth-of-type(1) > div.modal-backdrop.work-lightbox-backdrop:nth-of-type(2) > section.work-lightbox:nth-of-type(1) > div.lightbox-footer:nth-of-type(2) > div:nth-of-type(1) > h2:nth-of-type(1)",
+      "page": "/works",
+      "kind": "text",
+      "value": "卡芙卡",
+      "src": "",
+      "alt": "",
+      "hidden": false,
+      "styles": {}
+    },
+    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(1) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(10) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
+      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(1) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(10) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
+      "page": "/works",
+      "kind": "text",
+      "value": "卡芙卡",
+      "src": "",
+      "alt": "",
+      "hidden": false,
+      "styles": {}
+    },
+    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(1) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(8) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
+      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(1) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(8) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
+      "page": "/works",
+      "kind": "text",
+      "value": "卡芙卡",
+      "src": "",
+      "alt": "",
+      "hidden": false,
+      "styles": {}
+    },
+    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(1) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(9) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
+      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(1) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(9) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
+      "page": "/works",
+      "kind": "text",
+      "value": "怪物猎人\n",
+      "src": "",
+      "alt": "",
+      "hidden": false,
+      "styles": {}
+    },
+    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(1) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(7) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
+      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(1) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(7) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
+      "page": "/works",
+      "kind": "text",
+      "value": "saber白枪 ",
+      "src": "",
+      "alt": "",
+      "hidden": false,
+      "styles": {}
+    },
+    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(1) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(5) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
+      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(1) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(5) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
+      "page": "/works",
+      "kind": "text",
+      "value": "鸣潮-日 ",
+      "src": "",
+      "alt": "",
+      "hidden": false,
+      "styles": {}
+    },
+    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(1) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(3) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
+      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(1) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(3) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
+      "page": "/works",
+      "kind": "text",
+      "value": "玛奇玛 ",
+      "src": "",
+      "alt": "",
+      "hidden": false,
+      "styles": {}
+    },
+    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(1) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(4) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
+      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(1) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(4) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
+      "page": "/works",
+      "kind": "text",
+      "value": "明日方舟黍 ",
+      "src": "",
+      "alt": "",
+      "hidden": false,
+      "styles": {}
+    },
+    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(1) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(2) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
+      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(1) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(2) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
+      "page": "/works",
+      "kind": "text",
+      "value": "鸣潮-月 ",
+      "src": "",
+      "alt": "",
+      "hidden": false,
+      "styles": {}
+    },
+    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(1) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(1) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
+      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(1) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(1) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
+      "page": "/works",
+      "kind": "text",
+      "value": "第五人格白夫人 ",
+      "src": "",
+      "alt": "",
+      "hidden": false,
+      "styles": {}
+    }
+  },
+  "insertions": [],
+  "pages": []
+}

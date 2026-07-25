@@ -5,6 +5,8 @@ import { FloatingNav } from './components'
 import { HomePage } from './HomePage'
 import { CursorTrail } from './components/CursorTrail'
 import { SiteParallax } from './components/SiteParallax'
+import { EditorPage } from './editor/EditorPage'
+import { EditorRuntime } from './editor/EditorRuntime'
 
 const PortfolioPage = lazy(() => import('./pages/PortfolioPage').then((module) => ({ default: module.PortfolioPage })))
 const PromptLibraryPage = lazy(() => import('./pages/PromptLibraryPage').then((module) => ({ default: module.PromptLibraryPage })))
@@ -47,9 +49,10 @@ function RoutedApp() {
 
   return (
     <>
-      <CursorTrail />
-      <SiteParallax />
-      <FloatingNav />
+      <EditorRuntime />
+      {location.pathname !== '/editor' ? <CursorTrail /> : null}
+      {location.pathname !== '/editor' ? <SiteParallax /> : null}
+      {location.pathname !== '/editor' ? <FloatingNav /> : null}
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
           className="route-transition"
@@ -67,6 +70,7 @@ function RoutedApp() {
               <Route path="/workflow" element={<WorkflowPage />} />
               <Route path="/workflow/:slug" element={<WorkflowDetailPage />} />
               <Route path="/border-glow-demo" element={<BorderGlowDemo />} />
+              <Route path="/editor" element={<EditorPage />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </Suspense>

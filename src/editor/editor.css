@@ -7,6 +7,7 @@
 .visual-editor-brand span { color: #9da49f; font-size: 11px; }
 .visual-editor-brand span.editor-notice.is-running { color: #f0d36b; }
 .visual-editor-brand span.editor-notice.is-success { color: #a9f5b0; }
+.visual-editor-brand span.editor-notice.is-pending { color: #f0d36b; }
 .visual-editor-brand span.editor-notice.is-error { color: #ff9e9e; }
 .visual-editor-actions { gap: 8px; }
 .visual-editor-actions button, .editor-device-switch button, .editor-mode-switch button { display: inline-flex; align-items: center; gap: 7px; border: 1px solid rgba(255,255,255,.14); border-radius: 7px; padding: 9px 12px; color: #e8ebe3; background: #222627; cursor: pointer; font: inherit; font-size: 12px; }

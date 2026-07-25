@@ -2,5 +2,7 @@ node_modules/
 dist/
 outputs/
 work/
+website-backups/
+public/deployment-info.json
 .vercel/
 public/videos/homepage-123.mp4

@@ -10,6 +10,7 @@ const statePath = path.join(publicDir, 'editor-content.json')
 const backupDir = path.join(root, 'website-backups')
 const apiPort = 4399
 const vitePort = 5173
+const vercelSiteUrl = 'https://personal-creative-portfolio-theta.vercel.app'
 
 const defaultState = {
   version: 1,
@@ -64,17 +65,24 @@ function safeFileName(name) {
 
 async function copyProjectToBackup() {
   const target = path.join(backupDir, `visual-editor-${timestamp()}`)
-  await fs.mkdir(backupDir, { recursive: true })
-  await fs.cp(root, target, {
-    recursive: true,
-    filter(source) {
-      const relative = path.relative(root, source)
-      if (!relative) return true
-      const first = relative.split(path.sep)[0]
-      return !['node_modules', 'dist', '.git', 'website-backups'].includes(first)
-    },
-  })
-  return target
+  const staging = path.join(path.dirname(root), `.visual-editor-staging-${timestamp()}`)
+  try {
+    await fs.cp(root, staging, {
+      recursive: true,
+      filter(source) {
+        const relative = path.relative(root, source)
+        if (!relative) return true
+        const first = relative.split(path.sep)[0]
+        return !['node_modules', 'dist', '.git', 'website-backups'].includes(first)
+      },
+    })
+    await fs.mkdir(backupDir, { recursive: true })
+    await fs.rename(staging, target)
+    return target
+  } catch (error) {
+    await fs.rm(staging, { recursive: true, force: true }).catch(() => {})
+    throw error
+  }
 }
 
 function run(command, args) {
@@ -84,6 +92,24 @@ function run(command, args) {
       else resolve({ stdout, stderr })
     })
   })
+}
+
+async function readDeploymentInfo() {
+  const url = `${vercelSiteUrl}/deployment-info.json?check=${Date.now()}`
+  try {
+    const response = await fetch(url, { headers: { 'Cache-Control': 'no-cache' } })
+    if (!response.ok) throw new Error(`线上版本标记返回 HTTP ${response.status}`)
+    return await response.json()
+  } catch (nodeError) {
+    if (process.platform !== 'win32') throw nodeError
+    const script = `$response = Invoke-WebRequest -UseBasicParsing -Uri '${url}' -TimeoutSec 20; [Console]::Out.Write($response.Content)`
+    const result = await run('powershell.exe', ['-NoProfile', '-NonInteractive', '-Command', script])
+    try {
+      return JSON.parse(result.stdout)
+    } catch {
+      throw nodeError
+    }
+  }
 }
 
 async function waitForPreview() {
@@ -176,6 +202,36 @@ async function handleApi(request, response, url) {
     return true
   }
 
+  if (url.pathname === '/api/editor/deployment-status' && request.method === 'GET') {
+    const commit = url.searchParams.get('commit') || ''
+    if (!commit) {
+      sendJson(response, 400, { ok: false, message: '缺少要检查的提交编号' })
+      return true
+    }
+    try {
+      const deployed = await readDeploymentInfo()
+      const matched = deployed.commit === commit
+      sendJson(response, 200, {
+        ok: true,
+        status: matched ? 'success' : 'pending',
+        message: matched ? 'Vercel 已部署完成' : 'Vercel 正在部署，线上版本尚未切换',
+        commit,
+        deployedCommit: deployed.commit || '',
+        url: vercelSiteUrl,
+      })
+    } catch (error) {
+      sendJson(response, 200, {
+        ok: true,
+        status: 'pending',
+        message: 'Vercel 已触发部署，暂时无法读取线上版本标记',
+        commit,
+        url: vercelSiteUrl,
+        detail: error.message,
+      })
+    }
+    return true
+  }
+
   if (url.pathname === '/api/editor/publish' && request.method === 'POST') {
     try {
       await run('git', ['add', '-A'])
@@ -187,12 +243,13 @@ async function handleApi(request, response, url) {
         if (!String(error.stdout || '').includes('nothing to commit') && !String(error.stderr || '').includes('nothing to commit')) throw error
         commitOutput = '没有新的文件需要提交。'
       }
+      const commitSha = (await run('git', ['rev-parse', 'HEAD'])).stdout.trim()
       const push = await run('git', ['push', 'origin', 'main'])
       sendJson(response, 200, {
         ok: true,
         output: `${commitOutput}\n${push.stdout}\nVercel 将根据 GitHub 更新自动部署。`,
-        github: { status: 'success', message: 'GitHub 上传成功' },
-        vercel: { status: 'triggered', message: 'Vercel 自动部署已触发，线上完成状态待确认' },
+        github: { status: 'success', message: 'GitHub 上传成功', commit: commitSha },
+        vercel: { status: 'triggered', message: 'Vercel 已触发部署，正在等待线上版本确认', commit: commitSha, url: vercelSiteUrl },
       })
     } catch (error) {
       sendJson(response, 500, { ok: false, output: `${error.stdout || ''}\n${error.stderr || error.message}` })

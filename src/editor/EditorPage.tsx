@@ -1,4 +1,4 @@
-import { ImagePlus, Layout, Monitor, Save, Send, Settings2, Smartphone, Trash2, Upload, WandSparkles } from 'lucide-react'
+import { ImagePlus, Layout, Monitor, RefreshCw, Save, Send, Settings2, Smartphone, Trash2, Upload, WandSparkles } from 'lucide-react'
 import { ChangeEvent, useEffect, useMemo, useState } from 'react'
 import { defaultEditorState, EditorOverride, EditorSelection, EditorState } from './types'
 import { workflowModules } from '../workflowConfig'
@@ -40,13 +40,21 @@ function normalizeStyles(styles: EditorOverride['styles']) {
   )
 }
 
-type ActionStatus = 'idle' | 'running' | 'success' | 'error'
+type ActionStatus = 'idle' | 'running' | 'success' | 'pending' | 'error'
 
 type ActionResult = {
   output?: string
   path?: string
   github?: { status: string; message: string; commit?: string }
-  vercel?: { status: string; message: string }
+  vercel?: { status: string; message: string; commit?: string; url?: string }
+}
+
+type DeploymentStatusResult = {
+  status: 'success' | 'pending'
+  message: string
+  commit: string
+  deployedCommit?: string
+  url?: string
 }
 
 async function api<T>(url: string, options?: RequestInit): Promise<T> {
@@ -67,6 +75,7 @@ export function EditorPage() {
   const [log, setLog] = useState('')
   const [busy, setBusy] = useState(false)
   const [actionStatus, setActionStatus] = useState<ActionStatus>('idle')
+  const [deploymentCommit, setDeploymentCommit] = useState('')
 
   useEffect(() => {
     void api<EditorState>('/api/editor/state').then((next) => {
@@ -194,18 +203,59 @@ export function EditorPage() {
     event.target.value = ''
   }
 
+  const verifyDeployment = async (commit: string, waitForCompletion = true) => {
+    const attempts = waitForCompletion ? 30 : 1
+    for (let attempt = 0; attempt < attempts; attempt += 1) {
+      try {
+        const status = await api<DeploymentStatusResult>(`/api/editor/deployment-status?commit=${encodeURIComponent(commit)}`)
+        if (status.status === 'success') {
+          setActionStatus('success')
+          setNotice(`GitHub 上传成功；${status.message}`)
+          setLog(`${status.message}\n${status.url || ''}`.trim())
+          return
+        }
+        setNotice(`GitHub 上传成功；${status.message}`)
+      } catch {
+        // The online marker may not exist until Vercel finishes its build.
+      }
+      if (attempt + 1 < attempts) await new Promise((resolve) => setTimeout(resolve, 2000))
+    }
+    setActionStatus('pending')
+    setNotice('GitHub 上传成功；Vercel 部署尚未确认完成，请稍后点击“检查线上状态”')
+  }
+
+  const checkDeployment = () => {
+    if (!deploymentCommit) {
+      setActionStatus('error')
+      setNotice('请先完成一次发布，再检查线上状态')
+      return
+    }
+    setBusy(true)
+    setActionStatus('running')
+    setLog('正在查询 Vercel 线上版本…')
+    void verifyDeployment(deploymentCommit, false).finally(() => setBusy(false))
+  }
+
   const runAction = async (endpoint: string, success: string) => {
     setBusy(true)
     setActionStatus('running')
     setLog('正在处理，请稍候…')
     try {
       const result = await api<ActionResult>(endpoint, { method: 'POST' })
-      setActionStatus('success')
       if (endpoint === '/api/editor/publish') {
         const githubMessage = result.github?.message || 'GitHub 上传状态待确认'
-        const vercelMessage = result.vercel?.message || 'Vercel 自动部署状态待确认'
-        setNotice(`${githubMessage}；${vercelMessage}`)
-      } else setNotice(success)
+        if (result.vercel?.commit) {
+          setDeploymentCommit(result.vercel.commit)
+          setNotice(`${githubMessage}；Vercel 正在部署，等待线上版本确认…`)
+          await verifyDeployment(result.vercel.commit)
+        } else {
+          setActionStatus('pending')
+          setNotice(`${githubMessage}；${result.vercel?.message || 'Vercel 部署状态待确认'}`)
+        }
+      } else {
+        setActionStatus('success')
+        setNotice(success)
+      }
       setLog(result.output || result.path || success)
     } catch (error) {
       setActionStatus('error')
@@ -229,6 +279,7 @@ export function EditorPage() {
         <div className="visual-editor-actions">
           <button type="button" onClick={() => void runAction('/api/editor/backup', '已完成完整备份')} disabled={busy}><Save size={16} />一键备份</button>
           <button type="button" onClick={() => void runAction('/api/editor/build', '构建检查通过')} disabled={busy}><Settings2 size={16} />检查网站</button>
+          {deploymentCommit ? <button type="button" onClick={checkDeployment} disabled={busy}><RefreshCw size={16} />检查线上状态</button> : null}
           <button className="is-publish" type="button" onClick={publish} disabled={busy}><Send size={16} />发布到线上</button>
         </div>
       </header>

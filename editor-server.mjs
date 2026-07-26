@@ -131,16 +131,21 @@ function parseGithubRepo(value) {
   return { owner: match[1], repo: match[2] }
 }
 
+let githubCredentialCache
+
 async function readGithubCredential() {
+  if (githubCredentialCache) return githubCredentialCache
   try {
     const result = await run('git', ['credential', 'fill'], { input: 'protocol=https\nhost=github.com\n\n' })
     const values = Object.fromEntries(result.stdout.trim().split(/\r?\n/).filter(Boolean).map((line) => {
       const index = line.indexOf('=')
       return [line.slice(0, index), line.slice(index + 1)]
     }))
-    return { username: values.username || '', token: values.password || '' }
+    githubCredentialCache = { username: values.username || '', token: values.password || '' }
+    return githubCredentialCache
   } catch {
-    return { username: '', token: '' }
+    githubCredentialCache = { username: '', token: '' }
+    return githubCredentialCache
   }
 }
 
@@ -158,6 +163,58 @@ async function githubRequest(pathname, options = {}) {
   try { data = raw ? JSON.parse(raw) : {} } catch { data = { message: raw } }
   if (!response.ok) throw new Error(`GitHub API ${response.status}: ${data.message || '请求失败'}`)
   return data
+}
+
+async function listPublishFiles(directory, relative = '') {
+  const entries = await fs.readdir(directory, { withFileTypes: true })
+  const files = []
+  for (const entry of entries) {
+    const nextRelative = path.join(relative, entry.name)
+    if (entry.isDirectory() && ['node_modules', 'dist', '.git', 'outputs', 'work', 'website-backups', '.vercel'].includes(entry.name)) continue
+    if (entry.isDirectory()) files.push(...await listPublishFiles(path.join(directory, entry.name), nextRelative))
+    else {
+      const normalized = nextRelative.replaceAll(path.sep, '/')
+      if (!['.editor-settings.json', 'public/deployment-info.json', '.codex-git-askpass.cmd', 'editor-live.out.log', 'editor-live.err.log'].includes(normalized)) files.push(normalized)
+    }
+  }
+  return files
+}
+
+async function githubCommitCurrentFiles(githubRepo, branch, message) {
+  const { owner, repo } = parseGithubRepo(githubRepo)
+  const ref = await githubRequest(`/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}/git/ref/heads/${encodeURIComponent(branch)}`)
+  const parentSha = ref.object.sha
+  const parentCommit = await githubRequest(`/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}/git/commits/${parentSha}`)
+  const allFiles = (await listPublishFiles(root)).sort()
+  const skipped = []
+  const entries = []
+  for (const relative of allFiles) {
+    const absolute = path.join(root, relative)
+    const stat = await fs.stat(absolute)
+    if (stat.size > 8 * 1024 * 1024) {
+      skipped.push({ path: relative, bytes: stat.size })
+      continue
+    }
+    const data = await fs.readFile(absolute)
+    const blob = await githubRequest(`/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}/git/blobs`, {
+      method: 'POST',
+      body: JSON.stringify({ content: data.toString('base64'), encoding: 'base64' }),
+    })
+    entries.push({ path: relative, mode: '100644', type: 'blob', sha: blob.sha })
+  }
+  const tree = await githubRequest(`/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}/git/trees`, {
+    method: 'POST',
+    body: JSON.stringify({ base_tree: parentCommit.tree.sha, tree: entries }),
+  })
+  const commit = await githubRequest(`/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}/git/commits`, {
+    method: 'POST',
+    body: JSON.stringify({ message, tree: tree.sha, parents: [parentSha] }),
+  })
+  const updated = await githubRequest(`/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}/git/refs/heads/${encodeURIComponent(branch)}`, {
+    method: 'PATCH',
+    body: JSON.stringify({ sha: commit.sha, force: false }),
+  })
+  return { commit: commit.sha, remoteHead: updated.object.sha, skipped }
 }
 
 async function discoverGithubRepositories() {
@@ -289,7 +346,7 @@ async function handleApi(request, response, url) {
     try {
       const result = await discoverGithubRepositories()
       const settings = await readSettings()
-      const remote = (await run('git', ['remote', 'get-url', 'origin']).catch(() => ({ stdout: '' }))).stdout.trim().replace(/\.git$/, '')
+      const remote = (await run('git', ['remote', 'get-url', 'origin']).catch(() => ({ stdout: '' }))).stdout.trim().replace(/^https?:\/\/[^@]+@/i, 'https://').replace(/\.git$/, '')
       const selected = settings.githubRepo || remote
       const selectedRepo = result.repositories.find((item) => item.url.replace(/\/$/, '') === selected.replace(/\/$/, ''))
       const nextSettings = selectedRepo && !settings.githubRepo
@@ -542,6 +599,34 @@ async function handleApi(request, response, url) {
   }
 
   if (url.pathname === '/api/editor/publish' && request.method === 'POST') {
+    try {
+      let settings = await readSettings()
+      if (!settings.githubRepo) {
+        const remote = (await run('git', ['remote', 'get-url', 'origin']).catch(() => ({ stdout: '' }))).stdout.trim()
+        if (remote) settings = await writeSettings({ ...settings, githubRepo: remote })
+      }
+      if (!settings.githubRepo) throw new Error('尚未选择 GitHub 仓库，请先打开发布中心完成连接')
+      const buildCommand = process.platform === 'win32' ? (process.env.ComSpec || 'cmd.exe') : 'npm'
+      const buildArgs = process.platform === 'win32' ? ['/d', '/s', '/c', 'npm.cmd run build'] : ['run', 'build']
+      await run(buildCommand, buildArgs)
+      const uploaded = await githubCommitCurrentFiles(settings.githubRepo, settings.branch, 'Update website from visual editor')
+      const deployment = await waitForVercelDeployment(settings.githubRepo, uploaded.commit)
+      if (deployment.url) settings = await writeSettings({ ...settings, vercelSiteUrl: deployment.url })
+      const skippedMessage = uploaded.skipped.length ? `；大于 8MB 的文件未通过 GitHub API 重传：${uploaded.skipped.map((item) => item.path).join('、')}，如这些文件已经存在于仓库则线上仍可正常使用` : ''
+      sendJson(response, 200, {
+        ok: true,
+        output: `GitHub 远端提交号已核对：${uploaded.remoteHead}${skippedMessage}`,
+        github: { status: 'success', message: `GitHub 上传成功，远端提交号已核对${skippedMessage}`, commit: uploaded.commit, remoteHead: uploaded.remoteHead },
+        vercel: { status: deployment.state === 'success' ? 'success' : 'pending', message: deployment.message, commit: uploaded.commit, url: deployment.url || settings.vercelSiteUrl },
+        settings,
+      })
+    } catch (error) {
+      sendJson(response, 500, { ok: false, message: error.message || '发布失败', output: `${error.stdout || ''}\n${error.stderr || error.message || ''}` })
+    }
+    return true
+  }
+
+  if (url.pathname === '/api/editor/publish-git-legacy' && request.method === 'POST') {
     try {
       let settings = await readSettings()
       if (!settings.githubRepo) {

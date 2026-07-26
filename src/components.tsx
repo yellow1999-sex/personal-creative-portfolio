@@ -234,6 +234,8 @@ export function WorkCard({
 
   return (
     <motion.article
+      data-editor-id={`card-${work.id}`}
+      data-editor-card-id={work.id}
       className={
         'work-card glow-surface' +
         (ratio === 'ultrawide' ? ' is-ultrawide' : '') +
@@ -252,7 +254,7 @@ export function WorkCard({
         aria-label={'查看大图：' + work.title}
         onClick={() => onOpenWork(work)}
       />
-      <img src={work.image} data-editor-image-key={'work-card-' + work.id} alt={duplicate ? '' : work.alt} loading="lazy" decoding="async" width={1400} height={600} />
+      <img data-editor-id={`image-${work.id}`} data-editor-image-key={'work-card-' + work.id} src={work.image} alt={duplicate ? '' : work.alt} loading="lazy" decoding="async" width={1400} height={600} />
       <div className="work-card-ambient" aria-hidden="true" />
       <div className="work-card-topline">
         <span>{String(work.index).padStart(2, '0')}</span>
@@ -263,7 +265,7 @@ export function WorkCard({
           <div className="work-tags">
             {work.tags.slice(0, 2).map((tag) => <span key={tag}>{tag}</span>)}
           </div>
-          <h3>{work.title}</h3>
+          <h3 data-editor-id={`title-${work.id}`}>{work.title}</h3>
         </div>
         <PromptDetailsButton
           onOpen={() => onOpenPrompt(work)}

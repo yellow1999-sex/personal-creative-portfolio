@@ -126,6 +126,14 @@
 .editor-gallery-add { display:inline-flex; align-items:center; gap:7px; margin-left:14px; padding:6px 9px; color:#dfff3f; border:1px dashed rgba(223,255,63,.48); border-radius:6px; background:rgba(223,255,63,.06); cursor:pointer; font:inherit; font-size:11px; }
 .editor-gallery-add span:last-child { font-size:16px; line-height:1; }
 .editor-gallery-add:hover { background:rgba(223,255,63,.16); }
+body.editor-preview-browse .editor-gallery-add { display:none !important; }
+.portfolio-grid > .editor-insert-wrapper { min-width: 0; }
+.editor-insert-card { position:relative; width:100%; min-height:0; overflow:hidden; border:1px solid rgba(223,255,63,.48); border-radius:18px; background:#131a17; color:#dfff3f; cursor:crosshair; }
+.editor-insert-card > img { display:block; width:100%; height:100%; object-fit:cover; }
+.editor-insert-card.is-placeholder > img { opacity:.18; }
+.editor-insert-placeholder-hint { position:absolute; inset:0; z-index:6; display:grid; place-items:center; color:#dfff3f; font-size:14px; letter-spacing:.04em; background:linear-gradient(135deg,rgba(223,255,63,.10),rgba(0,0,0,.30)); pointer-events:none; }
+.editor-insert-card:not(.is-placeholder) .editor-insert-placeholder-hint { display:none; }
+.portfolio-grid .editor-insert-card { width:100%; height:auto; }
 .publish-auto-connections { display:grid; grid-template-columns:minmax(220px,1.2fr) minmax(220px,1.2fr) 120px auto; align-items:end; gap:10px; margin-top:14px; padding:12px; border:1px solid rgba(169,245,176,.22); border-radius:8px; background:#171b1a; }
 .publish-auto-connections label { display:grid; gap:5px; color:#aeb7af; font-size:10px; }
 .publish-auto-connections select, .publish-auto-connections input { min-width:0; padding:8px 9px; color:#eef2ea; border:1px solid rgba(255,255,255,.13); border-radius:6px; background:#202524; }

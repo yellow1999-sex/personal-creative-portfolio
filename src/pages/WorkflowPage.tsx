@@ -16,7 +16,7 @@ import { BackgroundVideo } from '../components/BackgroundVideo'
 const spring = { type: 'spring' as const, stiffness: 300, damping: 24, mass: 0.72 }
 
 function WorkflowVideoBackground() {
-  return <BackgroundVideo className="workflow-video-background" desktopSrc="/videos/workflow-background-web.mp4" mobileSrc="/videos/workflow-background-mobile.mp4" />
+  return <BackgroundVideo className="workflow-video-background" desktopSrc="/videos/workflow-background-web.mp4" mobileSrc="/videos/workflow-background-mobile.mp4" editorId="background-video-workflow" />
 }
 
 const workflowThanksCards = [

@@ -133,6 +133,9 @@ export function EditorPage() {
     setMediaNotice(message)
     setMediaNoticeTone(tone)
     setFeedback(message, tone)
+    if (tone === 'success' || tone === 'error') {
+      setFeedbackDialog({ tone, title: tone === 'success' ? 'Media updated' : 'Media update failed', message })
+    }
   }
 
   const refreshConnections = async (currentSettings: SettingsState = settings) => {
@@ -353,11 +356,6 @@ export function EditorPage() {
         const next = cloneState(state)
         const resourcePage = page + hash
         next.overrides[editorOverrideKey(resourcePage, selector)] = { selector, page: resourcePage, kind, src: result.src, hidden: false, styles: {} }
-        if (kind === 'image' || kind === 'video') {
-          const otherKind: QuickUploadKind = kind === 'image' ? 'video' : 'image'
-          const otherSelector = kind === 'image' ? '__page_background_video__' : '__page_background_image__'
-          next.overrides[editorOverrideKey(resourcePage, otherSelector)] = { selector: otherSelector, page: resourcePage, kind: otherKind, src: '', hidden: true, styles: {} }
-        }
         const saved = await saveState(next, `${pageLabel}${label}已上传并保存，正在确认预览`)
         if (!saved) {
           setMediaFeedback(`${pageLabel}${label}保存失败，请重试`, 'error')
@@ -400,14 +398,14 @@ export function EditorPage() {
   }
 
   const runAction = async (url: string, success: string, body?: unknown) => {
-    setBusy(true); setNotice('正在处理，请稍候…')
+    setBusy(true); setNotice('正在处理，请稍候…'); setNoticeTone('info')
     try {
       const result = await api<{ output?: string; path?: string; settings?: SettingsState; github?: { status?: string; message?: string; commit?: string; remoteHead?: string }; vercel?: { status?: string; message?: string; url?: string } }>(url, {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, body: body ? JSON.stringify(body) : '{}',
       })
       if (result.settings) setSettings(result.settings)
       setLog(result.output || result.path || '')
-      setNotice(success)
+      setNotice(success); setNoticeTone('success')
       if (url === '/api/editor/publish') {
         const githubMessage = result.github?.message || 'GitHub 上传成功'
         const vercelMessage = result.vercel?.message || 'Vercel 已收到部署请求'
@@ -421,7 +419,11 @@ export function EditorPage() {
         setFeedbackDialog({ tone: 'success', title: '操作成功', message: success, detail: result.output || result.path || '' })
       }
       return result
-    } catch (error) { setNotice(error instanceof Error ? error.message : '操作失败') }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Operation failed'
+      setNotice(message); setNoticeTone('error')
+      setFeedbackDialog({ tone: 'error', title: 'Operation failed', message })
+    }
     finally { setBusy(false) }
   }
 
@@ -435,8 +437,6 @@ export function EditorPage() {
       setAuthStatus(await api<AuthStatus>('/api/editor/auth-status'))
       await refreshConnections()
     } catch { /* Status remains visible. */ }
-    return
-    try { setAuthStatus(await api<AuthStatus>('/api/editor/auth-status')) } catch { /* Status remains visible. */ }
   }
 
   const loginGithub = async () => {
@@ -450,7 +450,7 @@ export function EditorPage() {
       setSettings(result.settings)
       await refreshConnections(result.settings)
     }
-    }
+  }
 
   const selectedContactValueSelector = contactValueSelector(selection)
   const selectedContactLabel = isContactCardLabel(selection)

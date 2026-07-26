@@ -5,11 +5,13 @@ export function BackgroundVideo({
   desktopSrc,
   mobileSrc,
   poster,
+  editorId,
 }: {
   className: string
   desktopSrc: string
   mobileSrc: string
   poster?: string
+  editorId?: string
 }) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const [source, setSource] = useState(() => (
@@ -54,6 +56,7 @@ export function BackgroundVideo({
   return (
     <div className={className} aria-hidden="true">
       <video
+        data-editor-id={editorId}
         ref={videoRef}
         src={source}
         poster={poster}

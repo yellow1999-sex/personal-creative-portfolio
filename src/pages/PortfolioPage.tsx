@@ -1,47 +1,107 @@
 import { ArrowLeft } from 'lucide-react'
 import { useCallback, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { GalleryImage, SimpleImageLightbox } from '../components/SimpleImageLightbox'
-import { PageAudioControl } from '../components/PageAudioControl'
-import { gallerySections } from '../galleryData'
+import {
+  PromptDialog,
+  PromptDialogData,
+  Reveal,
+  SiteFooter,
+  WorkCard,
+  WorkLightbox,
+} from '../components'
+import { siteConfig, WorkCategory, WorkItem, worksByCategory } from '../config'
+import { BackgroundVideo } from '../components/BackgroundVideo'
+
+const sections: Array<{ category: WorkCategory; label: string; square?: boolean }> = [
+  { category: 'composite', label: '大合成' },
+  { category: 'semiFinished', label: '半合成X立绘还原' },
+  { category: 'portrait', label: '场照半合成预制菜' },
+]
+
+const thankCard: PromptDialogData = {
+  id: 'black-thanks-card',
+  title: '感谢',
+  category: '场景提示词支持',
+  summary: '本页场景提示词完全由 BLACK 大独家提供。',
+  prompt: '场景提示词完全由black大独家提供',
+  meta: 'BLACK 大 / 场景提示词',
+  image: '/images/thanks/black-profile.png',
+  imageAlt: 'BLACK 大资料图感谢贺卡',
+  hideCopyButton: true,
+}
+
+const promptFromWork = (work: WorkItem): PromptDialogData => ({
+  id: work.id,
+  title: work.title,
+  category: siteConfig.workCategories[work.category].label,
+  prompt: work.prompt,
+  meta: work.tags.join(' / '),
+})
 
 export function PortfolioPage() {
-  const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null)
-  const closePreview = useCallback(() => setSelectedImage(null), [])
+  const [selectedWork, setSelectedWork] = useState<WorkItem | null>(null)
+  const [selectedPrompt, setSelectedPrompt] = useState<PromptDialogData | null>(null)
+
+  const openWork = useCallback((work: WorkItem) => {
+    setSelectedPrompt(null)
+    setSelectedWork(work)
+  }, [])
+
+  const openPrompt = useCallback((work: WorkItem) => {
+    setSelectedWork(null)
+    setSelectedPrompt(promptFromWork(work))
+  }, [])
 
   return (
-    <div className="inner-page portfolio-page gallery-only-page">
+    <div className="inner-page portfolio-page">
+      <BackgroundVideo
+        className="portfolio-video-background"
+        desktopSrc="/videos/works-background-web.mp4"
+        mobileSrc="/videos/works-background-mobile.mp4"
+        poster="/images/works/composite-01.webp"
+        editorId="background-video-works"
+      />
       <main className="inner-page-shell">
         <header className="inner-page-header">
           <Link className="page-back-link" to="/" aria-label="返回首页"><ArrowLeft size={18} /></Link>
-          <h1>例图展示</h1>
+          <h1>场景包预设</h1>
         </header>
 
-        {gallerySections.map((section) => (
-          <section className={'archive-section pure-gallery-section' + (section.portrait ? ' is-portrait' : '')} data-editor-gallery-section-id={section.id} key={section.id}>
-            <div className="archive-section-heading"><div><h2>{section.label}</h2></div></div>
-            <div className="pure-gallery-grid" data-editor-gallery-id={section.id}>
-              {section.images.map((image) => (
-                <button
-                  className={'pure-gallery-card' + (image.portrait ? ' is-portrait' : '') + (image.placeholder ? ' is-placeholder' : '')}
-                  data-editor-card-id={image.id}
-                  type="button"
-                  key={image.id}
-                  onClick={(event) => {
-                    const currentSrc = event.currentTarget.querySelector('img')?.getAttribute('src') || image.src
-                    setSelectedImage({ ...image, src: currentSrc, placeholder: currentSrc === '/placeholders/black.svg' })
-                  }}
-                  aria-label={image.placeholder ? '待上传图片' : '预览大图'}
-                >
-                  <img src={image.src} alt="" data-editor-image-key={image.id} loading="lazy" decoding="async" />
+        {sections.map((section) => (
+          <section className="archive-section" key={section.category} data-editor-id={`category-${section.category}`}>
+            <div className="archive-section-heading">
+              <div>
+                <h2 data-editor-id={`category-title-${section.category}`}>{section.label}</h2>
+                <span>{String(worksByCategory[section.category].length).padStart(2, '0')}</span>
+              </div>
+              {section.category === 'portrait' ? (
+                <button className="thanks-card" type="button" onClick={() => setSelectedPrompt(thankCard)}>
+                  <img src={thankCard.image} alt="BLACK 大感谢贺卡预览" width={640} height={360} />
+                  <span>感谢</span>
+                  <strong>{thankCard.prompt}</strong>
                 </button>
+              ) : null}
+            </div>
+            <div className={'portfolio-grid' + (section.square ? ' is-square' : ' is-wide')} data-editor-gallery-id={section.category}>
+              {worksByCategory[section.category].map((work, index) => (
+                <Reveal key={work.id} delay={(index % 3) * 0.035}>
+                  <WorkCard
+                    work={work}
+                    ratio={section.square ? 'square' : 'ultrawide'}
+                    onOpenWork={openWork}
+                    onOpenPrompt={openPrompt}
+                  />
+                </Reveal>
               ))}
             </div>
           </section>
         ))}
+
+        <SiteFooter />
       </main>
-      <PageAudioControl />
-      <SimpleImageLightbox image={selectedImage} onClose={closePreview} />
+
+      <WorkLightbox work={selectedWork} onClose={() => setSelectedWork(null)} onOpenPrompt={openPrompt} />
+      <PromptDialog data={selectedPrompt} onClose={() => setSelectedPrompt(null)} />
     </div>
   )
 }

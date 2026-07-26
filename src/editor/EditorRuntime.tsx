@@ -13,6 +13,9 @@ function escapeSelector(value: string) {
 }
 
 function selectorFor(element: Element) {
+  if (element instanceof HTMLElement && element.dataset.editorId) {
+    return `[data-editor-id="${escapeSelector(element.dataset.editorId)}"]`
+  }
   if (element instanceof HTMLImageElement && element.dataset.editorInsertId) {
     return `[data-editor-insert-id="${escapeSelector(element.dataset.editorInsertId)}"][data-editor-insert-image="true"]`
   }
@@ -54,9 +57,11 @@ function selectorFor(element: Element) {
 
 function findTarget(node: EventTarget | null): Element | null {
   if (!(node instanceof Element)) return null
-  if (node.tagName === 'IMG' || node.tagName === 'VIDEO' || node.tagName === 'AUDIO') return node
   const inserted = node.closest('[data-editor-insert-id]')
   if (inserted) return inserted.querySelector('img') ?? inserted
+  const stable = node.closest('[data-editor-id]')
+  if (stable) return stable
+  if (node.tagName === 'IMG' || node.tagName === 'VIDEO' || node.tagName === 'AUDIO') return node
   const mediaCard = node.closest('button, a')
   const cardImage = mediaCard?.querySelector('img')
   if (cardImage && !mediaCard?.closest('.nav-brand, .floating-nav')) return cardImage
@@ -73,7 +78,7 @@ function selectionFromElement(element: Element, page: string): EditorSelection {
   const kind = element.tagName === 'IMG' ? 'image' : element.tagName === 'VIDEO' ? 'video' : element.tagName === 'AUDIO' ? 'audio' : element.matches(editableTags) || isTextLeaf(element) ? 'text' : 'element'
   const insertionId = element instanceof HTMLElement ? element.dataset.editorInsertId : undefined
   const parent = element.parentElement ?? document.body
-  const gallery = element.closest('.pure-gallery-grid')
+  const gallery = element.closest('.pure-gallery-grid, .portfolio-grid')
   return {
     selector: selectorFor(element),
     parentSelector: selectorFor(parent),
@@ -95,6 +100,21 @@ function shouldPassThroughInEdit(element: Element) {
       'input,textarea,select,[contenteditable="true"],[role="tab"],.prompt-accordion-trigger,.prompt-list-open,.copy-button,.prompt-details-button,.modal-close,.editor-gallery-add,.page-audio-control,.clean-audio-control',
     ),
   )
+}
+
+function addBackgroundStyles() {
+  if (document.getElementById('editor-background-style')) return
+  const style = document.createElement('style')
+  style.id = 'editor-background-style'
+  style.textContent = `
+    [data-editor-page-background] { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; background: #000; }
+    body.editor-page-background-active > #root { position: relative; z-index: 1; }
+    [data-editor-page-background-image], [data-editor-page-background-video] { position: absolute; inset: 0; width: 100%; height: 100%; }
+    [data-editor-page-background-image] { z-index: 0; background-position: center; background-repeat: no-repeat; background-size: cover; }
+    [data-editor-page-background-video] { z-index: 1; display: block; object-fit: cover; object-position: center; background: transparent; }
+    [data-editor-page-background] video { pointer-events: none !important; }
+  `
+  document.head.appendChild(style)
 }
 
 function addPreviewStyles() {
@@ -148,20 +168,40 @@ function resolveInsertionParent(selector: string) {
   }
 }
 
+function openInsertedImagePreview(source: string, alt: string) {
+  document.querySelector('[data-editor-insert-lightbox]')?.remove()
+  const overlay = document.createElement('div')
+  overlay.setAttribute('data-editor-insert-lightbox', 'true')
+  overlay.style.cssText = 'position:fixed;inset:0;z-index:9999;display:grid;place-items:center;padding:24px;background:rgba(0,0,0,.86);cursor:zoom-out'
+  const image = document.createElement('img')
+  image.src = source
+  image.alt = alt
+  image.style.cssText = 'max-width:94vw;max-height:92vh;object-fit:contain;border-radius:12px'
+  overlay.appendChild(image)
+  overlay.addEventListener('click', () => overlay.remove(), { once: true })
+  document.body.appendChild(overlay)
+}
+
 function applyState(state: EditorState, page: string) {
-  document.querySelectorAll<HTMLElement>('.pure-gallery-section .archive-section-heading').forEach((heading) => {
+  document.querySelectorAll<HTMLElement>('.pure-gallery-section .archive-section-heading, .archive-section .archive-section-heading').forEach((heading) => {
     if (!document.body.classList.contains('editor-preview-mode')) return
-    if (heading.querySelector('.editor-gallery-add')) return
-    const grid = heading.parentElement?.querySelector<HTMLElement>('.pure-gallery-grid')
+    const existingButton = heading.querySelector<HTMLButtonElement>('.editor-gallery-add')
+    if (existingButton) {
+      existingButton.hidden = !document.body.classList.contains('editor-preview-edit')
+      return
+    }
+    const grid = heading.parentElement?.querySelector<HTMLElement>('.pure-gallery-grid, .portfolio-grid')
     const galleryId = grid?.dataset.editorGalleryId
     if (!grid || !galleryId) return
     const button = document.createElement('button')
     button.type = 'button'
     button.className = 'editor-gallery-add'
+    button.hidden = !document.body.classList.contains('editor-preview-edit')
     button.innerHTML = '<span>新增小窗口</span><span aria-hidden="true">+</span>'
     button.addEventListener('click', (event) => {
       event.preventDefault()
       event.stopPropagation()
+      if (!document.body.classList.contains('editor-preview-edit')) return
       window.parent.postMessage({ type: 'editor:add-gallery', galleryId }, '*')
     })
     heading.appendChild(button)
@@ -212,8 +252,8 @@ function applyState(state: EditorState, page: string) {
 
   const defaultSceneImage = document.querySelector<HTMLImageElement>('[data-editor-media-key="home-scene-image"]')
   const defaultSceneVideo = document.querySelector<HTMLVideoElement>('[data-editor-media-key="home-scene-video"]')
-  if (defaultSceneImage) defaultSceneImage.hidden = imageDisabled || imageActive || videoActive
-  if (defaultSceneVideo) defaultSceneVideo.hidden = videoDisabled || imageActive || videoActive
+  if (defaultSceneImage) defaultSceneImage.hidden = imageDisabled
+  if (defaultSceneVideo) defaultSceneVideo.hidden = videoDisabled
 
   const audioOverride = getPageOverride(state, '__page_audio__', page)
   const audioActive = Boolean(audioOverride?.page === page && audioOverride.src)
@@ -287,8 +327,16 @@ function applyState(state: EditorState, page: string) {
     const existing = document.querySelector<HTMLElement>(`[data-editor-insert-kind][data-editor-insert-id="${escapeSelector(item.id)}"]`)
     if (existing) {
       const image = existing.querySelector<HTMLImageElement>('img')
+      const card = existing.querySelector<HTMLElement>('.editor-insert-card') ?? existing
+      if (image && image.getAttribute('src') !== (item.src || '/placeholders/black.svg')) image.src = item.src || '/placeholders/black.svg'
+      if (image) {
+        image.alt = item.alt || ''
+        applyStyles(image, item.styles)
+      }
+      applyStyles(card, { 'aspect-ratio': '16 / 9', ...(item.styles?.['aspect-ratio'] ? { 'aspect-ratio': item.styles['aspect-ratio'] } : {}) })
       const placeholder = image?.getAttribute('src') === '/placeholders/black.svg' || !image?.getAttribute('src')
       existing.classList.toggle('is-placeholder', placeholder)
+      card.classList.toggle('is-placeholder', placeholder)
       const hint = existing.querySelector('.editor-insert-placeholder-hint')
       if (placeholder && !hint) {
         const nextHint = document.createElement('span')
@@ -302,13 +350,21 @@ function applyState(state: EditorState, page: string) {
     }
     const parent = resolveInsertionParent(item.parentSelector)
     if (!parent) return
-    const element = document.createElement(item.kind === 'image' ? 'button' : 'div') as HTMLElement
+    const element = document.createElement('div') as HTMLElement
     element.setAttribute('data-editor-insert-id', item.id)
     element.setAttribute('data-editor-insert-kind', item.kind)
     if (item.kind === 'image') {
-      ;(element as HTMLButtonElement).type = 'button'
       const placeholder = !item.src || item.src === '/placeholders/black.svg'
-      element.className = 'pure-gallery-card' + (placeholder ? ' is-placeholder' : '')
+      const isPortfolioCard = parent.classList.contains('portfolio-grid')
+      element.className = isPortfolioCard ? 'editor-insert-wrapper' : 'pure-gallery-card'
+      const card = document.createElement(isPortfolioCard ? 'article' : 'div') as HTMLElement
+      card.className = (isPortfolioCard ? 'work-card glow-surface editor-insert-card' : 'editor-insert-card') + (placeholder ? ' is-placeholder' : '')
+      card.addEventListener('click', (event) => {
+        if (!document.body.classList.contains('editor-preview-browse')) return
+        event.preventDefault()
+        event.stopPropagation()
+        openInsertedImagePreview(item.src || '', item.alt || '')
+      })
       element.setAttribute('aria-label', '鏂板灏忕獥鍙ｏ紝鐐瑰嚮涓婁紶鍥剧墖')
       const image = document.createElement('img')
       element.setAttribute('aria-label', editorPreview ? '新增小窗口，点击上传图片' : '图片待上传')
@@ -317,15 +373,49 @@ function applyState(state: EditorState, page: string) {
       image.setAttribute('src', item.src || '/placeholders/black.svg')
       image.setAttribute('alt', item.alt || '')
       applyStyles(image, item.styles)
-      applyStyles(element, { 'aspect-ratio': '16 / 9', ...(item.styles?.['aspect-ratio'] ? { 'aspect-ratio': item.styles['aspect-ratio'] } : {}) })
-      element.appendChild(image)
+      applyStyles(card, { 'aspect-ratio': '16 / 9', ...(item.styles?.['aspect-ratio'] ? { 'aspect-ratio': item.styles['aspect-ratio'] } : {}) })
+      if (isPortfolioCard) {
+        const open = document.createElement('button')
+        open.type = 'button'
+        open.className = 'card-open-surface'
+        open.setAttribute('aria-label', '查看新增作品大图')
+        card.appendChild(open)
+      }
+      card.appendChild(image)
       if (placeholder) {
         const hint = document.createElement('span')
         hint.className = 'editor-insert-placeholder-hint'
         hint.textContent = '点击上传图片'
-        element.appendChild(hint)
+        card.appendChild(hint)
         hint.textContent = editorPreview ? '点击上传图片' : '图片待上传'
       }
+      if (isPortfolioCard) {
+        const ambient = document.createElement('div')
+        ambient.className = 'work-card-ambient'
+        ambient.setAttribute('aria-hidden', 'true')
+        card.appendChild(ambient)
+        const meta = document.createElement('div')
+        meta.className = 'work-card-topline'
+        meta.innerHTML = '<span>新作品</span><span>点击查看大图</span>'
+        card.appendChild(meta)
+        const content = document.createElement('div')
+        content.className = 'work-card-content'
+        const copy = document.createElement('div')
+        const tags = document.createElement('div')
+        tags.className = 'work-tags'
+        tags.innerHTML = '<span>新增作品</span><span>待编辑</span>'
+        const title = document.createElement('h3')
+        title.setAttribute('data-editor-text-key', `insert-${item.id}-title`)
+        title.textContent = '新作品'
+        copy.append(tags, title)
+        const prompt = document.createElement('button')
+        prompt.type = 'button'
+        prompt.className = 'prompt-details-button'
+        prompt.textContent = '查看提示词'
+        content.append(copy, prompt)
+        card.appendChild(content)
+      }
+      element.appendChild(card)
     } else {
       element.textContent = item.value || '新文字'
     }
@@ -343,6 +433,7 @@ export function EditorRuntime() {
     let mounted = true
     const preview = new URLSearchParams(window.location.search).get('editorPreview') === '1'
     const page = location.pathname + (location.hash === '#contact' ? '#contact' : '')
+    addBackgroundStyles()
     let currentState = defaultEditorState
     let applying = false
     const applyCurrentState = () => {
@@ -436,6 +527,7 @@ export function EditorRuntime() {
         previewMode = event.data.mode
         document.body.classList.toggle('editor-preview-browse', previewMode === 'browse')
         document.body.classList.toggle('editor-preview-edit', previewMode === 'edit')
+        applyCurrentState()
         return
       }
       if (event.data?.type !== 'editor:highlight' || typeof event.data.selector !== 'string') return

@@ -4,24 +4,36 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import {
   HeroWorksLoop,
+  PromptDialog,
+  PromptDialogData,
   QrPlaceholder,
+  WorkLightbox,
 } from './components'
 import { imageConfig, siteConfig, WorkItem, worksByCategory } from './config'
-import { GalleryImage, SimpleImageLightbox } from './components/SimpleImageLightbox'
-import { gallerySections } from './galleryData'
 
-type SceneKey = 'home' | 'gallery' | 'contact'
+type SceneKey = 'home' | 'portals' | 'gallery' | 'contact'
 
 const sceneItems: Array<{ id: SceneKey; number: string; label: string }> = [
   { id: 'home', number: '01', label: '首页' },
   { id: 'gallery', number: '02', label: '作品' },
-  { id: 'contact', number: '03', label: '联系' },
+  { id: 'portals', number: '03', label: '入口' },
+  { id: 'contact', number: '04', label: '联系' },
 ]
 
 const homepageCompositeOrder = [1, 2, 3, 4, 8, 7, 9] as const
 const homepageWorks = homepageCompositeOrder.map((number) => worksByCategory.composite[number - 1])
 
 const sceneTransition = { type: 'spring' as const, stiffness: 255, damping: 26, mass: 0.7 }
+
+function promptDataFromWork(work: WorkItem): PromptDialogData {
+  return {
+    id: work.id,
+    title: work.title,
+    category: siteConfig.workCategories[work.category].label,
+    prompt: work.prompt,
+    meta: work.tags.join(' / '),
+  }
+}
 
 function SceneMedia({ scene }: { scene: SceneKey }) {
   const hasVideo = Boolean(imageConfig.heroVideo)
@@ -62,7 +74,7 @@ function SceneMedia({ scene }: { scene: SceneKey }) {
   return (
     <div className={'clean-scene-media' + extraClass} aria-hidden="true">
       {hasVideo ? (
-        <video ref={videoRef} data-editor-media-key="home-scene-video" src={videoSource ?? undefined} poster={imageConfig.hero} autoPlay muted loop playsInline preload="auto" controlsList="nodownload noremoteplayback" disablePictureInPicture disableRemotePlayback onCanPlay={(event) => { if (!document.hidden) void event.currentTarget.play().catch(() => undefined) }} />
+        <video data-editor-id="background-video-home" data-editor-media-key="home-scene-video" ref={videoRef} src={videoSource ?? undefined} poster={imageConfig.hero} autoPlay muted loop playsInline preload="auto" controlsList="nodownload noremoteplayback" disablePictureInPicture disableRemotePlayback onCanPlay={(event) => { if (!document.hidden) void event.currentTarget.play().catch(() => undefined) }} />
       ) : <img data-editor-media-key="home-scene-image" src={imageConfig.hero} alt="" />}
       <i />
     </div>
@@ -120,7 +132,7 @@ function PortalScene({ onContact }: { onContact: () => void }) {
   )
 }
 
-function RailColumn({ images, title, reverse = false, onOpenImage }: { images: GalleryImage[]; title: string; reverse?: boolean; onOpenImage: (image: GalleryImage) => void }) {
+function RailColumn({ works, title, reverse = false, onOpenWork }: { works: WorkItem[]; title: string; reverse?: boolean; onOpenWork: (work: WorkItem) => void }) {
   const targetY = useMotionValue(0)
   const loopHeightValue = useMotionValue(1)
   const smoothY = useSpring(targetY, { stiffness: 185, damping: 29, mass: 0.72 })
@@ -150,7 +162,7 @@ function RailColumn({ images, title, reverse = false, onOpenImage }: { images: G
     const observer = new ResizeObserver(update)
     observer.observe(group)
     return () => observer.disconnect()
-  }, [images, loopHeightValue])
+  }, [loopHeightValue, works])
 
   useAnimationFrame((_time, delta) => {
     const loopHeight = loopHeightRef.current
@@ -168,26 +180,27 @@ function RailColumn({ images, title, reverse = false, onOpenImage }: { images: G
 
   const renderGroup = (duplicate: boolean) => (
     <div className="clean-rail-group" ref={duplicate ? undefined : groupRef} aria-hidden={duplicate || undefined}>
-      {images.map((image) => (
+      {works.map((work, index) => (
         <motion.button
-          className={'clean-rail-card' + (image.portrait ? ' is-portrait' : '') + (image.placeholder ? ' is-placeholder' : '')}
+          className={'clean-rail-card' + (work.image.includes('white') ? ' is-light' : '')}
           type="button"
-          key={image.id + (duplicate ? '-rail-copy' : '-rail')}
+          key={work.id + (duplicate ? '-rail-copy' : '-rail')}
           tabIndex={duplicate ? -1 : undefined}
           onClick={(event) => {
             if (performance.now() < suppressClickUntilRef.current) {
               event.preventDefault()
               return
             }
-            const currentSrc = event.currentTarget.querySelector('img')?.getAttribute('src') || image.src
-            onOpenImage({ ...image, src: currentSrc, placeholder: currentSrc === '/placeholders/black.svg' })
+            onOpenWork(work)
           }}
           whileHover={{ scale: 1.025, zIndex: 3 }}
           whileTap={{ scale: 0.98 }}
           transition={{ type: 'spring', stiffness: 360, damping: 26 }}
-          aria-label={duplicate ? undefined : image.placeholder ? '待上传图片' : '预览大图'}
+          aria-label={duplicate ? undefined : '查看大图：' + work.title}
         >
-          <img src={image.src} alt="" loading="lazy" decoding="async" width={image.portrait ? 600 : 900} height={image.portrait ? 800 : 600} />
+          <img src={work.image} alt={duplicate ? '' : work.alt} loading="lazy" decoding="async" width={900} height={600} />
+          <span>{String(work.index).padStart(2, '0')}</span>
+          <small>{work.title}</small>
         </motion.button>
       ))}
     </div>
@@ -264,7 +277,7 @@ function RailColumn({ images, title, reverse = false, onOpenImage }: { images: G
   )
 }
 
-function GalleryScene({ onOpenImage }: { onOpenImage: (image: GalleryImage) => void }) {
+function GalleryScene({ onOpenWork }: { onOpenWork: (work: WorkItem) => void }) {
   const reduced = useReducedMotion()
   return (
     <motion.section
@@ -275,14 +288,13 @@ function GalleryScene({ onOpenImage }: { onOpenImage: (image: GalleryImage) => v
       transition={reduced ? { duration: 0.01 } : sceneTransition}
     >
       <div className="clean-gallery-copy">
-        <span>GALLERY / 02</span>
-        <h1>例图画廊</h1>
-        <p>例图画廊展示，可单独点开预览大图。</p>
+        <span>ARCHIVE / 03</span>
+        <h1>画面实验室</h1>
+        <p>左列是大合成，右列是半合成 X 立绘还原。点击任意作品可查看大图与提示词。</p>
       </div>
       <div className="clean-rails">
-        {gallerySections.map((section, index) => (
-          <RailColumn images={section.images} title={section.label} reverse={index % 2 === 1} onOpenImage={onOpenImage} key={section.id} />
-        ))}
+        <RailColumn works={worksByCategory.composite} title="大合成" onOpenWork={onOpenWork} />
+        <RailColumn works={worksByCategory.semiFinished} title="半合成 X 立绘还原" reverse onOpenWork={onOpenWork} />
       </div>
     </motion.section>
   )
@@ -300,11 +312,11 @@ function ContactScene() {
     >
       <div className="clean-contact-copy">
         <span>SCENE 04 / CONTACT</span>
-        <h1>联系方式<br />联系我们</h1>
+        <h1>酸奶奶奶奶奶<br />联系我</h1>
         <p>交流原创视觉、图片合成、提示词和创作方法。</p>
         <div className="clean-contact-cards">
-          <div><span>个人 QQ</span><strong>{siteConfig.contact.qq}</strong></div>
-          <div><span>QQ群</span><strong>{siteConfig.contact.group}</strong></div>
+          <div><span>个人 QQ</span><strong data-editor-id="contact-qq">{siteConfig.contact.qq}</strong></div>
+          <div><span>QQ群</span><strong data-editor-id="contact-group">{siteConfig.contact.group}</strong></div>
           <div><span>抖音</span><strong>搜索：一勺炒酸奶</strong></div>
         </div>
       </div>
@@ -317,16 +329,12 @@ function ContactScene() {
   )
 }
 
-function SceneControls({ sceneIndex, onChange, audioOn, onToggleAudio, audioVolume, onChangeVolume }: { sceneIndex: number; onChange: (next: number) => void; audioOn: boolean; onToggleAudio: () => void; audioVolume: number; onChangeVolume: (next: number) => void }) {
+function SceneControls({ sceneIndex, onChange, audioOn, onToggleAudio }: { sceneIndex: number; onChange: (next: number) => void; audioOn: boolean; onToggleAudio: () => void }) {
   return (
     <>
-      <div className="clean-audio-control" aria-label="背景音乐音量控制">
-        <button className={'clean-audio-ui' + (audioOn ? ' is-on' : '')} type="button" onClick={onToggleAudio} aria-label={audioOn ? '关闭背景音乐' : '打开背景音乐'} title={audioOn ? '关闭背景音乐' : '打开背景音乐'}>
-          {audioOn ? <Volume2 size={15} /> : <VolumeX size={15} />}<i /><b />
-        </button>
-        <input className="clean-audio-range" type="range" min="0" max="1" step="0.01" value={audioOn ? audioVolume : 0} onChange={(event) => onChangeVolume(Number(event.target.value))} aria-label="背景音乐音量" />
-        <span className="clean-audio-percent">{audioOn ? Math.round(audioVolume * 100) : 0}%</span>
-      </div>
+      <button className={'clean-audio-ui' + (audioOn ? ' is-on' : '')} type="button" onClick={onToggleAudio} aria-label={audioOn ? '关闭背景音乐' : '打开背景音乐'}>
+        {audioOn ? <Volume2 size={15} /> : <VolumeX size={15} />}<i /><b />
+      </button>
       <div className="clean-scene-dots" aria-label="场景导航">
         {sceneItems.map((scene, index) => (
           <button key={scene.id} className={sceneIndex === index ? 'is-active' : ''} type="button" onClick={() => onChange(index)} aria-label={'前往' + scene.label}>
@@ -359,26 +367,18 @@ function BootTransition() {
 export function HomePage() {
   const location = useLocation()
   const [sceneIndex, setSceneIndex] = useState(0)
-  const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null)
+  const [selectedWork, setSelectedWork] = useState<WorkItem | null>(null)
+  const [selectedPrompt, setSelectedPrompt] = useState<PromptDialogData | null>(null)
   const wheelLocked = useRef(false)
   const wheelAmount = useRef(0)
   const touchStart = useRef<number | null>(null)
   const audioRef = useRef<HTMLAudioElement>(null)
   const [audioOn, setAudioOn] = useState(true)
-  const [audioVolume, setAudioVolume] = useState(0.18)
   const [booting, setBooting] = useState(true)
   const scene = sceneItems[sceneIndex].id
 
   const changeScene = useCallback((next: number) => {
-    const nextIndex = Math.max(0, Math.min(sceneItems.length - 1, next))
-    setSceneIndex(nextIndex)
-    if (new URLSearchParams(window.location.search).get('editorPreview') === '1' && window.parent !== window) {
-      const sceneHash = nextIndex === 2 ? '#contact' : nextIndex === 1 ? '#works' : ''
-      const currentHash = window.location.hash
-      if (sceneHash || currentHash === '#contact' || currentHash === '#works') {
-        window.parent.postMessage({ type: 'editor:navigate', path: `/${sceneHash}` }, '*')
-      }
-    }
+    setSceneIndex(Math.max(0, Math.min(sceneItems.length - 1, next)))
   }, [])
 
   useEffect(() => {
@@ -418,17 +418,17 @@ export function HomePage() {
 
   useEffect(() => {
     // Hashes on the home route select a horizontal scene instead of scrolling to an anchor.
-    changeScene(location.hash === '#contact' ? 2 : location.hash === '#works' ? 1 : 0)
+    changeScene(location.hash === '#contact' ? 3 : 0)
   }, [changeScene, location.hash])
 
   useEffect(() => {
     const audio = audioRef.current
     if (!audio || !imageConfig.ambientAudio) return
-    audio.volume = audioVolume
-    audio.muted = !audioOn || audio.dataset.editorPageDisabled === 'true'
-    if (audioOn && audio.dataset.editorPageDisabled !== 'true') void audio.play().catch(() => undefined)
+    audio.volume = 0.18
+    audio.muted = !audioOn
+    if (audioOn) void audio.play().catch(() => undefined)
     else audio.pause()
-  }, [audioOn, audioVolume])
+  }, [audioOn])
 
   useEffect(() => {
     const timer = window.setTimeout(() => setBooting(false), 650)
@@ -436,12 +436,17 @@ export function HomePage() {
   }, [])
 
   const openWork = useCallback((work: WorkItem) => {
-    setSelectedImage({ id: work.id, src: work.image, alt: '' })
+    setSelectedPrompt(null)
+    setSelectedWork(work)
+  }, [])
+  const openPrompt = useCallback((work: WorkItem) => {
+    setSelectedWork(null)
+    setSelectedPrompt(promptDataFromWork(work))
   }, [])
 
   return (
     <div
-      className={'clean-scene-home gallery-site' + (scene === 'home' ? ' is-home-scene' : '')}
+      className={'clean-scene-home' + (scene === 'home' ? ' is-home-scene' : '')}
       onTouchStart={(event) => { touchStart.current = event.touches[0]?.clientX ?? null }}
       onTouchEnd={(event) => {
         if (touchStart.current === null) return
@@ -451,7 +456,7 @@ export function HomePage() {
       }}
       onPointerDown={(event) => {
         const audio = audioRef.current
-        if (audioOn && audio?.dataset.editorPageDisabled !== 'true' && audio?.paused) void audio.play().catch(() => undefined)
+        if (audioOn && audio?.paused) void audio.play().catch(() => undefined)
         const target = (event.target as HTMLElement).closest('button, a') as HTMLElement | null
         if (!target) return
         const rect = target.getBoundingClientRect()
@@ -464,17 +469,19 @@ export function HomePage() {
         window.setTimeout(() => ripple.remove(), 640)
       }}
     >
-      {imageConfig.ambientAudio ? <audio ref={audioRef} data-editor-media-key="home-bgm" src={imageConfig.ambientAudio} autoPlay loop preload="auto" controlsList="nodownload noremoteplayback" /> : null}
+      {imageConfig.ambientAudio ? <audio data-editor-id="bgm-home" data-editor-media-key="home-bgm" ref={audioRef} src={imageConfig.ambientAudio} autoPlay loop preload="auto" controlsList="nodownload noremoteplayback" /> : null}
       <SceneMedia scene={scene} />
       <div className="clean-noise" aria-hidden="true" />
       <AnimatePresence mode="wait" initial={false}>
-        {scene === 'home' ? <HomeScene key="home" suspended={Boolean(selectedImage)} onOpenWork={openWork} /> : null}
-        {scene === 'gallery' ? <GalleryScene key="gallery" onOpenImage={setSelectedImage} /> : null}
+        {scene === 'home' ? <HomeScene key="home" suspended={Boolean(selectedWork || selectedPrompt)} onOpenWork={openWork} /> : null}
+        {scene === 'portals' ? <PortalScene key="portals" onContact={() => changeScene(3)} /> : null}
+        {scene === 'gallery' ? <GalleryScene key="gallery" onOpenWork={openWork} /> : null}
         {scene === 'contact' ? <ContactScene key="contact" /> : null}
       </AnimatePresence>
-      <SceneControls sceneIndex={sceneIndex} onChange={changeScene} audioOn={audioOn} onToggleAudio={() => setAudioOn((current) => !current)} audioVolume={audioVolume} onChangeVolume={(next) => { setAudioVolume(next); setAudioOn(next > 0) }} />
+      <SceneControls sceneIndex={sceneIndex} onChange={changeScene} audioOn={audioOn} onToggleAudio={() => setAudioOn((current) => !current)} />
       <AnimatePresence>{booting ? <BootTransition /> : null}</AnimatePresence>
-      <SimpleImageLightbox image={selectedImage} onClose={() => setSelectedImage(null)} />
+      <WorkLightbox work={selectedWork} onClose={() => setSelectedWork(null)} onOpenPrompt={openPrompt} />
+      <PromptDialog data={selectedPrompt} onClose={() => setSelectedPrompt(null)} />
     </div>
   )
 }

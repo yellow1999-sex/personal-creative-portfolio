@@ -98,28 +98,7 @@ export const imageConfig: ImageConfig = {
       '/images/works/restoration-04.webp',
       '/images/works/restoration-05.webp',
     ],
-    portrait: [
-      BLACK_PLACEHOLDER, // 01
-      BLACK_PLACEHOLDER, // 02
-      BLACK_PLACEHOLDER, // 03
-      BLACK_PLACEHOLDER, // 04
-      BLACK_PLACEHOLDER, // 05
-      WHITE_PLACEHOLDER, // 06
-      BLACK_PLACEHOLDER, // 07
-      BLACK_PLACEHOLDER, // 08
-      BLACK_PLACEHOLDER, // 09
-      BLACK_PLACEHOLDER, // 10
-      BLACK_PLACEHOLDER, // 11
-      BLACK_PLACEHOLDER, // 12
-      BLACK_PLACEHOLDER, // 13
-      BLACK_PLACEHOLDER, // 14
-      BLACK_PLACEHOLDER, // 15
-      BLACK_PLACEHOLDER, // 16
-      BLACK_PLACEHOLDER, // 17
-      BLACK_PLACEHOLDER, // 18
-      BLACK_PLACEHOLDER, // 19
-      BLACK_PLACEHOLDER, // 20
-    ],
+    portrait: [],
   },
   promptCards: [
     BLACK_PLACEHOLDER, // 01
@@ -205,7 +184,7 @@ export const siteConfig = {
     portrait: {
       label: '场照半合成预制菜',
       heading: '场照半合成预制菜',
-      count: 20,
+      count: 0,
       speed: 24,
       tags: ['肤质修整', '轮廓塑造', '色彩氛围'],
     },

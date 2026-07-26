@@ -22,6 +22,7 @@ import {
   wrap,
 } from 'framer-motion'
 import {
+  CSSProperties,
   FocusEvent,
   PointerEvent as ReactPointerEvent,
   ReactNode,
@@ -812,6 +813,7 @@ function WorkLightboxPanel({
   const reduced = useReducedMotion()
   const placeholder = isPlaceholderImage(work.image)
   const isPresent = useIsPresent()
+  const [imageRatio, setImageRatio] = useState<number | null>(null)
   useModalLifecycle(onClose, closeRef, panelRef)
 
   return (
@@ -822,7 +824,7 @@ function WorkLightboxPanel({
       exit={{ opacity: 0 }}
       transition={{ duration: reduced ? 0.01 : 0.22 }}
       aria-hidden={!isPresent || undefined}
-      style={{ pointerEvents: isPresent ? 'auto' : 'none' }}
+      style={{ '--lightbox-image': `url("${work.image}")`, pointerEvents: isPresent ? 'auto' : 'none' } as CSSProperties}
       onPointerDown={(event) => {
         if (event.target === event.currentTarget) onClose()
       }}
@@ -869,15 +871,24 @@ function WorkLightboxPanel({
           <X size={18} />
         </motion.button>
 
-        <div
-          className={
-            'lightbox-media' +
-            (work.image === imageConfig.placeholders.white ? ' is-light' : '') +
-            (work.category === 'portrait' ? ' is-portrait' : '') +
-            (placeholder ? ' is-placeholder' : '')
-          }
-        >
-          <img src={work.image} alt={work.alt} width={1800} height={760} />
+          <div
+            className={
+              'lightbox-media' +
+              (work.image === imageConfig.placeholders.white ? ' is-light' : '') +
+              (placeholder ? ' is-placeholder' : '')
+            }
+            style={{ '--lightbox-image': `url("${work.image}")`, '--lightbox-ratio': imageRatio ? String(imageRatio) : undefined } as CSSProperties}
+          >
+            <img
+              src={work.image}
+              alt={work.alt}
+              width={1800}
+              height={760}
+              onLoad={(event) => {
+                const image = event.currentTarget
+                if (image.naturalWidth && image.naturalHeight) setImageRatio(image.naturalWidth / image.naturalHeight)
+              }}
+            />
           <span><Maximize2 size={13} /> {placeholder ? '大图预览 / 图片待上传' : '大图预览'}</span>
         </div>
 
@@ -988,16 +999,19 @@ function PromptDialogPanel({
         </motion.button>
 
         {data.image ? (
-          <div className={'prompt-dialog-media' + (data.image === imageConfig.placeholders.white ? ' is-light' : '')}>
+          <div
+            className={'prompt-dialog-media' + (data.image === imageConfig.placeholders.white ? ' is-light' : '')}
+            style={{ '--lightbox-image': `url("${data.image}")` } as CSSProperties}
+          >
             <img src={data.image} alt={data.imageAlt || data.title + '效果图'} width={960} height={720} />
           </div>
         ) : null}
 
         <div className="prompt-dialog-copy">
           <span className="prompt-dialog-category">{data.category}</span>
-          <h2>{data.title}</h2>
+          <h2 data-editor-prompt-title-id={data.id}>{data.title}</h2>
           {data.summary ? <p className="prompt-dialog-summary">{data.summary}</p> : null}
-          <div className="prompt-dialog-text">{data.prompt}</div>
+          <div className="prompt-dialog-text" data-editor-prompt-id={data.id}>{data.prompt}</div>
           <div className="prompt-dialog-footer">
             <span>{data.meta || '完整提示词 / 可直接复制'}</span>
             {!data.hideCopyButton ? <CopyPromptButton id={'dialog-' + data.id} prompt={data.prompt} /> : null}

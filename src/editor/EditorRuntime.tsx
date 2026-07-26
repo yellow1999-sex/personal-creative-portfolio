@@ -1,8 +1,9 @@
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import { defaultEditorState, editorOverrideAppliesToPage, editorOverrideKey, EditorSelection, EditorState } from './types'
+import { defaultEditorState, editorOverrideAppliesToPage, editorOverrideKey, EditorInsertion, EditorSelection, EditorState } from './types'
 
 const editableTags = 'h1,h2,h3,h4,h5,h6,p,span,strong,small,a,button,label,li'
+const insertionRecords = new WeakMap<HTMLElement, EditorInsertion>()
 
 function isTextLeaf(element: Element) {
   return element.childElementCount === 0 && Boolean(element.textContent?.trim())
@@ -30,6 +31,12 @@ function selectorFor(element: Element) {
   }
   if (element instanceof HTMLElement && element.dataset.editorMediaKey) {
     return `[data-editor-media-key="${escapeSelector(element.dataset.editorMediaKey)}"]`
+  }
+  if (element instanceof HTMLElement && element.dataset.editorPromptTitleId) {
+    return `[data-editor-prompt-title-id="${escapeSelector(element.dataset.editorPromptTitleId)}"]`
+  }
+  if (element instanceof HTMLElement && element.dataset.editorPromptId) {
+    return `[data-editor-prompt-id="${escapeSelector(element.dataset.editorPromptId)}"]`
   }
   if (element instanceof HTMLElement && element.dataset.editorGalleryId) {
     return `[data-editor-gallery-id="${escapeSelector(element.dataset.editorGalleryId)}"]`
@@ -59,7 +66,7 @@ function findTarget(node: EventTarget | null): Element | null {
   if (!(node instanceof Element)) return null
   const inserted = node.closest('[data-editor-insert-id]')
   if (inserted) return inserted.querySelector('img') ?? inserted
-  const stable = node.closest('[data-editor-id]')
+  const stable = node.closest('[data-editor-id], [data-editor-prompt-title-id], [data-editor-prompt-id]')
   if (stable) return stable
   if (node.tagName === 'IMG' || node.tagName === 'VIDEO' || node.tagName === 'AUDIO') return node
   const mediaCard = node.closest('button, a')
@@ -75,10 +82,11 @@ function findTarget(node: EventTarget | null): Element | null {
 }
 
 function selectionFromElement(element: Element, page: string): EditorSelection {
-  const kind = element.tagName === 'IMG' ? 'image' : element.tagName === 'VIDEO' ? 'video' : element.tagName === 'AUDIO' ? 'audio' : element.matches(editableTags) || isTextLeaf(element) ? 'text' : 'element'
+  const kind = element.tagName === 'IMG' ? 'image' : element.tagName === 'VIDEO' ? 'video' : element.tagName === 'AUDIO' ? 'audio' : element instanceof HTMLElement && (element.dataset.editorPromptId || element.dataset.editorPromptTitleId) ? 'text' : element.matches(editableTags) || isTextLeaf(element) ? 'text' : 'element'
   const insertionId = element instanceof HTMLElement ? element.dataset.editorInsertId : undefined
   const parent = element.parentElement ?? document.body
   const gallery = element.closest('.pure-gallery-grid, .portfolio-grid')
+  const card = element.closest<HTMLElement>('[data-editor-card-id]')
   return {
     selector: selectorFor(element),
     parentSelector: selectorFor(parent),
@@ -91,10 +99,13 @@ function selectionFromElement(element: Element, page: string): EditorSelection {
     alt: element.tagName === 'IMG' ? element.getAttribute('alt') ?? '' : '',
     tag: element.tagName.toLowerCase(),
     insertionId,
+    cardId: card?.dataset.editorCardId,
   }
 }
 
 function shouldPassThroughInEdit(element: Element) {
+  if (element.closest('[data-editor-insert-id]')) return false
+  if (element.closest('[data-editor-prompt-title-id], [data-editor-prompt-id]')) return false
   return Boolean(
     element.closest(
       'input,textarea,select,[contenteditable="true"],[role="tab"],.prompt-accordion-trigger,.prompt-list-open,.copy-button,.prompt-details-button,.modal-close,.editor-gallery-add,.page-audio-control,.clean-audio-control',
@@ -135,6 +146,8 @@ function addPreviewStyles() {
     body.editor-preview-edit .work-card-content *,
     body.editor-preview-edit .workflow-detail-card-copy,
     body.editor-preview-edit .workflow-detail-card-copy * { pointer-events: auto !important; }
+    body.editor-preview-edit [data-editor-prompt-title-id]:empty { min-height: 1.25em; }
+    body.editor-preview-edit [data-editor-prompt-title-id]:empty::after { content: '点击添加标题'; display: inline-block; color: rgba(17, 22, 17, 0.5); font-size: 12px; font-weight: 400; }
     body.editor-preview-edit .clean-contact-cards strong:empty::after { content: '点击添加内容'; display: inline-block; min-width: 7em; padding: 4px 8px; color: rgba(223,255,63,.9); border: 1px dashed rgba(223,255,63,.55); border-radius: 5px; font-family: inherit; font-size: 12px; font-weight: 400; letter-spacing: 0; }
     body.editor-preview-edit .clean-contact-cards > div { cursor: crosshair !important; }
   `
@@ -182,7 +195,36 @@ function openInsertedImagePreview(source: string, alt: string) {
   document.body.appendChild(overlay)
 }
 
+const defaultInsertionPrompt = 'Please edit this image prompt in the visual editor.'
+
+function insertionEventDetail(item: EditorState['insertions'][number], parent: HTMLElement) {
+  const galleryId = parent.dataset.editorGalleryId || 'composite'
+  const categoryLabel = item.categoryLabel || 'Scene pack'
+  return {
+    id: item.id,
+    title: item.title || item.alt || 'New work',
+    category: galleryId,
+    categoryLabel,
+    image: item.src || '/placeholders/black.svg',
+    alt: item.alt || item.title || 'New work',
+    prompt: item.prompt || defaultInsertionPrompt,
+    summary: item.summary || 'This imported card has an editable prompt.',
+    tags: item.tags?.length ? item.tags : [categoryLabel, 'To edit'],
+    meta: item.meta || `${categoryLabel} / Editable prompt`,
+    index: 0,
+  }
+}
+
+function emitInsertionEvent(type: 'editor:open-insertion-work' | 'editor:open-insertion-prompt', item: EditorState['insertions'][number], parent: HTMLElement) {
+  window.dispatchEvent(new CustomEvent(type, { detail: insertionEventDetail(item, parent) }))
+}
+
 function applyState(state: EditorState, page: string) {
+  const removedCardIds = new Set(state.removedCards?.[page] ?? [])
+  document.querySelectorAll<HTMLElement>('[data-editor-card-id]').forEach((card) => {
+    const cardId = card.dataset.editorCardId
+    if (cardId && removedCardIds.has(cardId)) card.remove()
+  })
   document.querySelectorAll<HTMLElement>('.pure-gallery-section .archive-section-heading, .archive-section .archive-section-heading').forEach((heading) => {
     if (!document.body.classList.contains('editor-preview-mode')) return
     const existingButton = heading.querySelector<HTMLButtonElement>('.editor-gallery-add')
@@ -326,6 +368,7 @@ function applyState(state: EditorState, page: string) {
     const editorPreview = document.body.classList.contains('editor-preview-mode')
     const existing = document.querySelector<HTMLElement>(`[data-editor-insert-kind][data-editor-insert-id="${escapeSelector(item.id)}"]`)
     if (existing) {
+      insertionRecords.set(existing, item)
       const image = existing.querySelector<HTMLImageElement>('img')
       const card = existing.querySelector<HTMLElement>('.editor-insert-card') ?? existing
       if (image && image.getAttribute('src') !== (item.src || '/placeholders/black.svg')) image.src = item.src || '/placeholders/black.svg'
@@ -333,6 +376,12 @@ function applyState(state: EditorState, page: string) {
         image.alt = item.alt || ''
         applyStyles(image, item.styles)
       }
+      const title = existing.querySelector<HTMLElement>('[data-editor-insert-title]')
+      if (title) title.textContent = item.title || item.alt || 'New work'
+      const tags = existing.querySelector<HTMLElement>('[data-editor-insert-tags]')
+      if (tags) tags.replaceChildren(...(item.tags?.length ? item.tags : ['To edit']).map((tag) => { const span = document.createElement('span'); span.textContent = tag; return span }))
+      const promptButton = existing.querySelector<HTMLButtonElement>('[data-editor-insert-prompt]')
+      if (promptButton) promptButton.textContent = '查看提示词'
       applyStyles(card, { 'aspect-ratio': '16 / 9', ...(item.styles?.['aspect-ratio'] ? { 'aspect-ratio': item.styles['aspect-ratio'] } : {}) })
       const placeholder = image?.getAttribute('src') === '/placeholders/black.svg' || !image?.getAttribute('src')
       existing.classList.toggle('is-placeholder', placeholder)
@@ -351,6 +400,7 @@ function applyState(state: EditorState, page: string) {
     const parent = resolveInsertionParent(item.parentSelector)
     if (!parent) return
     const element = document.createElement('div') as HTMLElement
+    insertionRecords.set(element, item)
     element.setAttribute('data-editor-insert-id', item.id)
     element.setAttribute('data-editor-insert-kind', item.kind)
     if (item.kind === 'image') {
@@ -360,10 +410,10 @@ function applyState(state: EditorState, page: string) {
       const card = document.createElement(isPortfolioCard ? 'article' : 'div') as HTMLElement
       card.className = (isPortfolioCard ? 'work-card glow-surface editor-insert-card' : 'editor-insert-card') + (placeholder ? ' is-placeholder' : '')
       card.addEventListener('click', (event) => {
-        if (!document.body.classList.contains('editor-preview-browse')) return
+        if (document.body.classList.contains('editor-preview-edit')) return
         event.preventDefault()
         event.stopPropagation()
-        openInsertedImagePreview(item.src || '', item.alt || '')
+        emitInsertionEvent('editor:open-insertion-work', insertionRecords.get(element) || item, parent)
       })
       element.setAttribute('aria-label', '鏂板灏忕獥鍙ｏ紝鐐瑰嚮涓婁紶鍥剧墖')
       const image = document.createElement('img')
@@ -403,15 +453,28 @@ function applyState(state: EditorState, page: string) {
         const copy = document.createElement('div')
         const tags = document.createElement('div')
         tags.className = 'work-tags'
-        tags.innerHTML = '<span>新增作品</span><span>待编辑</span>'
+        tags.setAttribute('data-editor-insert-tags', 'true')
+        ;(item.tags?.length ? item.tags : ['To edit']).forEach((tag) => {
+          const tagElement = document.createElement('span')
+          tagElement.textContent = tag
+          tags.appendChild(tagElement)
+        })
         const title = document.createElement('h3')
         title.setAttribute('data-editor-text-key', `insert-${item.id}-title`)
-        title.textContent = '新作品'
+        title.setAttribute('data-editor-insert-title', 'true')
+        title.textContent = item.title || item.alt || 'New work'
         copy.append(tags, title)
         const prompt = document.createElement('button')
         prompt.type = 'button'
         prompt.className = 'prompt-details-button'
+        prompt.setAttribute('data-editor-insert-prompt', 'true')
         prompt.textContent = '查看提示词'
+        prompt.addEventListener('click', (event) => {
+          event.preventDefault()
+          event.stopPropagation()
+          if (document.body.classList.contains('editor-preview-edit')) return
+          emitInsertionEvent('editor:open-insertion-prompt', insertionRecords.get(element) || item, parent)
+        })
         content.append(copy, prompt)
         card.appendChild(content)
       }
@@ -486,21 +549,26 @@ export function EditorRuntime() {
     const onClick = (event: MouseEvent) => {
       const rawTarget = event.target instanceof Element ? event.target : null
       if (previewMode === 'edit' && rawTarget && shouldPassThroughInEdit(rawTarget)) return
+      const insertedWrapper = rawTarget?.closest<HTMLElement>('[data-editor-insert-id]')
+      const insertedPrompt = rawTarget?.closest('.prompt-details-button')
+      if (previewMode === 'browse' && insertedWrapper && insertedPrompt) {
+        const insertionId = insertedWrapper.dataset.editorInsertId
+        const insertion = currentState.insertions.find((item) => item.id === insertionId)
+        if (insertion) {
+          event.preventDefault()
+          event.stopPropagation()
+          emitInsertionEvent('editor:open-insertion-prompt', insertion, insertedWrapper.parentElement ?? document.body)
+        }
+        return
+      }
       const target = findTarget(event.target)
       if (!target) return
       if (previewMode === 'browse') {
         if (target instanceof HTMLImageElement && target.dataset.editorInsertId && target.src) {
           event.preventDefault()
-          const overlay = document.createElement('div')
-          overlay.setAttribute('data-editor-insert-lightbox', 'true')
-          overlay.style.cssText = 'position:fixed;inset:0;z-index:9999;display:grid;place-items:center;padding:24px;background:rgba(0,0,0,.86);cursor:zoom-out'
-          const image = document.createElement('img')
-          image.src = target.src
-          image.alt = target.alt
-          image.style.cssText = 'max-width:94vw;max-height:92vh;object-fit:contain;border-radius:12px'
-          overlay.appendChild(image)
-          overlay.addEventListener('click', () => overlay.remove(), { once: true })
-          document.body.appendChild(overlay)
+          const insertion = currentState.insertions.find((item) => item.id === target.dataset.editorInsertId)
+          const wrapper = target.closest<HTMLElement>('[data-editor-insert-id]')
+          if (insertion && wrapper) emitInsertionEvent('editor:open-insertion-work', insertion, wrapper.parentElement ?? document.body)
           return
         }
         const link = target.closest('a')

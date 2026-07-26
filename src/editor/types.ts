@@ -12,6 +12,12 @@ export type EditorOverride = {
   hidden?: boolean
   styles?: EditorStyles
   parentStyles?: EditorStyles
+  title?: string
+  summary?: string
+  prompt?: string
+  tags?: string[]
+  categoryLabel?: string
+  meta?: string
 }
 
 export type EditorInsertion = {
@@ -24,6 +30,12 @@ export type EditorInsertion = {
   src?: string
   alt?: string
   styles?: EditorStyles
+  title?: string
+  summary?: string
+  prompt?: string
+  tags?: string[]
+  categoryLabel?: string
+  meta?: string
 }
 
 export type EditorPageDefinition = {
@@ -35,6 +47,7 @@ export type EditorState = {
   version: number
   overrides: Record<string, EditorOverride>
   insertions: EditorInsertion[]
+  removedCards: Record<string, string[]>
   pages: EditorPageDefinition[]
 }
 
@@ -50,6 +63,7 @@ export type EditorSelection = {
   alt: string
   tag: string
   insertionId?: string
+  cardId?: string
 }
 
 export function editorOverrideKey(page: string, selector: string) {
@@ -65,5 +79,6 @@ export const defaultEditorState: EditorState = {
   version: 1,
   overrides: {},
   insertions: [],
+  removedCards: {},
   pages: [],
 }

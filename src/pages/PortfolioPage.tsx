@@ -1,5 +1,5 @@
 import { ArrowLeft } from 'lucide-react'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   PromptDialog,
@@ -38,6 +38,34 @@ const promptFromWork = (work: WorkItem): PromptDialogData => ({
   meta: work.tags.join(' / '),
 })
 
+type InsertionWorkDetail = {
+  id: string
+  title: string
+  category: string
+  categoryLabel?: string
+  image: string
+  alt: string
+  prompt: string
+  summary?: string
+  tags: string[]
+  meta?: string
+  index?: number
+}
+
+function workFromInsertion(detail: InsertionWorkDetail): WorkItem {
+  const category: WorkCategory = detail.category === 'semiFinished' || detail.category === 'portrait' ? detail.category : 'composite'
+  return {
+    id: detail.id,
+    category,
+    title: detail.title,
+    image: detail.image,
+    alt: detail.alt,
+    prompt: detail.prompt,
+    tags: detail.tags,
+    index: detail.index || 0,
+  }
+}
+
 export function PortfolioPage() {
   const [selectedWork, setSelectedWork] = useState<WorkItem | null>(null)
   const [selectedPrompt, setSelectedPrompt] = useState<PromptDialogData | null>(null)
@@ -50,6 +78,34 @@ export function PortfolioPage() {
   const openPrompt = useCallback((work: WorkItem) => {
     setSelectedWork(null)
     setSelectedPrompt(promptFromWork(work))
+  }, [])
+
+  useEffect(() => {
+    const openInsertionWork = (event: Event) => {
+      const detail = (event as CustomEvent<InsertionWorkDetail>).detail
+      if (!detail?.id) return
+      setSelectedPrompt(null)
+      setSelectedWork(workFromInsertion(detail))
+    }
+    const openInsertionPrompt = (event: Event) => {
+      const detail = (event as CustomEvent<InsertionWorkDetail>).detail
+      if (!detail?.id) return
+      setSelectedWork(null)
+      setSelectedPrompt({
+        id: detail.id,
+        title: detail.title,
+        category: detail.categoryLabel || detail.category,
+        summary: detail.summary,
+        prompt: detail.prompt,
+        meta: detail.meta || detail.tags.join(' / '),
+      })
+    }
+    window.addEventListener('editor:open-insertion-work', openInsertionWork)
+    window.addEventListener('editor:open-insertion-prompt', openInsertionPrompt)
+    return () => {
+      window.removeEventListener('editor:open-insertion-work', openInsertionWork)
+      window.removeEventListener('editor:open-insertion-prompt', openInsertionPrompt)
+    }
   }, [])
 
   return (

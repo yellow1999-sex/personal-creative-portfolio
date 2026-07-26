@@ -1,11 +1,12 @@
 import { Archive, Eye, EyeOff, Github, ImagePlus, Monitor, Music, Play, Plus, Save, Send, Settings, Smartphone, Trash2, Upload, Video } from 'lucide-react'
 import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react'
-import { defaultEditorState, editorOverrideAppliesToPage, editorOverrideKey, EditorOverride, EditorSelection, EditorState } from './types'
+import { defaultEditorState, editorOverrideAppliesToPage, editorOverrideKey, EditorInsertion, EditorOverride, EditorSelection, EditorState } from './types'
 import './editor.css'
 
 const pages = [
   { path: '/', label: '首页与滚动画廊' },
   { path: '/works', label: '例图展示页' },
+  { path: '/prompts', label: '提示词库' },
 ]
 
 const styleFields = [
@@ -40,6 +41,54 @@ const quickUploadLabels: Record<QuickUploadKind, string> = {
   image: '背景图片',
   video: '背景视频',
   audio: 'BGM',
+}
+
+const workGalleryOptions = [
+  { id: 'composite', label: '大合成' },
+  { id: 'semiFinished', label: '半合成X立绘还原' },
+  { id: 'portrait', label: '场照半合成预制菜' },
+] as const
+
+function readFileAsDataUrl(file: File) {
+  return new Promise<string>((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = () => typeof reader.result === 'string' ? resolve(reader.result) : reject(new Error(`无法读取文件：${file.name}`))
+    reader.onerror = () => reject(new Error(`文件读取失败：${file.name}`))
+    reader.readAsDataURL(file)
+  })
+}
+
+function greatestCommonDivisor(left: number, right: number): number {
+  let a = Math.abs(Math.round(left))
+  let b = Math.abs(Math.round(right))
+  while (b) [a, b] = [b, a % b]
+  return a || 1
+}
+
+function imageAspectRatio(width?: number, height?: number) {
+  if (!width || !height) return '16 / 9'
+  const divisor = greatestCommonDivisor(width, height)
+  return `${Math.round(width / divisor)} / ${Math.round(height / divisor)}`
+}
+
+function previewHasBatchInsertions(frame: HTMLIFrameElement | null, insertions: EditorInsertion[]) {
+  const document = frame?.contentDocument
+  if (!document) return false
+  const elements = Array.from(document.querySelectorAll<HTMLElement>('[data-editor-insert-kind][data-editor-insert-id]'))
+  return insertions.every((insertion) => {
+    const element = elements.find((candidate) => candidate.dataset.editorInsertId === insertion.id)
+    const image = element?.querySelector<HTMLImageElement>('img')
+    return Boolean(element && image && image.getAttribute('src') === insertion.src && element.querySelector('.editor-insert-card'))
+  })
+}
+
+async function waitForBatchPreview(frame: HTMLIFrameElement | null, insertions: EditorInsertion[]) {
+  const deadline = Date.now() + 3500
+  while (Date.now() < deadline) {
+    if (previewHasBatchInsertions(frame, insertions)) return true
+    await new Promise((resolve) => window.setTimeout(resolve, 80))
+  }
+  return previewHasBatchInsertions(frame, insertions)
 }
 
 function previewHasQuickUpload(frame: HTMLIFrameElement | null, src: string, kind: QuickUploadKind) {
@@ -123,8 +172,12 @@ export function EditorPage() {
   const [mediaNoticeTone, setMediaNoticeTone] = useState<NoticeTone>('info')
   const [log, setLog] = useState('')
   const [busy, setBusy] = useState(false)
+  const [batchBusy, setBatchBusy] = useState(false)
+  const [batchProgress, setBatchProgress] = useState('')
+  const [batchGalleryId, setBatchGalleryId] = useState<string | null>(null)
   const addGalleryBusyRef = useRef(false)
   const addGalleryLastClickRef = useRef(0)
+  const batchBusyRef = useRef(false)
   const setFeedback = (message: string, tone: NoticeTone = 'info') => {
     setNotice(message)
     setNoticeTone(tone)
@@ -181,6 +234,7 @@ export function EditorPage() {
         setHash(nextUrl.hash)
         setSelection(null)
         setForm(null)
+        setBatchGalleryId(null)
         return
       }
       if (event.data?.type === 'editor:add-gallery' && typeof event.data.galleryId === 'string') {
@@ -189,7 +243,9 @@ export function EditorPage() {
       }
       if (event.data?.type !== 'editor:select') return
       const next = event.data.selection as EditorSelection
+      if (next.page === '/works') setBatchGalleryId(next.galleryId ?? null)
       const saved = savedOverride(state, next)
+      const insertion = next.insertionId ? state.insertions.find((item) => item.id === next.insertionId) : undefined
       setSelection(next)
       setForm({
         selector: next.selector,
@@ -201,6 +257,12 @@ export function EditorPage() {
         hidden: saved?.hidden ?? false,
         styles: { ...(saved?.styles ?? {}) },
         parentStyles: { ...(saved?.parentStyles ?? {}) },
+        title: insertion?.title ?? saved?.title ?? '',
+        summary: insertion?.summary ?? saved?.summary ?? '',
+        prompt: insertion?.prompt ?? saved?.prompt ?? '',
+        tags: insertion?.tags ?? saved?.tags ?? [],
+        categoryLabel: insertion?.categoryLabel ?? saved?.categoryLabel ?? '',
+        meta: insertion?.meta ?? saved?.meta ?? '',
       })
       setNotice(next.kind === 'text' ? '已选中文字' : next.kind === 'element' ? '已选中模块' : `已选中${next.kind === 'image' ? '图片' : next.kind === 'video' ? '视频' : 'BGM'}`)
     }
@@ -218,6 +280,17 @@ export function EditorPage() {
     if (selection) {
       const draft = cloneState(state)
       draft.overrides[editorOverrideKey(selection.page, selection.selector)] = nextForm
+      if (selection.insertionId && nextForm.kind === 'image') {
+        const insertion = draft.insertions.find((item) => item.id === selection.insertionId)
+        if (insertion) {
+          insertion.title = nextForm.title
+          insertion.summary = nextForm.summary
+          insertion.prompt = nextForm.prompt
+          insertion.tags = nextForm.tags
+          insertion.categoryLabel = nextForm.categoryLabel
+          insertion.meta = nextForm.meta
+        }
+      }
       document.querySelector<HTMLIFrameElement>('.editor-preview-frame')?.contentWindow?.postMessage({ type: 'editor:state', state: draft }, '*')
     }
     return nextForm
@@ -241,16 +314,22 @@ export function EditorPage() {
 
   const saveSelection = () => {
     if (!selection || !form) return
-    const next = cloneState(state)
-    next.overrides[editorOverrideKey(selection.page, selection.selector)] = { ...form, styles: Object.fromEntries(Object.entries(form.styles ?? {}).filter(([, value]) => value.trim())) }
-    if (selection.insertionId && form.kind === 'image') {
-      const insertion = next.insertions.find((item) => item.id === selection.insertionId)
-      if (insertion) {
-        insertion.src = form.src || '/placeholders/black.svg'
-        insertion.alt = form.alt || insertion.alt
-        insertion.styles = { ...(insertion.styles ?? {}), ...(form.parentStyles ?? {}) }
+      const next = cloneState(state)
+      next.overrides[editorOverrideKey(selection.page, selection.selector)] = { ...form, styles: Object.fromEntries(Object.entries(form.styles ?? {}).filter(([, value]) => value.trim())) }
+      if (selection.insertionId && form.kind === 'image') {
+        const insertion = next.insertions.find((item) => item.id === selection.insertionId)
+        if (insertion) {
+          insertion.src = form.src || '/placeholders/black.svg'
+          insertion.alt = form.alt || insertion.alt
+          insertion.styles = { ...(insertion.styles ?? {}), ...(form.parentStyles ?? {}) }
+          insertion.title = form.title?.trim() || insertion.title || insertion.alt || 'New work'
+          insertion.summary = form.summary?.trim() || insertion.summary || 'This imported card has an editable prompt.'
+          insertion.prompt = form.prompt?.trim() || insertion.prompt || 'Please edit this image prompt in the visual editor.'
+          insertion.tags = form.tags?.length ? form.tags : insertion.tags
+          insertion.categoryLabel = form.categoryLabel?.trim() || insertion.categoryLabel
+          insertion.meta = form.meta?.trim() || insertion.meta
+        }
       }
-    }
     void saveState(next, '修改已保存到网站')
   }
 
@@ -277,6 +356,17 @@ export function EditorPage() {
     await saveState(next, '新增窗口已删除')
   }
 
+  const deleteOriginalCard = async () => {
+    if (!selection?.cardId || selection.insertionId) return
+    const next = cloneState(state)
+    const pageCards = new Set(next.removedCards?.[selection.page] ?? [])
+    pageCards.add(selection.cardId)
+    next.removedCards = { ...(next.removedCards ?? {}), [selection.page]: [...pageCards] }
+    setSelection(null)
+    setForm(null)
+    await saveState(next, '原始卡片已删除并保存，刷新后也不会恢复')
+  }
+
   const addGalleryWindow = async (galleryId?: string) => {
     const now = Date.now()
     if (addGalleryBusyRef.current || now - addGalleryLastClickRef.current < 700) return
@@ -296,6 +386,7 @@ export function EditorPage() {
         return
       }
       const id = `gallery-window-${Date.now()}`
+      const categoryLabel = workGalleryOptions.find((option) => option.id === galleryId)?.label ?? 'Scene pack'
       const next = cloneState(state)
       next.insertions = [...next.insertions, {
         id,
@@ -305,7 +396,13 @@ export function EditorPage() {
         kind: 'image',
         src: '/placeholders/black.svg',
         alt: '例图窗口',
-         styles: { width: '100%', 'aspect-ratio': '16 / 9', 'object-fit': 'cover', display: 'block', 'border-radius': '12px' },
+        title: 'New work',
+        summary: 'This imported card has an editable prompt.',
+        prompt: 'Please edit this image prompt in the visual editor.',
+        tags: [categoryLabel, 'To edit'],
+        categoryLabel,
+        meta: `${categoryLabel} / Editable prompt`,
+        styles: { width: '100%', 'aspect-ratio': '16 / 9', 'object-fit': 'contain', display: 'block', 'border-radius': '12px' },
       }]
       await saveState(next, '已新增一个图片窗口，请点击它上传图片')
       setPage('/works')
@@ -315,6 +412,125 @@ export function EditorPage() {
       setForm(null)
     } finally {
       addGalleryBusyRef.current = false
+    }
+  }
+
+  const selectBatchGallery = (galleryId: string) => {
+    if (batchBusy) return
+    setBatchGalleryId(galleryId)
+    const safeGalleryId = galleryId.replace(/[^a-zA-Z0-9_-]/g, '')
+    document.querySelector<HTMLIFrameElement>('.editor-preview-frame')?.contentWindow?.postMessage({ type: 'editor:highlight', selector: `[data-editor-gallery-id="${safeGalleryId}"]` }, '*')
+    const label = workGalleryOptions.find((option) => option.id === galleryId)?.label ?? galleryId
+    setFeedback(`已选择“${label}”，现在可以批量导入图片`)
+  }
+
+  const batchImportImages = async (event: ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files ?? [])
+    event.target.value = ''
+    if (!files.length) return
+    if (batchBusyRef.current) return
+    if (page !== '/works' || !batchGalleryId) {
+      const message = '批量导入失败：请先选择例图展示页中的目标大类'
+      setFeedback(message, 'error')
+      setFeedbackDialog({ tone: 'error', title: '批量导入失败', message })
+      return
+    }
+
+    const safeGalleryId = batchGalleryId.replace(/[^a-zA-Z0-9_-]/g, '')
+    const parentSelector = `[data-editor-gallery-id="${safeGalleryId}"]`
+    const frame = document.querySelector<HTMLIFrameElement>('.editor-preview-frame')
+    if (!frame?.contentDocument?.querySelector(parentSelector)) {
+      const message = '批量导入失败：目标大类还没有加载完成，请稍后重试'
+      setFeedback(message, 'error')
+      setFeedbackDialog({ tone: 'error', title: '批量导入失败', message })
+      return
+    }
+
+    batchBusyRef.current = true
+    setBatchBusy(true)
+    const sortedFiles = files.sort((left, right) => left.name.localeCompare(right.name, undefined, { numeric: true, sensitivity: 'base' }))
+    const batchId = Date.now()
+    const categoryLabel = workGalleryOptions.find((option) => option.id === batchGalleryId)?.label ?? 'Scene pack'
+    const uploaded: EditorInsertion[] = []
+    const failed: string[] = []
+    let originalBytes = 0
+    let optimizedBytes = 0
+
+    try {
+      for (const [index, file] of sortedFiles.entries()) {
+        setBatchProgress(`正在处理 ${index + 1}/${sortedFiles.length}：${file.name}`)
+        setFeedback(`正在压缩并上传 ${index + 1}/${sortedFiles.length}：${file.name}`, 'pending')
+        try {
+          const data = await readFileAsDataUrl(file)
+          const result = await api<{ src: string; originalBytes?: number; optimizedBytes?: number; width?: number; height?: number }>('/api/editor/upload', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name: `batch-${batchId}-${index + 1}-${file.name}`, data }),
+          })
+          const aspectRatio = imageAspectRatio(result.width, result.height)
+          uploaded.push({
+            id: `gallery-batch-${batchId}-${index + 1}`,
+            page: '/works',
+            parentSelector,
+            insertPosition: 'end',
+            kind: 'image',
+            src: result.src,
+            alt: file.name.replace(/\.[^.]+$/, ''),
+            title: file.name.replace(/\.[^.]+$/, ''),
+            summary: 'This imported card has an editable prompt.',
+            prompt: 'Please edit this image prompt in the visual editor.',
+            tags: [categoryLabel, 'To edit'],
+            categoryLabel,
+            meta: `${categoryLabel} / Editable prompt`,
+            styles: { width: '100%', 'aspect-ratio': aspectRatio, 'object-fit': 'contain', display: 'block', 'border-radius': '12px' },
+          })
+          originalBytes += result.originalBytes ?? file.size
+          optimizedBytes += result.optimizedBytes ?? 0
+        } catch (error) {
+          failed.push(`${file.name}：${error instanceof Error ? error.message : '上传失败'}`)
+        }
+      }
+
+      if (!uploaded.length) {
+        const message = `批量导入失败：${failed.join('；') || '没有图片成功上传'}`
+        setFeedback(message, 'error')
+        setFeedbackDialog({ tone: 'error', title: '批量导入失败', message })
+        return
+      }
+
+      const next = cloneState(state)
+      next.insertions = [...next.insertions, ...uploaded]
+      const saved = await saveState(next, `已保存 ${uploaded.length} 张图片，正在确认页面排版`)
+      if (!saved) {
+        const message = '图片已经完成上传，但网站状态保存失败，请不要关闭后台并重试保存'
+        setBatchProgress(message)
+        setFeedbackDialog({ tone: 'error', title: '批量导入未完成', message })
+        return
+      }
+
+      const loaded = await waitForBatchPreview(frame, uploaded)
+      const summary = `成功新增 ${uploaded.length} 张小卡，图片已完整加载到对应分类`
+      const detail = failed.length ? `失败文件：${failed.join('；')}` : undefined
+      if (!loaded) {
+        const message = `${summary}，但预览暂未确认全部加载，请刷新预览检查。`
+        setBatchProgress(message)
+        setFeedback(message, 'error')
+        setFeedbackDialog({ tone: 'error', title: '批量导入部分完成', message, detail })
+        return
+      }
+      if (failed.length) {
+        const message = `${summary}；另有 ${failed.length} 张图片失败`
+        setBatchProgress(message)
+        setFeedback(message, 'error')
+        setFeedbackDialog({ tone: 'error', title: '批量导入部分完成', message, detail })
+        return
+      }
+      setBatchProgress(summary)
+      setFeedback(summary, 'success')
+      setFeedbackDialog({ tone: 'success', title: '批量导入成功', message: `${summary}，页面中已经真实出现新小卡。` })
+    } finally {
+      batchBusyRef.current = false
+      setBatchBusy(false)
     }
   }
 
@@ -329,9 +545,13 @@ export function EditorPage() {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ name: file.name, data: reader.result }),
         })
-        updateForm({ src: result.src })
-        const reduction = result.originalBytes && result.optimizedBytes ? Math.max(0, Math.round((1 - result.optimizedBytes / result.originalBytes) * 100)) : 0
-        setFeedback(form.kind === 'image' ? `图片已转为 WebP（${result.width}×${result.height}，体积减少约 ${reduction}%），请保存` : '文件已导入，请点击“保存当前修改”')
+        updateForm({
+          src: result.src,
+          parentStyles: form.kind === 'image'
+            ? { ...(form.parentStyles ?? {}), 'aspect-ratio': imageAspectRatio(result.width, result.height) }
+            : form.parentStyles,
+        })
+        setFeedback(form.kind === 'image' ? `图片已高质量处理（${result.width}×${result.height}），请保存` : '文件已导入，请点击“保存当前修改”')
       } catch (error) { setFeedback(error instanceof Error ? error.message : '文件导入失败', 'error') }
     }
     reader.onerror = () => setFeedback(`文件读取失败：${file.name}`, 'error')
@@ -499,7 +719,7 @@ export function EditorPage() {
       <div className="visual-editor-body">
         <aside className="visual-editor-sidebar">
           <div className="editor-sidebar-title"><strong>页面</strong><small>点击切换</small></div>
-          <div className="editor-page-list">{pages.map((item) => <button type="button" className={page === item.path ? 'is-active' : ''} onClick={() => { setPage(item.path); hashRef.current = ''; setHash(''); setSelection(null); setForm(null) }} key={item.path}>{item.label}<small>{item.path}</small></button>)}<button type="button" className={page === '/' && hash === '#contact' ? 'is-active' : ''} onClick={() => { setPage('/'); hashRef.current = '#contact'; setHash('#contact'); setSelection(null); setForm(null) }}>联系方式<small>/#contact</small></button></div>
+          <div className="editor-page-list">{pages.map((item) => <button type="button" className={page === item.path ? 'is-active' : ''} onClick={() => { setPage(item.path); hashRef.current = ''; setHash(''); setSelection(null); setForm(null); setBatchGalleryId(null) }} key={item.path}>{item.label}<small>{item.path}</small></button>)}<button type="button" className={page === '/' && hash === '#contact' ? 'is-active' : ''} onClick={() => { setPage('/'); hashRef.current = '#contact'; setHash('#contact'); setSelection(null); setForm(null); setBatchGalleryId(null) }}>联系方式<small>/#contact</small></button></div>
           <div className="editor-help-box"><strong>使用方法</strong><span>1. 点击中间网页内容</span><span>2. 在右侧修改</span><span>3. 保存当前修改</span><span>4. 检查网站并发布</span></div>
           <div className="editor-quick-assets">
             <div className={`editor-media-status is-${mediaNoticeTone}`} role="status" aria-live="polite"><strong>当前操作</strong><span>{mediaNotice}</span></div>
@@ -514,6 +734,32 @@ export function EditorPage() {
             </div>
             <p className="editor-media-note">浏览器可能阻止未经过用户操作的自动播放；音频仍会真实上传、保存并加载，点击预览页面后即可播放。</p>
           </div>
+          {page === '/works' ? (
+            <div className="editor-batch-import-box">
+              <strong>批量导入图片</strong>
+              <small>选择目标大类后批量导入，系统会自动排版</small>
+              <p>上传后的图片会完整显示在对应卡片中。</p>
+              <div className="editor-batch-gallery-list">
+                {workGalleryOptions.map((option) => (
+                  <button
+                    type="button"
+                    className={batchGalleryId === option.id ? 'is-active' : ''}
+                    disabled={batchBusy || busy}
+                    onClick={() => selectBatchGallery(option.id)}
+                    key={option.id}
+                  >
+                    {option.label}
+                  </button>
+                ))}
+              </div>
+              <label className="editor-batch-upload">
+                <ImagePlus size={16} />
+                {batchGalleryId ? '选择多张图片并导入' : '请先选择目标大类'}
+                <input type="file" accept="image/*" multiple disabled={!batchGalleryId || batchBusy || busy} onChange={batchImportImages} />
+              </label>
+              {batchProgress ? <span className="editor-batch-progress" role="status" aria-live="polite">{batchProgress}</span> : null}
+            </div>
+          ) : null}
           {log ? <pre className="editor-log">{log}</pre> : null}
         </aside>
 
@@ -536,6 +782,15 @@ export function EditorPage() {
                 <label className="editor-field"><span>{selectedContactValueSelector && !selectedContactLabel ? '卡片下方内容' : '文字内容'}</span><textarea rows={6} value={form.value ?? ''} placeholder={selectedContactValueSelector && !selectedContactLabel ? '在这里添加 QQ、VX、QQ群或其他联系内容' : undefined} onChange={(e) => updateForm({ value: e.target.value })} /></label>
                 {selectedContactLabel ? <button className="editor-related-content-button" type="button" onClick={selectContactValue}>编辑卡片下方内容</button> : null}
               </> : null}
+              {selection.insertionId && form.kind === 'image' ? <>
+                <div className="editor-style-heading"><strong>提示词卡片信息</strong><small>上传后仍可修改</small></div>
+                <label className="editor-field"><span>卡片标题</span><input value={form.title ?? ''} onChange={(e) => updateForm({ title: e.target.value })} /></label>
+                <label className="editor-field"><span>提示词分类</span><input value={form.categoryLabel ?? ''} onChange={(e) => updateForm({ categoryLabel: e.target.value })} /></label>
+                <label className="editor-field"><span>标签（用逗号分隔）</span><input value={(form.tags ?? []).join(', ')} onChange={(e) => updateForm({ tags: e.target.value.split(',').map((tag) => tag.trim()).filter(Boolean) })} /></label>
+                <label className="editor-field"><span>提示词摘要</span><textarea rows={3} value={form.summary ?? ''} onChange={(e) => updateForm({ summary: e.target.value })} /></label>
+                <label className="editor-field"><span>完整提示词</span><textarea rows={10} value={form.prompt ?? ''} onChange={(e) => updateForm({ prompt: e.target.value })} /></label>
+                <label className="editor-field"><span>弹窗底部说明</span><input value={form.meta ?? ''} onChange={(e) => updateForm({ meta: e.target.value })} /></label>
+              </> : null}
               {['image','video','audio'].includes(form.kind) ? <>
                 <label className="editor-field"><span>当前文件地址</span><input value={form.src ?? ''} onChange={(e) => updateForm({ src: e.target.value })} /></label>
                 <label className="editor-upload">{form.kind === 'image' ? <ImagePlus size={17} /> : form.kind === 'video' ? <Video size={17} /> : <Music size={17} />}选择新的{form.kind === 'image' ? '图片' : form.kind === 'video' ? '视频' : '音乐'}<input type="file" accept={form.kind === 'image' ? 'image/*' : form.kind === 'video' ? 'video/*' : 'audio/*'} onChange={uploadMedia} /></label>
@@ -546,6 +801,7 @@ export function EditorPage() {
               <div className="editor-style-grid">{styleFields.map(([name,label]) => <label className="editor-field" key={name}><span>{label}</span><input value={form.styles?.[name] ?? ''} placeholder={name === 'font-size' ? '例如 32px' : ''} onChange={(e) => updateForm({ styles: { ...(form.styles ?? {}), [name]: e.target.value } })} /></label>)}</div>
               <button className="editor-save-button" type="button" disabled={busy} onClick={saveSelection}><Save size={16} />保存当前修改</button>
               {selection.insertionId ? <button className="editor-restore-button" type="button" disabled={busy} onClick={() => void deleteInsertion()}><Upload size={15} />删除这个新增窗口</button> : null}
+              {selection.cardId && !selection.insertionId ? <button className="editor-delete-card-button" type="button" disabled={busy} onClick={() => void deleteOriginalCard()}><Trash2 size={15} />删除这个原始卡片</button> : null}
               <button className="editor-restore-button" type="button" disabled={busy} onClick={() => void restoreSelection()}><Upload size={15} />恢复原始内容</button>
             </div>
           )}

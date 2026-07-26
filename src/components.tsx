@@ -116,7 +116,7 @@ export function FloatingNav() {
       <nav className="floating-nav" aria-label="主导航">
         <Link className="nav-brand" to="/" aria-label="返回首页" onClick={() => setOpen(false)}>
           <span className="nav-brand-mark">
-            <img className="nav-brand-avatar" src="/images/avatar/profile-avatar.jpg" alt="" />
+            <img className="nav-brand-avatar" src="/placeholders/black.svg" alt="" />
           </span>
           <span>{siteConfig.brand.title}</span>
         </Link>
@@ -252,7 +252,7 @@ export function WorkCard({
         aria-label={'查看大图：' + work.title}
         onClick={() => onOpenWork(work)}
       />
-      <img src={work.image} alt={duplicate ? '' : work.alt} loading="lazy" decoding="async" width={1400} height={600} />
+      <img src={work.image} data-editor-image-key={'work-card-' + work.id} alt={duplicate ? '' : work.alt} loading="lazy" decoding="async" width={1400} height={600} />
       <div className="work-card-ambient" aria-hidden="true" />
       <div className="work-card-topline">
         <span>{String(work.index).padStart(2, '0')}</span>
@@ -530,14 +530,17 @@ export function HeroWorksLoop({
           type="button"
           key={work.id + (duplicate ? '-hero-copy' : '-hero')}
           tabIndex={duplicate ? -1 : undefined}
-          onClick={() => onOpenWork(work)}
+          onClick={(event) => {
+            const currentSrc = event.currentTarget.querySelector('img')?.getAttribute('src') || work.image
+            onOpenWork({ ...work, image: currentSrc })
+          }}
           onPointerMove={trackPointerGlow}
           whileHover={{ y: index % 2 ? -12 : -8, rotate: index % 2 ? -0.8 : 0.8, scale: 1.035 }}
           whileTap={{ scale: 0.965 }}
           transition={elasticSpring}
           aria-label={'查看大图：' + work.title}
         >
-          <img src={work.image} alt={duplicate ? '' : work.alt} width={620} height={260} />
+          <img src={work.image} data-editor-image-key={'home-work-' + work.id} alt={duplicate ? '' : work.alt} width={620} height={260} />
           <span>{String(index + 1).padStart(2, '0')}</span>
           <small>{work.title}</small>
         </motion.button>

@@ -1,4 +1,4 @@
-export type EditorElementKind = 'text' | 'image' | 'element'
+export type EditorElementKind = 'text' | 'image' | 'video' | 'audio' | 'element'
 
 export type EditorStyles = Record<string, string>
 
@@ -11,12 +11,14 @@ export type EditorOverride = {
   alt?: string
   hidden?: boolean
   styles?: EditorStyles
+  parentStyles?: EditorStyles
 }
 
 export type EditorInsertion = {
   id: string
   page: string
   parentSelector: string
+  insertPosition?: 'start' | 'end'
   kind: 'text' | 'image'
   value?: string
   src?: string
@@ -39,6 +41,8 @@ export type EditorState = {
 export type EditorSelection = {
   selector: string
   parentSelector: string
+  containerSelector?: string
+  galleryId?: string
   page: string
   kind: EditorElementKind
   text: string
@@ -48,10 +52,18 @@ export type EditorSelection = {
   insertionId?: string
 }
 
+export function editorOverrideKey(page: string, selector: string) {
+  return `${page}::${selector}`
+}
+
+export function editorOverrideAppliesToPage(override: EditorOverride, page: string) {
+  if (!override.page || override.page === page) return true
+  return page === '/#contact' && override.page === '/' && override.selector.includes('data-editor-text-key="contact-')
+}
+
 export const defaultEditorState: EditorState = {
   version: 1,
   overrides: {},
   insertions: [],
   pages: [],
 }
-

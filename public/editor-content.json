@@ -1,437 +1,196 @@
 {
   "version": 1,
   "overrides": {
-    "#root > div.route-transition:nth-of-type(2) > div.inner-page.workflow-page:nth-of-type(1) > main.inner-page-shell:nth-of-type(1) > header.inner-page-header.workflow-page-header:nth-of-type(1) > h1:nth-of-type(1)": {
-      "selector": "#root > div.route-transition:nth-of-type(2) > div.inner-page.workflow-page:nth-of-type(1) > main.inner-page-shell:nth-of-type(1) > header.inner-page-header.workflow-page-header:nth-of-type(1) > h1:nth-of-type(1)",
-      "page": "/workflow",
+    "#root > header.floating-nav-wrap:nth-of-type(1) > nav.floating-nav:nth-of-type(1) > a.nav-brand:nth-of-type(1) > span:nth-of-type(2)": {
+      "selector": "#root > header.floating-nav-wrap:nth-of-type(1) > nav.floating-nav:nth-of-type(1) > a.nav-brand:nth-of-type(1) > span:nth-of-type(2)",
+      "page": "/",
       "kind": "text",
-      "value": "外星人来了都能学会的合成分享，三分钟直接闭眼合成",
+      "value": "??????CN??????",
       "src": "",
       "alt": "",
       "hidden": false,
-      "styles": {}
+      "styles": {},
+      "parentStyles": {}
     },
-    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(1) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(6) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
-      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(1) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(6) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
-      "page": "/works",
+    "#root > div.route-transition:nth-of-type(2) > div.clean-scene-home.gallery-site:nth-of-type(1) > section.clean-contact-scene:nth-of-type(1) > div.clean-contact-copy:nth-of-type(1) > h1:nth-of-type(1)": {
+      "selector": "#root > div.route-transition:nth-of-type(2) > div.clean-scene-home.gallery-site:nth-of-type(1) > section.clean-contact-scene:nth-of-type(1) > div.clean-contact-copy:nth-of-type(1) > h1:nth-of-type(1)",
+      "page": "/",
       "kind": "text",
-      "value": "死神",
+      "value": "???????",
       "src": "",
       "alt": "",
       "hidden": false,
-      "styles": {}
+      "styles": {},
+      "parentStyles": {}
     },
-    "#root > div.route-transition:nth-of-type(2) > div.inner-page.portfolio-page:nth-of-type(1) > div.modal-backdrop.work-lightbox-backdrop:nth-of-type(2) > section.work-lightbox:nth-of-type(1) > div.lightbox-footer:nth-of-type(2) > div:nth-of-type(1) > h2:nth-of-type(1)": {
-      "selector": "#root > div.route-transition:nth-of-type(2) > div.inner-page.portfolio-page:nth-of-type(1) > div.modal-backdrop.work-lightbox-backdrop:nth-of-type(2) > section.work-lightbox:nth-of-type(1) > div.lightbox-footer:nth-of-type(2) > div:nth-of-type(1) > h2:nth-of-type(1)",
-      "page": "/works",
+    "#root > div.route-transition:nth-of-type(2) > div.clean-scene-home.gallery-site:nth-of-type(1) > section.clean-contact-scene:nth-of-type(1) > div.clean-contact-copy:nth-of-type(1) > p:nth-of-type(1)": {
+      "selector": "#root > div.route-transition:nth-of-type(2) > div.clean-scene-home.gallery-site:nth-of-type(1) > section.clean-contact-scene:nth-of-type(1) > div.clean-contact-copy:nth-of-type(1) > p:nth-of-type(1)",
+      "page": "/",
       "kind": "text",
-      "value": "卡芙卡",
+      "value": "???????",
       "src": "",
       "alt": "",
       "hidden": false,
-      "styles": {}
+      "styles": {},
+      "parentStyles": {}
     },
-    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(1) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(10) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
-      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(1) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(10) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
-      "page": "/works",
+    "#root > header.floating-nav-wrap:nth-of-type(1) > nav.floating-nav:nth-of-type(1) > a.nav-brand:nth-of-type(1)": {
+      "selector": "#root > header.floating-nav-wrap:nth-of-type(1) > nav.floating-nav:nth-of-type(1) > a.nav-brand:nth-of-type(1)",
+      "page": "/",
       "kind": "text",
-      "value": "卡芙卡",
+      "value": "??????cn??????",
       "src": "",
       "alt": "",
       "hidden": false,
-      "styles": {}
+      "styles": {},
+      "parentStyles": {}
     },
-    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(1) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(8) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
-      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(1) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(8) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
+    "#root > div.route-transition:nth-of-type(2) > div.inner-page.portfolio-page:nth-of-type(1) > main.inner-page-shell:nth-of-type(1) > section.archive-section.pure-gallery-section:nth-of-type(1) > div.pure-gallery-grid:nth-of-type(2)": {
+      "selector": "#root > div.route-transition:nth-of-type(2) > div.inner-page.portfolio-page:nth-of-type(1) > main.inner-page-shell:nth-of-type(1) > section.archive-section.pure-gallery-section:nth-of-type(1) > div.pure-gallery-grid:nth-of-type(2)",
       "page": "/works",
-      "kind": "text",
-      "value": "卡芙卡",
-      "src": "",
-      "alt": "",
-      "hidden": false,
-      "styles": {}
-    },
-    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(1) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(9) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
-      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(1) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(9) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
-      "page": "/works",
-      "kind": "text",
-      "value": "怪物猎人\n",
-      "src": "",
-      "alt": "",
-      "hidden": false,
-      "styles": {}
-    },
-    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(1) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(7) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
-      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(1) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(7) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
-      "page": "/works",
-      "kind": "text",
-      "value": "saber白枪 ",
-      "src": "",
-      "alt": "",
-      "hidden": false,
-      "styles": {}
-    },
-    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(1) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(5) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
-      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(1) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(5) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
-      "page": "/works",
-      "kind": "text",
-      "value": "鸣潮-日 ",
-      "src": "",
-      "alt": "",
-      "hidden": false,
-      "styles": {}
-    },
-    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(1) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(3) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
-      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(1) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(3) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
-      "page": "/works",
-      "kind": "text",
-      "value": "玛奇玛 ",
-      "src": "",
-      "alt": "",
-      "hidden": false,
-      "styles": {}
-    },
-    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(1) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(4) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
-      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(1) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(4) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
-      "page": "/works",
-      "kind": "text",
-      "value": "明日方舟黍 ",
-      "src": "",
-      "alt": "",
-      "hidden": false,
-      "styles": {}
-    },
-    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(1) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(2) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
-      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(1) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(2) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
-      "page": "/works",
-      "kind": "text",
-      "value": "鸣潮-月 ",
-      "src": "",
-      "alt": "",
-      "hidden": false,
-      "styles": {}
-    },
-    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(1) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(1) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
-      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(1) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(1) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
-      "page": "/works",
-      "kind": "text",
-      "value": "第五人格白夫人 ",
-      "src": "",
-      "alt": "",
-      "hidden": false,
-      "styles": {}
-    },
-    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(2) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(1) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
-      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(2) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(1) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
-      "page": "/works",
-      "kind": "text",
+      "kind": "element",
       "value": "",
       "src": "",
       "alt": "",
       "hidden": false,
-      "styles": {}
+      "styles": {},
+      "parentStyles": {}
     },
-    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(2) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(2) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
-      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(2) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(2) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
-      "page": "/works",
+    "[data-editor-text-key=\"contact-card-0-value\"]": {
+      "selector": "[data-editor-text-key=\"contact-card-0-value\"]",
+      "page": "/",
       "kind": "text",
-      "value": "",
+      "value": "1140761073",
       "src": "",
       "alt": "",
       "hidden": false,
+      "styles": {},
+      "parentStyles": {}
+    },
+    "__page_background_video__": {
+      "selector": "__page_background_video__",
+      "page": "/works",
+      "kind": "video",
+      "src": "/videos/editor/QQ20260723-231903-HD.mp4",
       "styles": {}
     },
-    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(2) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(4) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
-      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(2) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(4) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
+    "__page_background_image__": {
+      "selector": "__page_background_image__",
       "page": "/works",
-      "kind": "text",
-      "value": "",
-      "src": "",
-      "alt": "",
+      "kind": "image",
+      "src": "/images/editor/-------.webp",
+      "styles": {}
+    },
+    "/works::__page_background_image__": {
+      "selector": "__page_background_image__",
+      "page": "/works",
+      "kind": "image",
+      "src": "/images/editor/123123.webp",
       "hidden": false,
       "styles": {}
     },
-    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(2) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(3) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
-      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(2) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(3) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
+    "/works::__page_background_video__": {
+      "selector": "__page_background_video__",
       "page": "/works",
-      "kind": "text",
-      "value": "",
+      "kind": "video",
       "src": "",
-      "alt": "",
-      "hidden": false,
+      "hidden": true,
       "styles": {}
     },
-    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(2) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(6) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
-      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(2) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(6) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
+    "/works::__page_audio__": {
+      "selector": "__page_audio__",
       "page": "/works",
-      "kind": "text",
-      "value": "",
+      "kind": "audio",
       "src": "",
-      "alt": "",
-      "hidden": false,
+      "hidden": true,
       "styles": {}
     },
-    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(2) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(5) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
-      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(2) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(5) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
-      "page": "/works",
+    "/#contact::[data-editor-text-key=\"contact-card-1-label\"]": {
+      "selector": "[data-editor-text-key=\"contact-card-1-label\"]",
+      "page": "/#contact",
       "kind": "text",
-      "value": "",
+      "value": "VX或者QQ群",
       "src": "",
       "alt": "",
       "hidden": false,
-      "styles": {}
+      "styles": {},
+      "parentStyles": {}
     },
-    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(2) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(8) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
-      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(2) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(8) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
-      "page": "/works",
-      "kind": "text",
+    "/::[data-editor-image-key=\"home-work-composite-01\"]": {
+      "selector": "[data-editor-image-key=\"home-work-composite-01\"]",
+      "page": "/",
+      "kind": "image",
       "value": "",
       "src": "",
-      "alt": "",
+      "alt": "大合成占位作品 01",
       "hidden": false,
-      "styles": {}
+      "styles": {},
+      "parentStyles": {}
     },
-    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(2) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(7) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
-      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(2) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(7) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
-      "page": "/works",
+    "/#contact::[data-editor-text-key=\"contact-card-1-value\"]": {
+      "selector": "[data-editor-text-key=\"contact-card-1-value\"]",
+      "page": "/#contact",
       "kind": "text",
-      "value": "",
+      "value": "1140761073\n",
       "src": "",
       "alt": "",
       "hidden": false,
-      "styles": {}
+      "styles": {},
+      "parentStyles": {}
     },
-    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(2) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(10) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
-      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(2) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(10) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
-      "page": "/works",
+    "/#contact::#root > div.route-transition > div.clean-scene-home.gallery-site > section.clean-contact-scene > div.clean-contact-copy > h1": {
+      "selector": "#root > div.route-transition > div.clean-scene-home.gallery-site > section.clean-contact-scene > div.clean-contact-copy > h1",
+      "page": "/#contact",
       "kind": "text",
-      "value": "",
+      "value": "XXXXXX联系我",
       "src": "",
       "alt": "",
       "hidden": false,
-      "styles": {}
+      "styles": {},
+      "parentStyles": {}
     },
-    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(2) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(9) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
-      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(2) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(9) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
-      "page": "/works",
-      "kind": "text",
-      "value": "",
+    "/::__page_background_image__": {
+      "selector": "__page_background_image__",
+      "page": "/",
+      "kind": "image",
       "src": "",
-      "alt": "",
-      "hidden": false,
-      "styles": {}
-    },
-    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(2) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(11) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
-      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(2) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(11) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
-      "page": "/works",
-      "kind": "text",
-      "value": "",
-      "src": "",
-      "alt": "",
-      "hidden": false,
-      "styles": {}
-    },
-    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(3) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(1) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
-      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(3) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(1) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
-      "page": "/works",
-      "kind": "text",
-      "value": "",
-      "src": "",
-      "alt": "",
-      "hidden": false,
-      "styles": {}
-    },
-    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(3) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(2) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
-      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(3) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(2) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
-      "page": "/works",
-      "kind": "text",
-      "value": "",
-      "src": "",
-      "alt": "",
-      "hidden": false,
-      "styles": {}
-    },
-    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(3) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(3) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
-      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(3) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(3) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
-      "page": "/works",
-      "kind": "text",
-      "value": "",
-      "src": "",
-      "alt": "",
-      "hidden": false,
-      "styles": {}
-    },
-    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(3) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(4) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
-      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(3) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(4) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
-      "page": "/works",
-      "kind": "text",
-      "value": "",
-      "src": "",
-      "alt": "",
-      "hidden": false,
-      "styles": {}
-    },
-    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(3) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(6) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
-      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(3) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(6) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
-      "page": "/works",
-      "kind": "text",
-      "value": "",
-      "src": "",
-      "alt": "",
-      "hidden": false,
-      "styles": {}
-    },
-    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(3) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(5) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
-      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(3) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(5) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
-      "page": "/works",
-      "kind": "text",
-      "value": "",
-      "src": "",
-      "alt": "",
-      "hidden": false,
-      "styles": {}
-    },
-    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(3) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(7) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
-      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(3) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(7) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
-      "page": "/works",
-      "kind": "text",
-      "value": "",
-      "src": "",
-      "alt": "",
-      "hidden": false,
-      "styles": {}
-    },
-    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(3) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(8) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
-      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(3) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(8) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
-      "page": "/works",
-      "kind": "text",
-      "value": "",
-      "src": "",
-      "alt": "",
-      "hidden": false,
-      "styles": {}
-    },
-    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(3) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(10) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
-      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(3) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(10) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
-      "page": "/works",
-      "kind": "text",
-      "value": "",
-      "src": "",
-      "alt": "",
-      "hidden": false,
-      "styles": {}
-    },
-    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(3) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(9) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
-      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(3) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(9) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
-      "page": "/works",
-      "kind": "text",
-      "value": "",
-      "src": "",
-      "alt": "",
-      "hidden": false,
-      "styles": {}
-    },
-    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(3) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(11) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
-      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(3) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(11) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
-      "page": "/works",
-      "kind": "text",
-      "value": "",
-      "src": "",
-      "alt": "",
-      "hidden": false,
-      "styles": {}
-    },
-    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(3) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(12) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
-      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(3) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(12) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
-      "page": "/works",
-      "kind": "text",
-      "value": "",
-      "src": "",
-      "alt": "",
-      "hidden": false,
-      "styles": {}
-    },
-    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(3) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(14) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
-      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(3) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(14) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
-      "page": "/works",
-      "kind": "text",
-      "value": "",
-      "src": "",
-      "alt": "",
-      "hidden": false,
-      "styles": {}
-    },
-    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(3) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(13) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
-      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(3) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(13) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
-      "page": "/works",
-      "kind": "text",
-      "value": "",
-      "src": "",
-      "alt": "",
-      "hidden": false,
-      "styles": {}
-    },
-    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(3) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(16) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
-      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(3) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(16) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
-      "page": "/works",
-      "kind": "text",
-      "value": "",
-      "src": "",
-      "alt": "",
-      "hidden": false,
-      "styles": {}
-    },
-    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(3) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(15) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
-      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(3) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(15) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
-      "page": "/works",
-      "kind": "text",
-      "value": "",
-      "src": "",
-      "alt": "",
-      "hidden": false,
-      "styles": {}
-    },
-    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(3) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(18) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
-      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(3) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(18) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
-      "page": "/works",
-      "kind": "text",
-      "value": "",
-      "src": "",
-      "alt": "",
-      "hidden": false,
-      "styles": {}
-    },
-    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(3) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(20) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
-      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(3) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(20) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
-      "page": "/works",
-      "kind": "text",
-      "value": "",
-      "src": "",
-      "alt": "",
-      "hidden": false,
-      "styles": {}
-    },
-    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(3) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(19) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
-      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(3) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(19) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
-      "page": "/works",
-      "kind": "text",
-      "value": "",
-      "src": "",
-      "alt": "",
-      "hidden": false,
-      "styles": {}
-    },
-    "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(3) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(17) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)": {
-      "selector": "main.inner-page-shell:nth-of-type(1) > section.archive-section:nth-of-type(3) > div.portfolio-grid.is-wide:nth-of-type(2) > div:nth-of-type(17) > article.work-card.glow-surface:nth-of-type(1) > div.work-card-content:nth-of-type(3) > div:nth-of-type(1) > h3:nth-of-type(1)",
-      "page": "/works",
-      "kind": "text",
-      "value": "",
-      "src": "",
-      "alt": "",
-      "hidden": false,
+      "hidden": true,
       "styles": {}
     }
   },
-  "insertions": [],
+  "insertions": [
+    {
+      "id": "gallery-window-1785039475500",
+      "page": "/works",
+      "parentSelector": "[data-editor-gallery-id=\"semi\"]",
+      "insertPosition": "end",
+      "kind": "image",
+      "src": "/placeholders/black.svg",
+      "alt": "例图窗口",
+      "styles": {
+        "width": "100%",
+        "aspect-ratio": "16 / 9",
+        "object-fit": "cover",
+        "display": "block",
+        "border-radius": "12px"
+      }
+    },
+    {
+      "id": "gallery-window-1785044305819",
+      "page": "/works",
+      "parentSelector": "[data-editor-gallery-id=\"retouch\"]",
+      "insertPosition": "end",
+      "kind": "image",
+      "src": "/placeholders/black.svg",
+      "alt": "例图窗口",
+      "styles": {
+        "width": "100%",
+        "aspect-ratio": "16 / 9",
+        "object-fit": "cover",
+        "display": "block",
+        "border-radius": "12px"
+      }
+    }
+  ],
   "pages": []
 }

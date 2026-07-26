@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
-import { defaultEditorState, EditorSelection, EditorState } from './types'
+import { useLocation } from 'react-router-dom'
+import { defaultEditorState, editorOverrideAppliesToPage, editorOverrideKey, EditorSelection, EditorState } from './types'
 
 const editableTags = 'h1,h2,h3,h4,h5,h6,p,span,strong,small,a,button,label,li'
 
@@ -12,8 +13,26 @@ function escapeSelector(value: string) {
 }
 
 function selectorFor(element: Element) {
+  if (element instanceof HTMLImageElement && element.dataset.editorInsertId) {
+    return `[data-editor-insert-id="${escapeSelector(element.dataset.editorInsertId)}"][data-editor-insert-image="true"]`
+  }
   if (element instanceof HTMLElement && element.dataset.editorInsertId) {
     return `[data-editor-insert-id="${escapeSelector(element.dataset.editorInsertId)}"]`
+  }
+  if (element instanceof HTMLElement && element.dataset.editorTextKey) {
+    return `[data-editor-text-key="${escapeSelector(element.dataset.editorTextKey)}"]`
+  }
+  if (element instanceof HTMLElement && element.dataset.editorImageKey) {
+    return `[data-editor-image-key="${escapeSelector(element.dataset.editorImageKey)}"]`
+  }
+  if (element instanceof HTMLElement && element.dataset.editorMediaKey) {
+    return `[data-editor-media-key="${escapeSelector(element.dataset.editorMediaKey)}"]`
+  }
+  if (element instanceof HTMLElement && element.dataset.editorGalleryId) {
+    return `[data-editor-gallery-id="${escapeSelector(element.dataset.editorGalleryId)}"]`
+  }
+  if (element instanceof HTMLElement && element.dataset.editorCardId) {
+    return `[data-editor-card-id="${escapeSelector(element.dataset.editorCardId)}"]`
   }
   const parts: string[] = []
   let current: Element | null = element
@@ -27,9 +46,7 @@ function selectorFor(element: Element) {
       .slice(0, 2)
       .map(escapeSelector)
     const classPart = classes.length ? `.${classes.join('.')}` : ''
-    const siblings = current.parentElement ? Array.from(current.parentElement.children).filter((item) => item.tagName === current!.tagName) : []
-    const index = siblings.indexOf(current) + 1
-    parts.unshift(`${current.tagName.toLowerCase()}${classPart}:nth-of-type(${Math.max(index, 1)})`)
+    parts.unshift(`${current.tagName.toLowerCase()}${classPart}`)
     current = current.parentElement
   }
   return parts.join(' > ')
@@ -37,26 +54,35 @@ function selectorFor(element: Element) {
 
 function findTarget(node: EventTarget | null): Element | null {
   if (!(node instanceof Element)) return null
-  if (node.tagName === 'IMG' || node.tagName === 'VIDEO') return node
+  if (node.tagName === 'IMG' || node.tagName === 'VIDEO' || node.tagName === 'AUDIO') return node
   const inserted = node.closest('[data-editor-insert-id]')
-  if (inserted) return inserted
+  if (inserted) return inserted.querySelector('img') ?? inserted
+  const mediaCard = node.closest('button, a')
+  const cardImage = mediaCard?.querySelector('img')
+  if (cardImage && !mediaCard?.closest('.nav-brand, .floating-nav')) return cardImage
   const editable = node.closest(editableTags)
   if (editable && editable.textContent?.trim()) return editable
   if (isTextLeaf(node)) return node
+  const contactCard = node.closest('.clean-contact-cards > div')
+  const contactValue = contactCard?.querySelector('[data-editor-text-key$="-value"]')
+  if (contactValue) return contactValue
   return node
 }
 
 function selectionFromElement(element: Element, page: string): EditorSelection {
-  const kind = element.tagName === 'IMG' ? 'image' : element.matches(editableTags) || isTextLeaf(element) ? 'text' : 'element'
+  const kind = element.tagName === 'IMG' ? 'image' : element.tagName === 'VIDEO' ? 'video' : element.tagName === 'AUDIO' ? 'audio' : element.matches(editableTags) || isTextLeaf(element) ? 'text' : 'element'
   const insertionId = element instanceof HTMLElement ? element.dataset.editorInsertId : undefined
   const parent = element.parentElement ?? document.body
+  const gallery = element.closest('.pure-gallery-grid')
   return {
     selector: selectorFor(element),
     parentSelector: selectorFor(parent),
+    containerSelector: gallery ? selectorFor(gallery) : undefined,
+    galleryId: gallery instanceof HTMLElement ? gallery.dataset.editorGalleryId : undefined,
     page,
     kind,
     text: element.textContent?.trim() ?? '',
-    src: element.tagName === 'IMG' ? element.getAttribute('src') ?? '' : '',
+    src: element.matches('img,video,audio') ? element.getAttribute('src') ?? '' : '',
     alt: element.tagName === 'IMG' ? element.getAttribute('alt') ?? '' : '',
     tag: element.tagName.toLowerCase(),
     insertionId,
@@ -66,7 +92,7 @@ function selectionFromElement(element: Element, page: string): EditorSelection {
 function shouldPassThroughInEdit(element: Element) {
   return Boolean(
     element.closest(
-      'input,textarea,select,[contenteditable="true"],[role="tab"],.prompt-accordion-trigger,.prompt-list-open,.copy-button,.prompt-details-button,.modal-close',
+      'input,textarea,select,[contenteditable="true"],[role="tab"],.prompt-accordion-trigger,.prompt-list-open,.copy-button,.prompt-details-button,.modal-close,.editor-gallery-add,.page-audio-control,.clean-audio-control',
     ),
   )
 }
@@ -89,6 +115,8 @@ function addPreviewStyles() {
     body.editor-preview-edit .work-card-content *,
     body.editor-preview-edit .workflow-detail-card-copy,
     body.editor-preview-edit .workflow-detail-card-copy * { pointer-events: auto !important; }
+    body.editor-preview-edit .clean-contact-cards strong:empty::after { content: '点击添加内容'; display: inline-block; min-width: 7em; padding: 4px 8px; color: rgba(223,255,63,.9); border: 1px dashed rgba(223,255,63,.55); border-radius: 5px; font-family: inherit; font-size: 12px; font-weight: 400; letter-spacing: 0; }
+    body.editor-preview-edit .clean-contact-cards > div { cursor: crosshair !important; }
   `
   document.head.appendChild(style)
 }
@@ -96,48 +124,225 @@ function addPreviewStyles() {
 function applyStyles(element: HTMLElement, styles: Record<string, string> | undefined) {
   if (!styles) return
   Object.entries(styles).forEach(([property, value]) => {
-    if (element.style.getPropertyValue(property) !== value) element.style.setProperty(property, value)
+    const cssProperty = property.replace(/[A-Z]/g, (character) => `-${character.toLowerCase()}`)
+    if (element.style.getPropertyValue(cssProperty) !== value) element.style.setProperty(cssProperty, value)
   })
 }
 
+function getPageOverride(state: EditorState, selector: string, page: string) {
+  const exact = state.overrides[editorOverrideKey(page, selector)]
+  if (exact) return exact
+  const legacy = state.overrides[selector]
+  return legacy && editorOverrideAppliesToPage(legacy, page) ? legacy : undefined
+}
+
+function resolveInsertionParent(selector: string) {
+  const legacyIndex = selector.match(/^\[data-editor-gallery-id="(\d+)"\]$/)
+  if (legacyIndex) {
+    return document.querySelectorAll<HTMLElement>('[data-editor-gallery-id]')[Number(legacyIndex[1])] ?? null
+  }
+  try {
+    return document.querySelector<HTMLElement>(selector)
+  } catch {
+    return null
+  }
+}
+
 function applyState(state: EditorState, page: string) {
+  document.querySelectorAll<HTMLElement>('.pure-gallery-section .archive-section-heading').forEach((heading) => {
+    if (!document.body.classList.contains('editor-preview-mode')) return
+    if (heading.querySelector('.editor-gallery-add')) return
+    const grid = heading.parentElement?.querySelector<HTMLElement>('.pure-gallery-grid')
+    const galleryId = grid?.dataset.editorGalleryId
+    if (!grid || !galleryId) return
+    const button = document.createElement('button')
+    button.type = 'button'
+    button.className = 'editor-gallery-add'
+    button.innerHTML = '<span>新增小窗口</span><span aria-hidden="true">+</span>'
+    button.addEventListener('click', (event) => {
+      event.preventDefault()
+      event.stopPropagation()
+      window.parent.postMessage({ type: 'editor:add-gallery', galleryId }, '*')
+    })
+    heading.appendChild(button)
+  })
+  document.querySelectorAll<HTMLElement>('.clean-contact-cards > div').forEach((card, index) => {
+    card.querySelector('span')?.setAttribute('data-editor-text-key', `contact-card-${index}-label`)
+    card.querySelector('strong')?.setAttribute('data-editor-text-key', `contact-card-${index}-value`)
+  })
+  document.querySelector('.clean-qr-panel > span')?.setAttribute('data-editor-text-key', 'contact-qr-label')
+  document.querySelector('.clean-qr-panel > small')?.setAttribute('data-editor-text-key', 'contact-qr-number')
+  const pageImage = getPageOverride(state, '__page_background_image__', page)
+  const pageVideo = getPageOverride(state, '__page_background_video__', page)
+  const backgroundRoot = document.querySelector<HTMLElement>('[data-editor-page-background]') ?? (() => {
+    const root = document.createElement('div')
+    root.dataset.editorPageBackground = 'true'
+    root.setAttribute('aria-hidden', 'true')
+    root.innerHTML = '<div data-editor-page-background-image></div><video data-editor-page-background-video autoplay muted loop playsinline></video>'
+    document.body.prepend(root)
+    return root
+  })()
+  const backgroundImage = backgroundRoot.querySelector<HTMLElement>('[data-editor-page-background-image]')
+  const backgroundVideo = backgroundRoot.querySelector<HTMLVideoElement>('[data-editor-page-background-video]')
+  const imageDisabled = Boolean(pageImage?.page === page && pageImage.hidden && !pageImage.src)
+  const videoDisabled = Boolean(pageVideo?.page === page && pageVideo.hidden && !pageVideo.src)
+  const imageActive = Boolean(pageImage?.page === page && pageImage.src && !imageDisabled)
+  const videoActive = Boolean(pageVideo?.page === page && pageVideo.src && !videoDisabled)
+  const imageSrc = imageActive ? pageImage?.src ?? '' : ''
+  const videoSrc = videoActive ? pageVideo?.src ?? '' : ''
+  if (backgroundImage) {
+    const nextBackgroundImage = imageActive ? `url("${imageSrc}")` : ''
+    if (backgroundImage.style.backgroundImage !== nextBackgroundImage) backgroundImage.style.backgroundImage = nextBackgroundImage
+    if (backgroundImage.hidden !== !imageActive) backgroundImage.hidden = !imageActive
+  }
+  if (backgroundVideo) {
+    if (backgroundVideo.hidden !== !videoActive) backgroundVideo.hidden = !videoActive
+    if (videoActive && backgroundVideo.getAttribute('src') !== videoSrc) {
+      backgroundVideo.src = videoSrc
+      backgroundVideo.load()
+      void backgroundVideo.play().catch(() => undefined)
+    }
+    if (!videoActive && (backgroundVideo.getAttribute('src') || backgroundVideo.currentSrc)) {
+      backgroundVideo.removeAttribute('src')
+      backgroundVideo.load()
+    }
+  }
+  if (backgroundRoot.hidden !== (!imageActive && !videoActive)) backgroundRoot.hidden = !imageActive && !videoActive
+  document.body.classList.toggle('editor-page-background-active', imageActive || videoActive)
+
+  const defaultSceneImage = document.querySelector<HTMLImageElement>('[data-editor-media-key="home-scene-image"]')
+  const defaultSceneVideo = document.querySelector<HTMLVideoElement>('[data-editor-media-key="home-scene-video"]')
+  if (defaultSceneImage) defaultSceneImage.hidden = imageDisabled || imageActive || videoActive
+  if (defaultSceneVideo) defaultSceneVideo.hidden = videoDisabled || imageActive || videoActive
+
+  const audioOverride = getPageOverride(state, '__page_audio__', page)
+  const audioActive = Boolean(audioOverride?.page === page && audioOverride.src)
+  const audioDisabled = Boolean(audioOverride?.page === page && audioOverride.hidden && !audioOverride.src)
+  const existingAudio = document.querySelector<HTMLAudioElement>('audio[data-editor-page-audio]')
+  if (!audioActive && existingAudio) {
+    existingAudio.pause()
+    existingAudio.removeAttribute('src')
+    existingAudio.load()
+    existingAudio.remove()
+  }
+  document.querySelectorAll<HTMLAudioElement>('audio[data-editor-media-key]').forEach((audio) => {
+    if (audioDisabled) {
+      audio.dataset.editorPageDisabled = 'true'
+      audio.hidden = true
+      audio.muted = true
+      audio.pause()
+    } else {
+      delete audio.dataset.editorPageDisabled
+      audio.hidden = false
+    }
+  })
+
   Object.values(state.overrides).forEach((override) => {
-    if (override.page && override.page !== page) return
-    const element = document.querySelector(override.selector)
-    if (!(element instanceof HTMLElement)) return
-    if ((override.kind === 'text' || (override.kind === 'element' && isTextLeaf(element))) && override.value !== undefined && element.textContent !== override.value) {
-      element.textContent = override.value
+    if (!editorOverrideAppliesToPage(override, page)) return
+    if (override.selector === '__page_background_image__' || override.selector === '__page_background_video__') return
+    if (override.selector === '__page_audio__' && override.src) {
+       let audio = document.querySelector<HTMLAudioElement>('audio[data-editor-page-audio]')
+       if (!audio) {
+         audio = document.querySelector<HTMLAudioElement>('audio')
+         if (audio) audio.dataset.editorPageAudio = 'true'
+       }
+       if (!audio) { audio = document.createElement('audio'); audio.dataset.editorPageAudio = 'true'; audio.loop = true; audio.autoplay = true; audio.hidden = true; document.body.appendChild(audio) }
+      if (audio.src !== new URL(override.src, window.location.href).href) { audio.src = override.src; audio.load(); void audio.play().catch(() => undefined) }
+      return
     }
-    if (element instanceof HTMLImageElement) {
-      if (override.src && element.getAttribute('src') !== override.src) element.src = override.src
-      if (override.alt !== undefined && element.alt !== override.alt) element.alt = override.alt
-    }
-    if (element.hidden !== Boolean(override.hidden)) element.hidden = Boolean(override.hidden)
-    applyStyles(element, override.styles)
+    let elements: Element[] = []
+    try { elements = Array.from(document.querySelectorAll(override.selector)) } catch { elements = [] }
+    elements.forEach((element) => {
+      if (!(element instanceof HTMLElement)) return
+      const targetElement = override.kind === 'image' && !(element instanceof HTMLImageElement)
+        ? element.querySelector<HTMLImageElement>('img[data-editor-insert-id]') ?? element
+        : element
+      if ((override.kind === 'text' || (override.kind === 'element' && isTextLeaf(targetElement))) && override.value !== undefined && targetElement.textContent !== override.value) {
+        targetElement.textContent = override.value
+      }
+      if (targetElement instanceof HTMLImageElement) {
+        if (override.src && targetElement.getAttribute('src') !== override.src) targetElement.src = override.src
+        if (override.alt !== undefined && targetElement.alt !== override.alt) targetElement.alt = override.alt
+      }
+      if (targetElement instanceof HTMLVideoElement || targetElement instanceof HTMLAudioElement) {
+        if (override.src && targetElement.getAttribute('src') !== override.src) {
+          targetElement.src = override.src
+          targetElement.load()
+          if (targetElement instanceof HTMLVideoElement) void targetElement.play().catch(() => undefined)
+        }
+      }
+      if (targetElement.hidden !== Boolean(override.hidden)) targetElement.hidden = Boolean(override.hidden)
+      applyStyles(targetElement, override.styles)
+      if (override.parentStyles && targetElement.parentElement) applyStyles(targetElement.parentElement, override.parentStyles)
+    })
+  })
+
+  const activeInsertionIds = new Set(state.insertions.filter((item) => item.page === page).map((item) => item.id))
+  document.querySelectorAll<HTMLElement>('[data-editor-insert-kind]').forEach((element) => {
+    if (!activeInsertionIds.has(element.dataset.editorInsertId ?? '')) element.remove()
   })
 
   state.insertions.filter((item) => item.page === page).forEach((item) => {
-    if (document.querySelector(`[data-editor-insert-id="${escapeSelector(item.id)}"]`)) return
-    const parent = document.querySelector(item.parentSelector) ?? document.body
-    const element = document.createElement(item.kind === 'image' ? 'img' : 'div')
+    const editorPreview = document.body.classList.contains('editor-preview-mode')
+    const existing = document.querySelector<HTMLElement>(`[data-editor-insert-kind][data-editor-insert-id="${escapeSelector(item.id)}"]`)
+    if (existing) {
+      const image = existing.querySelector<HTMLImageElement>('img')
+      const placeholder = image?.getAttribute('src') === '/placeholders/black.svg' || !image?.getAttribute('src')
+      existing.classList.toggle('is-placeholder', placeholder)
+      const hint = existing.querySelector('.editor-insert-placeholder-hint')
+      if (placeholder && !hint) {
+        const nextHint = document.createElement('span')
+        nextHint.className = 'editor-insert-placeholder-hint'
+        nextHint.textContent = '鐐瑰嚮涓婁紶鍥剧墖'
+        existing.appendChild(nextHint)
+      } else if (!placeholder) hint?.remove()
+      if (placeholder && hint) hint.textContent = editorPreview ? '点击上传图片' : '图片待上传'
+      existing.setAttribute('aria-label', editorPreview ? '新增小窗口，点击上传图片' : '图片待上传')
+      return
+    }
+    const parent = resolveInsertionParent(item.parentSelector)
+    if (!parent) return
+    const element = document.createElement(item.kind === 'image' ? 'button' : 'div') as HTMLElement
     element.setAttribute('data-editor-insert-id', item.id)
     element.setAttribute('data-editor-insert-kind', item.kind)
     if (item.kind === 'image') {
-      element.setAttribute('src', item.src || '/placeholders/black.svg')
-      element.setAttribute('alt', item.alt || '')
+      ;(element as HTMLButtonElement).type = 'button'
+      const placeholder = !item.src || item.src === '/placeholders/black.svg'
+      element.className = 'pure-gallery-card' + (placeholder ? ' is-placeholder' : '')
+      element.setAttribute('aria-label', '鏂板灏忕獥鍙ｏ紝鐐瑰嚮涓婁紶鍥剧墖')
+      const image = document.createElement('img')
+      element.setAttribute('aria-label', editorPreview ? '新增小窗口，点击上传图片' : '图片待上传')
+      image.setAttribute('data-editor-insert-id', item.id)
+      image.setAttribute('data-editor-insert-image', 'true')
+      image.setAttribute('src', item.src || '/placeholders/black.svg')
+      image.setAttribute('alt', item.alt || '')
+      applyStyles(image, item.styles)
+      applyStyles(element, { 'aspect-ratio': '16 / 9', ...(item.styles?.['aspect-ratio'] ? { 'aspect-ratio': item.styles['aspect-ratio'] } : {}) })
+      element.appendChild(image)
+      if (placeholder) {
+        const hint = document.createElement('span')
+        hint.className = 'editor-insert-placeholder-hint'
+        hint.textContent = '点击上传图片'
+        element.appendChild(hint)
+        hint.textContent = editorPreview ? '点击上传图片' : '图片待上传'
+      }
     } else {
       element.textContent = item.value || '新文字'
     }
-    applyStyles(element as HTMLElement, item.styles)
-    parent.appendChild(element)
+    if (item.kind !== 'image') applyStyles(element as HTMLElement, item.styles)
+    if (item.insertPosition === 'start') parent.prepend(element)
+    else parent.appendChild(element)
   })
 }
 
 export function EditorRuntime() {
+  const location = useLocation()
+
   useEffect(() => {
+    if (location.pathname === '/editor') return undefined
     let mounted = true
     const preview = new URLSearchParams(window.location.search).get('editorPreview') === '1'
-    const page = window.location.pathname
+    const page = location.pathname + (location.hash === '#contact' ? '#contact' : '')
     let currentState = defaultEditorState
     let applying = false
     const applyCurrentState = () => {
@@ -148,10 +353,15 @@ export function EditorRuntime() {
     }
     const loadAndApply = async () => {
       try {
-        const response = await fetch(`/editor-content.json?ts=${Date.now()}`, { cache: 'no-store' })
+        const response = await fetch(preview ? `/api/editor/state?ts=${Date.now()}` : `/editor-content.json?ts=${Date.now()}`, { cache: 'no-store' })
         if (response.ok) currentState = await response.json() as EditorState
       } catch {
-        currentState = defaultEditorState
+        if (preview) {
+          try {
+            const fallback = await fetch(`/editor-content.json?ts=${Date.now()}`, { cache: 'no-store' })
+            if (fallback.ok) currentState = await fallback.json() as EditorState
+          } catch { currentState = defaultEditorState }
+        } else currentState = defaultEditorState
       }
       if (!mounted) return
       applyCurrentState()
@@ -160,13 +370,19 @@ export function EditorRuntime() {
     const observer = new MutationObserver(() => {
       if (!applying) window.requestAnimationFrame(applyCurrentState)
     })
-    if (document.body) observer.observe(document.body, { childList: true, subtree: true })
+    if (document.body) observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['src', 'hidden'],
+    })
     void loadAndApply()
     if (!preview) return () => { mounted = false; observer.disconnect() }
 
     addPreviewStyles()
     document.body.classList.add('editor-preview-mode')
     let previewMode: 'edit' | 'browse' = new URLSearchParams(window.location.search).get('editorMode') === 'browse' ? 'browse' : 'edit'
+    document.body.classList.toggle('editor-preview-browse', previewMode === 'browse')
     document.body.classList.toggle('editor-preview-edit', previewMode === 'edit')
     let active: Element | null = null
     const select = (element: Element) => {
@@ -182,6 +398,20 @@ export function EditorRuntime() {
       const target = findTarget(event.target)
       if (!target) return
       if (previewMode === 'browse') {
+        if (target instanceof HTMLImageElement && target.dataset.editorInsertId && target.src) {
+          event.preventDefault()
+          const overlay = document.createElement('div')
+          overlay.setAttribute('data-editor-insert-lightbox', 'true')
+          overlay.style.cssText = 'position:fixed;inset:0;z-index:9999;display:grid;place-items:center;padding:24px;background:rgba(0,0,0,.86);cursor:zoom-out'
+          const image = document.createElement('img')
+          image.src = target.src
+          image.alt = target.alt
+          image.style.cssText = 'max-width:94vw;max-height:92vh;object-fit:contain;border-radius:12px'
+          overlay.appendChild(image)
+          overlay.addEventListener('click', () => overlay.remove(), { once: true })
+          document.body.appendChild(overlay)
+          return
+        }
         const link = target.closest('a')
         if (link instanceof HTMLAnchorElement && link.href) {
           const nextUrl = new URL(link.href, window.location.href)
@@ -217,13 +447,14 @@ export function EditorRuntime() {
     return () => {
       mounted = false
       observer.disconnect()
+      document.body.classList.remove('editor-page-background-active')
       document.body.classList.remove('editor-preview-mode')
       document.body.classList.remove('editor-preview-browse')
       document.body.classList.remove('editor-preview-edit')
       document.removeEventListener('click', onClick, true)
       window.removeEventListener('message', onMessage)
     }
-  }, [])
+  }, [location.hash, location.pathname])
 
   return null
 }

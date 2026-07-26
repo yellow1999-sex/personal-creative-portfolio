@@ -5,4 +5,4 @@ work/
 website-backups/
 public/deployment-info.json
 .vercel/
-public/videos/homepage-123.mp4
+.editor-settings.json

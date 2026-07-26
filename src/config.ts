@@ -73,31 +73,8 @@ export const imageConfig: ImageConfig = {
   },
   qqGroupQr: '/images/contact/qq-group-qr.png',
   works: {
-    composite: [
-      '/images/works/composite-01.webp',
-      '/images/works/composite-02.webp',
-      '/images/works/composite-03.webp',
-      '/images/works/composite-04.webp',
-      '/images/works/composite-05.webp',
-      '/images/works/composite-06.webp',
-      '/images/works/composite-07.webp',
-      '/images/works/composite-08.webp',
-      '/images/works/composite-09.webp',
-      '/images/works/composite-10.webp',
-    ],
-    semiFinished: [
-      '/images/works/semi-01.webp',
-      '/images/works/semi-03.webp',
-      '/images/works/semi-06.webp',
-      '/images/works/semi-07.webp',
-      '/images/works/semi-08.webp',
-      '/images/works/semi-09.webp',
-      '/images/works/restoration-01.webp',
-      '/images/works/restoration-02.webp',
-      '/images/works/restoration-03.webp',
-      '/images/works/restoration-04.webp',
-      '/images/works/restoration-05.webp',
-    ],
+    composite: Array.from({ length: 10 }, () => BLACK_PLACEHOLDER),
+    semiFinished: Array.from({ length: 20 }, () => BLACK_PLACEHOLDER),
     portrait: [
       BLACK_PLACEHOLDER, // 01
       BLACK_PLACEHOLDER, // 02
@@ -150,20 +127,18 @@ const intro =
 
 export const siteConfig = {
   brand: {
-    title: '酸奶奶奶奶奶',
-    kicker: '个人视觉作品档案 · COS 后期合成',
+    title: '开源创意作品集',
+    kicker: '开源视觉作品集 · 创意工作流',
     intro,
   },
   nav: [
     { label: '首页', href: '/' },
-    { label: '场景包预设', href: '/works' },
-    { label: '提示词库', href: '/prompts' },
-    { label: '工作流分享', href: '/workflow' },
+    { label: '例图展示', href: '/works' },
     { label: '联系方式', href: '/#contact' },
   ],
   contact: {
-    qq: '1140761073',
-    group: '891895679',
+    qq: '',
+    group: '',
   },
   copy: {
     heroNote: '原创视觉 / 图片合成 / 光影叙事',

@@ -1,67 +1,105 @@
-import { ImagePlus, Layout, Monitor, RefreshCw, Save, Send, Settings2, Smartphone, Trash2, Upload, WandSparkles } from 'lucide-react'
-import { ChangeEvent, useEffect, useMemo, useState } from 'react'
-import { defaultEditorState, EditorOverride, EditorSelection, EditorState } from './types'
-import { workflowModules } from '../workflowConfig'
+import { Archive, Eye, EyeOff, Github, ImagePlus, Monitor, Music, Play, Plus, Save, Send, Settings, Smartphone, Trash2, Upload, Video } from 'lucide-react'
+import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react'
+import { defaultEditorState, editorOverrideAppliesToPage, editorOverrideKey, EditorOverride, EditorSelection, EditorState } from './types'
 import './editor.css'
 
 const pages = [
-  { path: '/', label: '首页' },
-  { path: '/works', label: '场景包预设' },
-  { path: '/prompts', label: '提示词库' },
-  { path: '/workflow', label: '工作流分享' },
-  ...workflowModules.map((module) => ({ path: `/workflow/${module.slug}`, label: `详情：${module.title}` })),
-  { path: '/border-glow-demo', label: '交互示例' },
+  { path: '/', label: '首页与滚动画廊' },
+  { path: '/works', label: '例图展示页' },
 ]
 
 const styleFields = [
-  ['color', '文字颜色'],
-  ['background-color', '背景颜色'],
-  ['font-family', '字体'],
-  ['font-size', '字号'],
-  ['font-weight', '字重'],
-  ['line-height', '行高'],
-  ['letter-spacing', '字间距'],
-  ['margin-top', '上边距'],
-  ['margin-bottom', '下边距'],
-  ['padding', '内边距'],
-  ['width', '宽度'],
-  ['height', '高度'],
-  ['border-radius', '圆角'],
-  ['opacity', '透明度'],
+  ['color', '文字颜色'], ['background-color', '背景颜色'], ['font-size', '字号'], ['font-weight', '字重'],
+  ['line-height', '行高'], ['letter-spacing', '字间距'], ['width', '宽度'], ['height', '高度'],
+  ['padding', '内边距'], ['margin', '外边距'], ['border-radius', '圆角'], ['opacity', '透明度'],
 ] as const
 
-function copyState(state: EditorState): EditorState {
-  return JSON.parse(JSON.stringify(state)) as EditorState
-}
-
-function normalizeStyles(styles: EditorOverride['styles']) {
-  return Object.fromEntries(
-    Object.entries(styles ?? {}).filter(([, value]) => value.trim() !== ''),
-  )
-}
-
-type ActionStatus = 'idle' | 'running' | 'success' | 'pending' | 'error'
-
-type ActionResult = {
-  output?: string
-  path?: string
-  github?: { status: string; message: string; commit?: string }
-  vercel?: { status: string; message: string; commit?: string; url?: string }
-}
-
-type DeploymentStatusResult = {
-  status: 'success' | 'pending'
-  message: string
-  commit: string
-  deployedCommit?: string
-  url?: string
-}
+type SettingsState = { githubRepo: string; branch: string; vercelSiteUrl: string }
+type AuthStatus = { github: { loggedIn: boolean; account: string; connected: boolean }; vercel: { connected: boolean; url: string } }
+type GithubRepository = { id: number; name: string; fullName: string; url: string; cloneUrl: string; defaultBranch: string; private: boolean; updatedAt: string }
+type VercelProject = { name: string; url: string; commit: string; status: string; source: string }
+type FeedbackDialog = { tone: 'success' | 'error' | 'info'; title: string; message: string; detail?: string }
+const emptySettings: SettingsState = { githubRepo: '', branch: 'main', vercelSiteUrl: '' }
+const emptyAuth: AuthStatus = { github: { loggedIn: false, account: '', connected: false }, vercel: { connected: false, url: '' } }
 
 async function api<T>(url: string, options?: RequestInit): Promise<T> {
   const response = await fetch(url, options)
   const data = await response.json() as T & { message?: string; output?: string }
-  if (!response.ok) throw new Error(data.message || data.output || '本地编辑器操作失败')
+  if (!response.ok) throw new Error(data.message || data.output || '操作失败')
   return data
+}
+
+function cloneState(state: EditorState): EditorState {
+  return JSON.parse(JSON.stringify(state)) as EditorState
+}
+
+type NoticeTone = 'info' | 'pending' | 'success' | 'error'
+type QuickUploadKind = 'image' | 'video' | 'audio'
+
+const quickUploadLabels: Record<QuickUploadKind, string> = {
+  image: '背景图片',
+  video: '背景视频',
+  audio: 'BGM',
+}
+
+function previewHasQuickUpload(frame: HTMLIFrameElement | null, src: string, kind: QuickUploadKind) {
+  const document = frame?.contentDocument
+  if (!document) return false
+  const expected = new URL(src, frame?.contentWindow?.location.href || window.location.href).href
+  if (kind === 'image') {
+    const background = document.querySelector<HTMLElement>('[data-editor-page-background-image]')
+    return Boolean(background && !background.hidden && background.style.backgroundImage.includes(src))
+  }
+  const selector = kind === 'video' ? '[data-editor-page-background-video]' : 'audio[data-editor-page-audio]'
+  const media = document.querySelector<HTMLMediaElement>(selector)
+  return Boolean(media && (kind === 'audio' || !media.hidden) && (media.src === expected || media.getAttribute('src') === src))
+}
+
+function previewHasQuickUploadCleared(frame: HTMLIFrameElement | null, kind: QuickUploadKind) {
+  const document = frame?.contentDocument
+  if (!document) return false
+  if (kind === 'image') {
+    const background = document.querySelector<HTMLElement>('[data-editor-page-background-image]')
+    return Boolean(background && background.hidden && !background.style.backgroundImage)
+  }
+  if (kind === 'video') {
+    const background = document.querySelector<HTMLVideoElement>('[data-editor-page-background-video]')
+    return Boolean(background && background.hidden && !background.getAttribute('src'))
+  }
+  return !document.querySelector('audio[data-editor-page-audio]')
+}
+
+async function waitForQuickUploadPreview(frame: HTMLIFrameElement | null, src: string, kind: QuickUploadKind) {
+  const deadline = Date.now() + 1800
+  while (Date.now() < deadline) {
+    if (previewHasQuickUpload(frame, src, kind)) return true
+    await new Promise((resolve) => window.setTimeout(resolve, 60))
+  }
+  return previewHasQuickUpload(frame, src, kind)
+}
+
+async function waitForQuickUploadClear(frame: HTMLIFrameElement | null, kind: QuickUploadKind) {
+  const deadline = Date.now() + 1800
+  while (Date.now() < deadline) {
+    if (previewHasQuickUploadCleared(frame, kind)) return true
+    await new Promise((resolve) => window.setTimeout(resolve, 60))
+  }
+  return previewHasQuickUploadCleared(frame, kind)
+}
+
+function contactValueSelector(selection: EditorSelection | null) {
+  const match = selection?.selector.match(/\[data-editor-text-key="(contact-card-\d+)-(?:label|value)"\]/)
+  return match ? `[data-editor-text-key="${match[1]}-value"]` : null
+}
+
+function isContactCardLabel(selection: EditorSelection | null) {
+  return Boolean(selection?.selector.match(/\[data-editor-text-key="contact-card-\d+-label"\]/))
+}
+
+function savedOverride(state: EditorState, selection: EditorSelection) {
+  const pageOverride = state.overrides[editorOverrideKey(selection.page, selection.selector)]
+  const legacyOverride = state.overrides[selection.selector]
+  return pageOverride ?? (legacyOverride && editorOverrideAppliesToPage(legacyOverride, selection.page) ? legacyOverride : undefined)
 }
 
 export function EditorPage() {
@@ -69,34 +107,87 @@ export function EditorPage() {
   const [selection, setSelection] = useState<EditorSelection | null>(null)
   const [form, setForm] = useState<EditorOverride | null>(null)
   const [page, setPage] = useState('/')
+  const [hash, setHash] = useState('')
+  const hashRef = useRef('')
   const [device, setDevice] = useState<'desktop' | 'mobile'>('desktop')
-  const [previewMode, setPreviewMode] = useState<'edit' | 'browse'>('edit')
-  const [notice, setNotice] = useState('正在连接本地项目…')
+  const [mode, setMode] = useState<'edit' | 'browse'>('edit')
+  const [settings, setSettings] = useState<SettingsState>(emptySettings)
+  const [authStatus, setAuthStatus] = useState<AuthStatus>(emptyAuth)
+  const [githubRepositories, setGithubRepositories] = useState<GithubRepository[]>([])
+  const [vercelProjects, setVercelProjects] = useState<VercelProject[]>([])
+  const [showSetup, setShowSetup] = useState(false)
+  const [feedbackDialog, setFeedbackDialog] = useState<FeedbackDialog | null>(null)
+  const [notice, setNotice] = useState('正在启动本地管理器…')
+  const [noticeTone, setNoticeTone] = useState<NoticeTone>('info')
+  const [mediaNotice, setMediaNotice] = useState('请选择背景图片、背景视频或 BGM')
+  const [mediaNoticeTone, setMediaNoticeTone] = useState<NoticeTone>('info')
   const [log, setLog] = useState('')
   const [busy, setBusy] = useState(false)
-  const [actionStatus, setActionStatus] = useState<ActionStatus>('idle')
-  const [deploymentCommit, setDeploymentCommit] = useState('')
+  const addGalleryBusyRef = useRef(false)
+  const addGalleryLastClickRef = useRef(0)
+  const setFeedback = (message: string, tone: NoticeTone = 'info') => {
+    setNotice(message)
+    setNoticeTone(tone)
+  }
+  const setMediaFeedback = (message: string, tone: NoticeTone = 'info') => {
+    setMediaNotice(message)
+    setMediaNoticeTone(tone)
+    setFeedback(message, tone)
+  }
+
+  const refreshConnections = async (currentSettings: SettingsState = settings) => {
+    try {
+      const github = await api<{ repositories: GithubRepository[]; settings?: SettingsState }>('/api/editor/github-repositories')
+      setGithubRepositories(github.repositories || [])
+      const nextSettings = github.settings || currentSettings
+      if (github.settings) setSettings(github.settings)
+      if (!nextSettings.githubRepo) return
+      try {
+        const vercel = await api<{ projects: VercelProject[]; settings?: SettingsState }>('/api/editor/vercel-projects')
+        setVercelProjects(vercel.projects || [])
+        if (vercel.settings) setSettings(vercel.settings)
+      } catch {
+        setVercelProjects([])
+      }
+    } catch {
+      setGithubRepositories([])
+    }
+  }
 
   useEffect(() => {
-    void api<EditorState>('/api/editor/state').then((next) => {
-      setState({ ...defaultEditorState, ...next })
-      setNotice('已连接当前网站项目')
-    }).catch(() => setNotice('无法连接本地编辑服务，请重新启动编辑器'))
+    void Promise.all([
+      api<EditorState>('/api/editor/state'),
+      api<SettingsState>('/api/editor/settings'),
+      api<AuthStatus>('/api/editor/auth-status'),
+    ]).then(([content, savedSettings, auth]) => {
+      setState({ ...defaultEditorState, ...content })
+      setSettings(savedSettings)
+      setAuthStatus(auth)
+      setShowSetup(!savedSettings.githubRepo)
+      void refreshConnections(savedSettings)
+      setFeedback('管理器已连接，可以点击中间网页上的内容进行修改')
+    }).catch((error) => setFeedback(error instanceof Error ? error.message : '无法连接本地服务', 'error'))
   }, [])
 
   useEffect(() => {
     const onMessage = (event: MessageEvent) => {
       if (event.data?.type === 'editor:navigate' && typeof event.data.path === 'string') {
-        setPage(event.data.path)
+        const nextUrl = new URL(event.data.path, window.location.origin)
+        setPage(nextUrl.pathname)
+        hashRef.current = nextUrl.hash
+        setHash(nextUrl.hash)
         setSelection(null)
         setForm(null)
-        setNotice('已进入新的页面或模块')
+        return
+      }
+      if (event.data?.type === 'editor:add-gallery' && typeof event.data.galleryId === 'string') {
+        void addGalleryWindow(event.data.galleryId)
         return
       }
       if (event.data?.type !== 'editor:select') return
       const next = event.data.selection as EditorSelection
+      const saved = savedOverride(state, next)
       setSelection(next)
-      const saved = state.overrides[next.selector]
       setForm({
         selector: next.selector,
         page: next.page,
@@ -106,38 +197,40 @@ export function EditorPage() {
         alt: saved?.alt ?? next.alt,
         hidden: saved?.hidden ?? false,
         styles: { ...(saved?.styles ?? {}) },
+        parentStyles: { ...(saved?.parentStyles ?? {}) },
       })
-      setNotice(`已选中${next.kind === 'image' ? '图片' : '文字或组件'}，可以直接修改`)
+      setNotice(next.kind === 'text' ? '已选中文字' : next.kind === 'element' ? '已选中模块' : `已选中${next.kind === 'image' ? '图片' : next.kind === 'video' ? '视频' : 'BGM'}`)
     }
     window.addEventListener('message', onMessage)
     return () => window.removeEventListener('message', onMessage)
   }, [state.overrides])
 
-  const currentPage = pages.find((item) => item.path === page) ?? pages[0]
-  const frameUrl = useMemo(() => `${page}${page.includes('?') ? '&' : '?'}editorPreview=1`, [page])
-
-  const sendPreviewMode = (mode: 'edit' | 'browse') => {
-    setPreviewMode(mode)
-    const frame = document.querySelector<HTMLIFrameElement>('.editor-preview-frame')
-    frame?.contentWindow?.postMessage({ type: 'editor:mode', mode }, '*')
+  const frameUrl = useMemo(() => `${page}?editorPreview=1&editorMode=${mode}${hash || hashRef.current}`, [page, hash, mode])
+  const syncPreviewMode = () => {
+    document.querySelector<HTMLIFrameElement>('.editor-preview-frame')?.contentWindow?.postMessage({ type: 'editor:mode', mode }, '*')
   }
+  const updateForm = (patch: Partial<EditorOverride>) => setForm((current) => {
+    if (!current) return current
+    const nextForm = { ...current, ...patch }
+    if (selection) {
+      const draft = cloneState(state)
+      draft.overrides[editorOverrideKey(selection.page, selection.selector)] = nextForm
+      document.querySelector<HTMLIFrameElement>('.editor-preview-frame')?.contentWindow?.postMessage({ type: 'editor:state', state: draft }, '*')
+    }
+    return nextForm
+  })
 
-  const updateForm = (patch: Partial<EditorOverride>) => setForm((current) => current ? { ...current, ...patch } : current)
-
-  const saveState = async (nextState: EditorState, message = '已保存到当前网站项目') => {
+  const saveState = async (next: EditorState, message: string): Promise<boolean> => {
     setBusy(true)
     try {
-      await api('/api/editor/state', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(nextState),
-      })
-      setState(nextState)
-      setNotice(message)
-      const frame = document.querySelector<HTMLIFrameElement>('.editor-preview-frame')
-      frame?.contentWindow?.postMessage({ type: 'editor:state', state: nextState }, '*')
+      await api('/api/editor/state', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(next) })
+      setState(next)
+      document.querySelector<HTMLIFrameElement>('.editor-preview-frame')?.contentWindow?.postMessage({ type: 'editor:state', state: next }, '*')
+      setFeedback(message, 'success')
+      return true
     } catch (error) {
-      setNotice(error instanceof Error ? error.message : '保存失败')
+      setFeedback(error instanceof Error ? error.message : '保存失败', 'error')
+      return false
     } finally {
       setBusy(false)
     }
@@ -145,190 +238,315 @@ export function EditorPage() {
 
   const saveSelection = () => {
     if (!selection || !form) return
-    const next = copyState(state)
-    next.overrides[selection.selector] = {
-      ...form,
-      selector: selection.selector,
-      page: selection.page,
-      kind: selection.kind,
-      styles: normalizeStyles(form.styles),
+    const next = cloneState(state)
+    next.overrides[editorOverrideKey(selection.page, selection.selector)] = { ...form, styles: Object.fromEntries(Object.entries(form.styles ?? {}).filter(([, value]) => value.trim())) }
+    if (selection.insertionId && form.kind === 'image') {
+      const insertion = next.insertions.find((item) => item.id === selection.insertionId)
+      if (insertion) {
+        insertion.src = form.src || '/placeholders/black.svg'
+        insertion.alt = form.alt || insertion.alt
+        insertion.styles = { ...(insertion.styles ?? {}), ...(form.parentStyles ?? {}) }
+      }
     }
-    void saveState(next)
+    void saveState(next, '修改已保存到网站')
   }
 
-  const addInsertion = (kind: 'text' | 'image') => {
-    const next = copyState(state)
-    const id = `insert-${Date.now()}`
-    next.insertions.push({
-      id,
-      page,
-      parentSelector: selection?.parentSelector || 'body',
-      kind,
-      value: kind === 'text' ? '新文字' : undefined,
-      src: kind === 'image' ? '/placeholders/black.svg' : undefined,
-      alt: kind === 'image' ? '新图片' : undefined,
-      styles: { display: 'block', margin: '16px 0', maxWidth: '100%' },
+  const restoreSelection = async () => {
+    if (!selection) return
+    const next = cloneState(state)
+    delete next.overrides[editorOverrideKey(selection.page, selection.selector)]
+    if (next.overrides[selection.selector]?.page === selection.page) delete next.overrides[selection.selector]
+    setForm(null)
+    setSelection(null)
+    await saveState(next, '已恢复该内容的原始状态')
+    document.querySelector<HTMLIFrameElement>('.editor-preview-frame')?.contentWindow?.location.reload()
+  }
+
+  const deleteInsertion = async () => {
+    if (!selection?.insertionId) return
+    const next = cloneState(state)
+    next.insertions = next.insertions.filter((item) => item.id !== selection.insertionId)
+    Object.keys(next.overrides).forEach((selector) => {
+      if (selector.includes(`data-editor-insert-id=\"${selection.insertionId}\"`)) delete next.overrides[selector]
     })
-    void saveState(next, kind === 'text' ? '已添加新的文字' : '已添加新的图片')
-  }
-
-  const removeSelection = () => {
-    if (!selection || !form) return
-    const next = copyState(state)
-    if (selection.insertionId) next.insertions = next.insertions.filter((item) => item.id !== selection.insertionId)
-    else next.overrides[selection.selector] = { ...form, hidden: true }
     setSelection(null)
     setForm(null)
-    void saveState(next, '已隐藏/删除选中内容')
+    await saveState(next, '新增窗口已删除')
   }
 
-  const uploadImage = async (event: ChangeEvent<HTMLInputElement>) => {
+  const addGalleryWindow = async (galleryId?: string) => {
+    const now = Date.now()
+    if (addGalleryBusyRef.current || now - addGalleryLastClickRef.current < 700) return
+    addGalleryLastClickRef.current = now
+    addGalleryBusyRef.current = true
+    try {
+      const parentSelector = galleryId
+        ? `[data-editor-gallery-id="${galleryId.replace(/[^a-zA-Z0-9_-]/g, '')}"]`
+        : selection?.containerSelector
+      if (!parentSelector) {
+        setNotice('新增失败：没有找到目标分类，请重新打开例图展示页')
+        return
+      }
+      const frame = document.querySelector<HTMLIFrameElement>('.editor-preview-frame')
+      if (frame?.contentDocument && !frame.contentDocument.querySelector(parentSelector)) {
+        setNotice('新增失败：目标分类尚未加载，请稍后重试')
+        return
+      }
+      const id = `gallery-window-${Date.now()}`
+      const next = cloneState(state)
+      next.insertions = [...next.insertions, {
+        id,
+        page: '/works',
+          parentSelector,
+          insertPosition: 'end',
+        kind: 'image',
+        src: '/placeholders/black.svg',
+        alt: '例图窗口',
+         styles: { width: '100%', 'aspect-ratio': '16 / 9', 'object-fit': 'cover', display: 'block', 'border-radius': '12px' },
+      }]
+      await saveState(next, '已新增一个图片窗口，请点击它上传图片')
+      setPage('/works')
+      hashRef.current = ''
+      setHash('')
+      setSelection(null)
+      setForm(null)
+    } finally {
+      addGalleryBusyRef.current = false
+    }
+  }
+
+  const uploadMedia = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
-    if (!file || !form || !selection) return
+    if (!file || !form) return
+    setFeedback(`正在导入 ${file.name}…`, 'pending')
     const reader = new FileReader()
     reader.onload = async () => {
       try {
-        const result = await api<{ src: string }>('/api/editor/upload', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+        const result = await api<{ src: string; format?: string; originalBytes?: number; optimizedBytes?: number; width?: number; height?: number }>('/api/editor/upload', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ name: file.name, data: reader.result }),
         })
         updateForm({ src: result.src })
-        setNotice('图片已上传，点击“保存修改”后生效')
-      } catch (error) {
-        setNotice(error instanceof Error ? error.message : '图片上传失败')
-      }
+        const reduction = result.originalBytes && result.optimizedBytes ? Math.max(0, Math.round((1 - result.optimizedBytes / result.originalBytes) * 100)) : 0
+        setFeedback(form.kind === 'image' ? `图片已转为 WebP（${result.width}×${result.height}，体积减少约 ${reduction}%），请保存` : '文件已导入，请点击“保存当前修改”')
+      } catch (error) { setFeedback(error instanceof Error ? error.message : '文件导入失败', 'error') }
     }
+    reader.onerror = () => setFeedback(`文件读取失败：${file.name}`, 'error')
     reader.readAsDataURL(file)
     event.target.value = ''
   }
 
-  const verifyDeployment = async (commit: string, waitForCompletion = true) => {
-    const attempts = waitForCompletion ? 30 : 1
-    for (let attempt = 0; attempt < attempts; attempt += 1) {
+  const quickUpload = (event: ChangeEvent<HTMLInputElement>, selector: string, kind: QuickUploadKind) => {
+    const file = event.target.files?.[0]
+    if (!file) return
+    const label = quickUploadLabels[kind]
+    const pageLabel = page === '/' && hash === '#contact' ? '联系方式页' : pages.find((item) => item.path === page)?.label ?? '当前页面'
+    const reader = new FileReader()
+    setMediaFeedback(`正在读取${pageLabel}${label}：${file.name}`, 'pending')
+    reader.onload = async () => {
       try {
-        const status = await api<DeploymentStatusResult>(`/api/editor/deployment-status?commit=${encodeURIComponent(commit)}`)
-        if (status.status === 'success') {
-          setActionStatus('success')
-          setNotice(`GitHub 上传成功；${status.message}`)
-          setLog(`${status.message}\n${status.url || ''}`.trim())
+        setMediaFeedback(`正在上传${pageLabel}${label}：${file.name}`, 'pending')
+        const result = await api<{ src: string }>('/api/editor/upload', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: file.name, data: reader.result }),
+        })
+        setMediaFeedback(`${pageLabel}${label}已上传，正在保存`, 'pending')
+        const next = cloneState(state)
+        const resourcePage = page + hash
+        next.overrides[editorOverrideKey(resourcePage, selector)] = { selector, page: resourcePage, kind, src: result.src, hidden: false, styles: {} }
+        if (kind === 'image' || kind === 'video') {
+          const otherKind: QuickUploadKind = kind === 'image' ? 'video' : 'image'
+          const otherSelector = kind === 'image' ? '__page_background_video__' : '__page_background_image__'
+          next.overrides[editorOverrideKey(resourcePage, otherSelector)] = { selector: otherSelector, page: resourcePage, kind: otherKind, src: '', hidden: true, styles: {} }
+        }
+        const saved = await saveState(next, `${pageLabel}${label}已上传并保存，正在确认预览`)
+        if (!saved) {
+          setMediaFeedback(`${pageLabel}${label}保存失败，请重试`, 'error')
           return
         }
-        setNotice(`GitHub 上传成功；${status.message}`)
-      } catch {
-        // The online marker may not exist until Vercel finishes its build.
+        setMediaFeedback(`${pageLabel}${label}已保存，正在确认预览加载`, 'pending')
+        const loaded = await waitForQuickUploadPreview(document.querySelector<HTMLIFrameElement>('.editor-preview-frame'), result.src, kind)
+        if (!loaded) {
+          setMediaFeedback(`${pageLabel}${label}已上传并保存，但预览未确认加载，请刷新预览后检查`, 'error')
+          return
+        }
+        setMediaFeedback(`${pageLabel}${label}已上传、保存并加载`, 'success')
+      } catch (error) {
+        setMediaFeedback(error instanceof Error ? error.message : `${label}替换失败`, 'error')
       }
-      if (attempt + 1 < attempts) await new Promise((resolve) => setTimeout(resolve, 2000))
     }
-    setActionStatus('pending')
-    setNotice('GitHub 上传成功；Vercel 部署尚未确认完成，请稍后点击“检查线上状态”')
+    reader.onerror = () => setMediaFeedback(`文件读取失败：${file.name}`, 'error')
+    reader.readAsDataURL(file)
+    event.target.value = ''
   }
 
-  const checkDeployment = () => {
-    if (!deploymentCommit) {
-      setActionStatus('error')
-      setNotice('请先完成一次发布，再检查线上状态')
+  const deleteQuickAsset = async (selector: string, kind: QuickUploadKind) => {
+    const label = quickUploadLabels[kind]
+    const pageLabel = page === '/' && hash === '#contact' ? '联系方式页' : pages.find((item) => item.path === page)?.label ?? '当前页面'
+    const resourcePage = page + hash
+    const next = cloneState(state)
+    next.overrides[editorOverrideKey(resourcePage, selector)] = { selector, page: resourcePage, kind, src: '', hidden: true, styles: {} }
+    setMediaFeedback(`正在删除并关闭${pageLabel}${label}`, 'pending')
+    const saved = await saveState(next, `${pageLabel}${label}已删除并保存，正在确认关闭`)
+    if (!saved) {
+      setMediaFeedback(`${pageLabel}${label}删除失败，请重试`, 'error')
       return
     }
-    setBusy(true)
-    setActionStatus('running')
-    setLog('正在查询 Vercel 线上版本…')
-    void verifyDeployment(deploymentCommit, false).finally(() => setBusy(false))
-  }
-
-  const runAction = async (endpoint: string, success: string) => {
-    setBusy(true)
-    setActionStatus('running')
-    setLog('正在处理，请稍候…')
-    try {
-      const result = await api<ActionResult>(endpoint, { method: 'POST' })
-      if (endpoint === '/api/editor/publish') {
-        const githubMessage = result.github?.message || 'GitHub 上传状态待确认'
-        if (result.vercel?.commit) {
-          setDeploymentCommit(result.vercel.commit)
-          setNotice(`${githubMessage}；Vercel 正在部署，等待线上版本确认…`)
-          await verifyDeployment(result.vercel.commit)
-        } else {
-          setActionStatus('pending')
-          setNotice(`${githubMessage}；${result.vercel?.message || 'Vercel 部署状态待确认'}`)
-        }
-      } else {
-        setActionStatus('success')
-        setNotice(success)
-      }
-      setLog(result.output || result.path || success)
-    } catch (error) {
-      setActionStatus('error')
-      const message = error instanceof Error ? error.message : '操作失败'
-      setNotice(endpoint === '/api/editor/publish' ? '发布失败，请查看下方详细结果' : message)
-      setLog(message)
-    } finally {
-      setBusy(false)
+    const cleared = await waitForQuickUploadClear(document.querySelector<HTMLIFrameElement>('.editor-preview-frame'), kind)
+    if (!cleared) {
+      setMediaFeedback(`${pageLabel}${label}已保存，但预览未确认关闭，请刷新预览后检查`, 'error')
+      return
     }
+    setMediaFeedback(`${pageLabel}${label}已删除并关闭`, 'success')
   }
 
-  const publish = () => {
-    if (!window.confirm('确认将当前网站提交到 GitHub 并触发 Vercel 部署吗？')) return
-    void runAction('/api/editor/publish', '已提交 GitHub，Vercel 将自动部署')
+  const runAction = async (url: string, success: string, body?: unknown) => {
+    setBusy(true); setNotice('正在处理，请稍候…')
+    try {
+      const result = await api<{ output?: string; path?: string; settings?: SettingsState; github?: { status?: string; message?: string; commit?: string; remoteHead?: string }; vercel?: { status?: string; message?: string; url?: string } }>(url, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: body ? JSON.stringify(body) : '{}',
+      })
+      if (result.settings) setSettings(result.settings)
+      setLog(result.output || result.path || '')
+      setNotice(success)
+      if (url === '/api/editor/publish') {
+        const githubMessage = result.github?.message || 'GitHub 上传成功'
+        const vercelMessage = result.vercel?.message || 'Vercel 已收到部署请求'
+        setFeedbackDialog({
+          tone: result.vercel?.status === 'success' ? 'success' : 'info',
+          title: result.vercel?.status === 'success' ? '发布成功，线上已更新' : 'GitHub 上传成功，Vercel 正在部署',
+          message: `${githubMessage}。${vercelMessage}。`,
+          detail: `提交号：${result.github?.commit || '未知'}${result.vercel?.url ? `\n网站地址：${result.vercel.url}` : ''}`,
+        })
+      } else {
+        setFeedbackDialog({ tone: 'success', title: '操作成功', message: success, detail: result.output || result.path || '' })
+      }
+      return result
+    } catch (error) { setNotice(error instanceof Error ? error.message : '操作失败') }
+    finally { setBusy(false) }
   }
+
+  const saveSetup = async () => {
+    const result = await runAction('/api/editor/connect-github', 'GitHub 仓库连接完成', settings)
+    if (result) await refreshAuth()
+  }
+
+  const refreshAuth = async () => {
+    try {
+      setAuthStatus(await api<AuthStatus>('/api/editor/auth-status'))
+      await refreshConnections()
+    } catch { /* Status remains visible. */ }
+    return
+    try { setAuthStatus(await api<AuthStatus>('/api/editor/auth-status')) } catch { /* Status remains visible. */ }
+  }
+
+  const loginGithub = async () => {
+    await runAction('/api/editor/login-github', 'GitHub 官方登录窗口已打开')
+    window.setTimeout(() => { void refreshAuth() }, 2500)
+  }
+
+  const connectVercel = async () => {
+    const result = await runAction('/api/editor/open-vercel', 'Vercel 网站地址已自动读取')
+    if (result?.settings) {
+      setSettings(result.settings)
+      await refreshConnections(result.settings)
+    }
+    }
+
+  const selectedContactValueSelector = contactValueSelector(selection)
+  const selectedContactLabel = isContactCardLabel(selection)
+  const selectContactValue = () => {
+    if (!selectedContactValueSelector) return
+    document.querySelector<HTMLIFrameElement>('.editor-preview-frame')?.contentWindow?.postMessage({ type: 'editor:highlight', selector: selectedContactValueSelector }, '*')
+  }
+  const activePageLabel = page === '/' && hash === '#contact' ? '联系方式' : pages.find((item) => item.path === page)?.label
 
   return (
     <div className="visual-editor-shell">
+      {feedbackDialog ? <div className="editor-feedback-backdrop" role="presentation"><section className={`editor-feedback-dialog is-${feedbackDialog.tone}`} role="alertdialog" aria-modal="true" aria-label={feedbackDialog.title}><div className="editor-feedback-mark">{feedbackDialog.tone === 'success' ? '✓' : feedbackDialog.tone === 'error' ? '!' : '…'}</div><div><h2>{feedbackDialog.title}</h2><p>{feedbackDialog.message}</p>{feedbackDialog.detail ? <pre>{feedbackDialog.detail}</pre> : null}</div><button type="button" onClick={() => setFeedbackDialog(null)}>知道了</button></section></div> : null}
       <header className="visual-editor-topbar">
-        <div className="visual-editor-brand"><WandSparkles size={21} /><div><strong>网站可视化编辑器</strong><span className={'editor-notice is-' + actionStatus} aria-live="polite">{notice}</span></div></div>
+        <div className="visual-editor-brand"><Settings size={22} /><div><strong>网站可视化管理器</strong><span className={`editor-notice is-${noticeTone}`} role="status" aria-live="polite">{notice}</span></div></div>
         <div className="visual-editor-actions">
-          <button type="button" onClick={() => void runAction('/api/editor/backup', '已完成完整备份')} disabled={busy}><Save size={16} />一键备份</button>
-          <button type="button" onClick={() => void runAction('/api/editor/build', '构建检查通过')} disabled={busy}><Settings2 size={16} />检查网站</button>
-          {deploymentCommit ? <button type="button" onClick={checkDeployment} disabled={busy}><RefreshCw size={16} />检查线上状态</button> : null}
-          <button className="is-publish" type="button" onClick={publish} disabled={busy}><Send size={16} />发布到线上</button>
+          <button type="button" onClick={() => { setShowSetup((value) => !value); void refreshAuth() }}><Github size={16} />发布中心</button>
+          <button type="button" disabled={busy} onClick={() => void runAction('/api/editor/backup', '完整备份已创建')}><Archive size={16} />备份网站</button>
+          <button type="button" disabled={busy} onClick={() => void runAction('/api/editor/build', '检查通过，可以发布')}><Play size={16} />检查网站</button>
+          <button className="is-publish" type="button" disabled={busy} onClick={() => void runAction('/api/editor/publish', '已上传 GitHub，Vercel 将自动部署')}><Send size={16} />发布上线</button>
         </div>
       </header>
 
+      {showSetup ? (
+        <section className="editor-publish-center">
+          <div className="publish-center-heading"><div><strong>一键发布中心</strong><p>首次授权一次，之后只需点击右上角“发布上线”。密码和令牌由官方登录系统保管，不写入项目。</p></div><button type="button" onClick={() => setShowSetup(false)}>收起</button></div>
+          <div className="publish-steps">
+            <article className={authStatus.github.loggedIn ? 'is-ready' : ''}><span>1</span><div><strong>登录 GitHub</strong><p>{authStatus.github.loggedIn ? `已登录 ${authStatus.github.account}` : '首次使用需要在官方窗口登录一次'}</p></div><button type="button" disabled={busy} onClick={() => void loginGithub()}>{authStatus.github.loggedIn ? '重新登录' : '登录 GitHub'}</button></article>
+            <article className={authStatus.github.connected ? 'is-ready' : ''}><span>2</span><div><strong>连接代码仓库</strong><p>{authStatus.github.connected ? settings.githubRepo : '填写新网站自己的仓库地址'}</p></div></article>
+            <article className={authStatus.vercel.connected ? 'is-ready' : ''}><span>3</span><div><strong>连接 Vercel</strong><p>{authStatus.vercel.connected ? authStatus.vercel.url : '在 Vercel 官方页面导入这个 GitHub 仓库一次'}</p></div><button type="button" disabled={busy} onClick={() => void connectVercel()}>{authStatus.vercel.connected ? '打开 Vercel' : '连接 Vercel'}</button></article>
+          </div>
+          <div className="publish-auto-connections">
+            <label><span>GitHub 仓库（登录后自动读取）</span><select value={settings.githubRepo} onChange={(event) => { const repo = githubRepositories.find((item) => (item.cloneUrl || item.url) === event.target.value); setSettings({ ...settings, githubRepo: event.target.value, branch: repo?.defaultBranch || settings.branch }) }}><option value="">请选择 GitHub 仓库</option>{githubRepositories.map((repo) => <option key={repo.id} value={repo.cloneUrl || repo.url}>{repo.fullName}{repo.private ? '（私有）' : ''}</option>)}</select></label>
+            <label><span>Vercel 网站（从 GitHub 部署记录自动读取）</span><select value={settings.vercelSiteUrl} onChange={(event) => setSettings({ ...settings, vercelSiteUrl: event.target.value })}><option value="">尚未发现 Vercel 部署</option>{vercelProjects.map((project) => <option key={project.url} value={project.url}>{project.url}</option>)}</select></label>
+            <label><span>发布分支</span><input value={settings.branch} onChange={(event) => setSettings({ ...settings, branch: event.target.value })} /></label>
+            <div className="publish-auto-actions"><button type="button" disabled={busy} onClick={() => void refreshConnections()}><Github size={16} />刷新地址</button><button type="button" disabled={busy || !settings.githubRepo} onClick={() => void saveSetup()}><Save size={16} />保存连接</button></div>
+          </div>
+          <div className="publish-settings-row">
+            <label><span>GitHub 仓库地址</span><input value={settings.githubRepo} onChange={(e) => setSettings({ ...settings, githubRepo: e.target.value })} placeholder="https://github.com/你的账号/仓库.git" /></label>
+            <label><span>发布分支</span><input value={settings.branch} onChange={(e) => setSettings({ ...settings, branch: e.target.value })} /></label>
+            <label><span>Vercel 网站地址</span><input value={settings.vercelSiteUrl} onChange={(e) => setSettings({ ...settings, vercelSiteUrl: e.target.value })} placeholder="https://你的网站.vercel.app" /></label>
+            <button type="button" disabled={busy} onClick={() => void saveSetup()}><Save size={16} />保存连接</button>
+          </div>
+        </section>
+      ) : null}
+
       <div className="visual-editor-body">
         <aside className="visual-editor-sidebar">
-          <div className="editor-sidebar-title"><span>网站页面</span><small>点击预览</small></div>
-          <nav className="editor-page-list">
-            {pages.map((item) => <button type="button" className={item.path === page ? 'is-active' : ''} key={item.path} onClick={() => { setPage(item.path); setPreviewMode('edit'); setSelection(null); setForm(null) }}><span>{item.label}</span><small>{item.path}</small></button>)}
-          </nav>
-          <div className="editor-add-box">
-            <span>向当前页面添加</span>
-            <button type="button" onClick={() => addInsertion('text')}><span>文字</span><b>＋</b></button>
-            <button type="button" onClick={() => addInsertion('image')}><span>图片</span><b>＋</b></button>
+          <div className="editor-sidebar-title"><strong>页面</strong><small>点击切换</small></div>
+          <div className="editor-page-list">{pages.map((item) => <button type="button" className={page === item.path ? 'is-active' : ''} onClick={() => { setPage(item.path); hashRef.current = ''; setHash(''); setSelection(null); setForm(null) }} key={item.path}>{item.label}<small>{item.path}</small></button>)}<button type="button" className={page === '/' && hash === '#contact' ? 'is-active' : ''} onClick={() => { setPage('/'); hashRef.current = '#contact'; setHash('#contact'); setSelection(null); setForm(null) }}>联系方式<small>/#contact</small></button></div>
+          <div className="editor-help-box"><strong>使用方法</strong><span>1. 点击中间网页内容</span><span>2. 在右侧修改</span><span>3. 保存当前修改</span><span>4. 检查网站并发布</span></div>
+          <div className="editor-quick-assets">
+            <div className={`editor-media-status is-${mediaNoticeTone}`} role="status" aria-live="polite"><strong>当前操作</strong><span>{mediaNotice}</span></div>
+            <strong>快速替换</strong>
+            <label><Video size={15} />当前页背景视频<input type="file" accept="video/*" onChange={(event) => quickUpload(event, '__page_background_video__', 'video')} /></label>
+            <label><ImagePlus size={15} />当前页背景图片<input type="file" accept="image/*" onChange={(event) => quickUpload(event, '__page_background_image__', 'image')} /></label>
+            <label><Music size={15} />当前页 BGM<input type="file" accept="audio/*" onChange={(event) => quickUpload(event, '__page_audio__', 'audio')} /></label>
+            <div className="editor-quick-delete-grid">
+              <button className="editor-quick-delete" type="button" disabled={busy} onClick={() => void deleteQuickAsset('__page_background_video__', 'video')}><Trash2 size={14} />删除背景视频</button>
+              <button className="editor-quick-delete" type="button" disabled={busy} onClick={() => void deleteQuickAsset('__page_background_image__', 'image')}><Trash2 size={14} />删除背景图片</button>
+              <button className="editor-quick-delete" type="button" disabled={busy} onClick={() => void deleteQuickAsset('__page_audio__', 'audio')}><Trash2 size={14} />删除 BGM</button>
+            </div>
+            <p className="editor-media-note">浏览器可能阻止未经过用户操作的自动播放；音频仍会真实上传、保存并加载，点击预览页面后即可播放。</p>
           </div>
           {log ? <pre className="editor-log">{log}</pre> : null}
         </aside>
 
         <main className="visual-editor-workspace">
           <div className="editor-preview-toolbar">
-            <div><strong>{currentPage.label}</strong><span>{previewMode === 'edit' ? '编辑模式：点击文字、图片或组件即可修改' : '浏览模式：点击导航、分类、卡片和详情模块进入'}</span></div>
+           <div><strong>{activePageLabel}</strong><span>{mode === 'edit' ? '编辑模式：点击任意文字、图片、视频或模块' : '浏览模式：正常操作网站'}</span></div>
             <div className="editor-preview-controls">
-              <div className="editor-mode-switch"><span className={'editor-mode-status is-' + previewMode}>当前：{previewMode === 'edit' ? '编辑模式' : '浏览模式'}</span><button type="button" onClick={() => sendPreviewMode(previewMode === 'edit' ? 'browse' : 'edit')}>{previewMode === 'edit' ? '进入浏览模式' : '返回编辑模式'}</button></div>
-              <div className="editor-device-switch"><button type="button" className={device === 'desktop' ? 'is-active' : ''} onClick={() => setDevice('desktop')}><Monitor size={15} />电脑</button><button type="button" className={device === 'mobile' ? 'is-active' : ''} onClick={() => setDevice('mobile')}><Smartphone size={15} />手机</button></div>
+              <div className="editor-mode-switch"><button type="button" onClick={() => { const nextMode = mode === 'edit' ? 'browse' : 'edit'; const frame = document.querySelector<HTMLIFrameElement>('.editor-preview-frame'); const frameSrc = frame?.getAttribute('src') ?? ''; const srcHash = frameSrc ? new URL(frameSrc, window.location.origin).hash : ''; let currentHash = srcHash; try { currentHash = frame?.contentWindow?.location.hash || srcHash } catch { /* preview may still be navigating */ } hashRef.current = currentHash; setHash(currentHash); setMode(nextMode); setSelection(null); setForm(null); window.setTimeout(syncPreviewMode, 0) }}>{mode === 'edit' ? <><Eye size={15} />切换浏览</> : <><Settings size={15} />切换编辑</>}</button></div>
+              <div className="editor-device-switch"><button type="button" aria-label="电脑预览" className={device === 'desktop' ? 'is-active' : ''} onClick={() => setDevice('desktop')}><Monitor size={16} /></button><button type="button" aria-label="手机预览" className={device === 'mobile' ? 'is-active' : ''} onClick={() => setDevice('mobile')}><Smartphone size={16} /></button></div>
             </div>
           </div>
-          <div className={'editor-preview-stage is-' + device}>
-            <iframe key={frameUrl} className="editor-preview-frame" title="网站实时预览" src={frameUrl} onLoad={(event) => event.currentTarget.contentWindow?.postMessage({ type: 'editor:mode', mode: previewMode }, '*')} />
-          </div>
+          <div className={'editor-preview-stage is-' + device}><iframe className="editor-preview-frame" src={frameUrl} title="网站实时预览" onLoad={syncPreviewMode} /></div>
         </main>
 
         <aside className="visual-editor-inspector">
-          {!form ? (
-            <div className="editor-empty-inspector"><Layout size={32} /><h2>选择页面内容</h2><p>点击中间预览里的任意文字、图片或组件，就可以在这里修改。</p></div>
-          ) : (
+          {!form || !selection ? <div className="editor-empty-inspector"><Settings size={30} /><h2>点击网页上的内容</h2><p>文字、图片、背景视频、BGM和整个模块都可以选择。</p></div> : (
             <div className="editor-inspector-content">
-              <div className="editor-inspector-heading"><div><span>已选中</span><h2>{form.kind === 'image' ? '图片' : form.kind === 'text' ? '文字' : '组件'}</h2></div><button type="button" onClick={removeSelection} title="删除或隐藏"><Trash2 size={17} /></button></div>
-              {form.kind === 'image' ? <>
-                <label className="editor-field"><span>图片地址</span><input value={form.src || ''} onChange={(event) => updateForm({ src: event.target.value })} /></label>
-                <label className="editor-upload"><Upload size={16} /><span>从电脑选择新图片</span><input type="file" accept="image/*" onChange={uploadImage} /></label>
-                <label className="editor-field"><span>图片说明</span><input value={form.alt || ''} onChange={(event) => updateForm({ alt: event.target.value })} /></label>
+              <div className="editor-inspector-heading"><div><span>当前选择</span><h2>{form.kind === 'text' ? '文字' : form.kind === 'image' ? '图片' : form.kind === 'video' ? '视频' : form.kind === 'audio' ? 'BGM' : '页面模块'}</h2></div></div>
+              {form.kind === 'text' ? <>
+                <label className="editor-field"><span>{selectedContactValueSelector && !selectedContactLabel ? '卡片下方内容' : '文字内容'}</span><textarea rows={6} value={form.value ?? ''} placeholder={selectedContactValueSelector && !selectedContactLabel ? '在这里添加 QQ、VX、QQ群或其他联系内容' : undefined} onChange={(e) => updateForm({ value: e.target.value })} /></label>
+                {selectedContactLabel ? <button className="editor-related-content-button" type="button" onClick={selectContactValue}>编辑卡片下方内容</button> : null}
               </> : null}
-              {form.kind !== 'image' ? <label className="editor-field"><span>文字内容</span><textarea rows={5} value={form.value || ''} onChange={(event) => updateForm({ value: event.target.value })} /></label> : null}
-              <div className="editor-style-heading"><span>外观和位置</span><small>留空表示保持原样</small></div>
-              <div className="editor-style-grid">
-                {styleFields.map(([key, label]) => <label className="editor-field" key={key}><span>{label}</span><input value={form.styles?.[key] || ''} placeholder={key === 'opacity' ? '0 - 1' : ''} onChange={(event) => updateForm({ styles: { ...(form.styles || {}), [key]: event.target.value } })} /></label>)}
-              </div>
-              <label className="editor-check"><input type="checkbox" checked={Boolean(form.hidden)} onChange={(event) => updateForm({ hidden: event.target.checked })} /><span>暂时隐藏此内容</span></label>
-              <button className="editor-save-button" type="button" onClick={saveSelection} disabled={busy}><Save size={17} />保存修改</button>
+              {['image','video','audio'].includes(form.kind) ? <>
+                <label className="editor-field"><span>当前文件地址</span><input value={form.src ?? ''} onChange={(e) => updateForm({ src: e.target.value })} /></label>
+                <label className="editor-upload">{form.kind === 'image' ? <ImagePlus size={17} /> : form.kind === 'video' ? <Video size={17} /> : <Music size={17} />}选择新的{form.kind === 'image' ? '图片' : form.kind === 'video' ? '视频' : '音乐'}<input type="file" accept={form.kind === 'image' ? 'image/*' : form.kind === 'video' ? 'video/*' : 'audio/*'} onChange={uploadMedia} /></label>
+              </> : null}
+              {form.kind === 'image' ? <div className="editor-ratio-control"><span>图片窗口比例</span><div>{[['16 / 9','16:9'],['21 / 9','21:9'],['2.35 / 1','2.35:1'],['4 / 3','4:3'],['1 / 1','1:1'],['3 / 4','3:4'],['2 / 3','2:3']].map(([value,label]) => <button type="button" className={form.parentStyles?.['aspect-ratio'] === value ? 'is-active' : ''} onClick={() => updateForm({ parentStyles: { ...(form.parentStyles ?? {}), 'aspect-ratio': value } })} key={value}>{label}</button>)}</div><input value={form.parentStyles?.['aspect-ratio'] ?? ''} onChange={(event) => updateForm({ parentStyles: { ...(form.parentStyles ?? {}), 'aspect-ratio': event.target.value } })} placeholder="自定义，例如 5 / 4" /></div> : null}
+              <label className="editor-check"><input type="checkbox" checked={Boolean(form.hidden)} onChange={(e) => updateForm({ hidden: e.target.checked })} />隐藏这个内容或模块 {form.hidden ? <EyeOff size={15} /> : <Eye size={15} />}</label>
+              <div className="editor-style-heading"><strong>尺寸与外观</strong><small>可留空</small></div>
+              <div className="editor-style-grid">{styleFields.map(([name,label]) => <label className="editor-field" key={name}><span>{label}</span><input value={form.styles?.[name] ?? ''} placeholder={name === 'font-size' ? '例如 32px' : ''} onChange={(e) => updateForm({ styles: { ...(form.styles ?? {}), [name]: e.target.value } })} /></label>)}</div>
+              <button className="editor-save-button" type="button" disabled={busy} onClick={saveSelection}><Save size={16} />保存当前修改</button>
+              {selection.insertionId ? <button className="editor-restore-button" type="button" disabled={busy} onClick={() => void deleteInsertion()}><Upload size={15} />删除这个新增窗口</button> : null}
+              <button className="editor-restore-button" type="button" disabled={busy} onClick={() => void restoreSelection()}><Upload size={15} />恢复原始内容</button>
             </div>
           )}
         </aside>

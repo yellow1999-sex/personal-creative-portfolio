@@ -74,8 +74,8 @@ function SceneMedia({ scene }: { scene: SceneKey }) {
   return (
     <div className={'clean-scene-media' + extraClass} aria-hidden="true">
       {hasVideo ? (
-        <video data-editor-id="background-video-home" data-editor-media-key="home-scene-video" ref={videoRef} src={videoSource ?? undefined} poster={imageConfig.hero} autoPlay muted loop playsInline preload="auto" controlsList="nodownload noremoteplayback" disablePictureInPicture disableRemotePlayback onCanPlay={(event) => { if (!document.hidden) void event.currentTarget.play().catch(() => undefined) }} />
-      ) : <img data-editor-media-key="home-scene-image" src={imageConfig.hero} alt="" />}
+        <video data-editor-id="background-video-home" ref={videoRef} src={videoSource ?? undefined} poster={imageConfig.hero} autoPlay muted loop playsInline preload="auto" controlsList="nodownload noremoteplayback" disablePictureInPicture disableRemotePlayback onCanPlay={(event) => { if (!document.hidden) void event.currentTarget.play().catch(() => undefined) }} />
+      ) : <img src={imageConfig.hero} alt="" />}
       <i />
     </div>
   )
@@ -469,7 +469,7 @@ export function HomePage() {
         window.setTimeout(() => ripple.remove(), 640)
       }}
     >
-      {imageConfig.ambientAudio ? <audio data-editor-id="bgm-home" data-editor-media-key="home-bgm" ref={audioRef} src={imageConfig.ambientAudio} autoPlay loop preload="auto" controlsList="nodownload noremoteplayback" /> : null}
+      {imageConfig.ambientAudio ? <audio data-editor-id="bgm-home" ref={audioRef} src={imageConfig.ambientAudio} autoPlay loop preload="auto" controlsList="nodownload noremoteplayback" /> : null}
       <SceneMedia scene={scene} />
       <div className="clean-noise" aria-hidden="true" />
       <AnimatePresence mode="wait" initial={false}>

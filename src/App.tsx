@@ -19,6 +19,7 @@ const pageTitles: Record<string, string> = {
   '/works': '场景包预设 · 酸奶奶奶奶奶',
   '/prompts': '提示词库 · 酸奶奶奶奶奶',
   '/workflow': '工作流分享 · 酸奶奶奶奶奶',
+  '/editor': '原始网站后台 · 酸奶奶奶奶奶',
 }
 
 function RoutedApp() {

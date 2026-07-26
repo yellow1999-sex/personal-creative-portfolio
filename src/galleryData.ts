@@ -17,7 +17,7 @@ export const gallerySections: Array<{ id: string; label: string; portrait?: bool
   {
     id: 'semi',
     label: '半合成',
-    images: toImages('semi', imageConfig.works.semiFinished.slice(0, 10)),
+    images: toImages('semi', imageConfig.works.semiFinished.slice(0, 6)),
   },
   {
     id: 'retouch',
@@ -34,6 +34,6 @@ export const gallerySections: Array<{ id: string; label: string; portrait?: bool
   {
     id: 'restoration',
     label: '立绘还原',
-    images: toImages('restoration', imageConfig.works.semiFinished.slice(10, 20)),
+    images: toImages('restoration', imageConfig.works.semiFinished.slice(6)),
   },
 ]

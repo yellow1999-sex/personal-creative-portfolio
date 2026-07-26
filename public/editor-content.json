@@ -23,19 +23,11 @@
       "styles": {},
       "parentStyles": {}
     },
-    "/works::__page_background_image__": {
-      "selector": "__page_background_image__",
-      "page": "/works",
-      "kind": "image",
-      "src": "",
-      "hidden": true,
-      "styles": {}
-    },
     "/#contact::#root > div.route-transition > div.clean-scene-home > section.clean-contact-scene > div.clean-contact-copy > h1": {
       "selector": "#root > div.route-transition > div.clean-scene-home > section.clean-contact-scene > div.clean-contact-copy > h1",
       "page": "/#contact",
       "kind": "text",
-      "value": "在这联系我吧",
+      "value": "在这里联系我喔",
       "src": "",
       "alt": "",
       "hidden": false,

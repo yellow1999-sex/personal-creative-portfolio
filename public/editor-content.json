@@ -577,11 +577,108 @@
       "hidden": false,
       "styles": {},
       "parentStyles": {
-        "aspect-ratio": "419 / 351"
+        "aspect-ratio": "16 / 9"
       },
       "title": "New work",
       "summary": "This imported card has an editable prompt.",
       "prompt": "画面中的人物主体不变，不要改变人物的动作和表情，主体的细节不变，固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，保持画面的色温和色彩风格不变，为主体人物更换背景为改变.人物处在牛奶灌装生产线的厂房中，工厂内部大型金属机器和管道错落分布，天花板上整齐排列的长条形LED灯带提供均匀照明，营造出高效、洁净、科技感十足的氛围，光线从顶部投射下来，形成明暗对比，工厂内有多个牛奶罐装流水线，流水线上的玻璃瓶瓶身为中国产的大白兔奶糖包装，内装乳白色牛奶，瓶口整齐排列在传送带上，机械臂正在自动灌装，还有多个fufu娃娃风格的兔子在流水线上工作，同时厂房内还有一个大型透明圆柱形生物舱，舱内隐约可见一只黑白花奶牛，还有一张金属办公桌，桌上摆放着一台亮着蓝光的电脑显示器，旁边是黑色办公椅，椅子微微向后倾斜，墙上布满通风口和控制面板，画面由35mm镜头拍摄，f1.8光圈，地平线无倾斜，充满的cg感，具有高精度和极致的细节，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
+      "tags": [
+        "场照半合成预制菜",
+        "To edit"
+      ],
+      "categoryLabel": "场照半合成预制菜",
+      "meta": "场照半合成预制菜 / Editable prompt"
+    },
+    "/works::[data-editor-insert-id=\"gallery-batch-1785339243332-1\"][data-editor-insert-image=\"true\"]": {
+      "selector": "[data-editor-insert-id=\"gallery-batch-1785339243332-1\"][data-editor-insert-image=\"true\"]",
+      "page": "/works",
+      "kind": "image",
+      "value": "",
+      "src": "/images/editor/batch-1785339243332-1-ScreenShot_2026-07-29_232744_894.webp",
+      "alt": "ScreenShot_2026-07-29_232744_894",
+      "hidden": false,
+      "styles": {},
+      "parentStyles": {},
+      "title": "ScreenShot_2026-07-29_232744_894",
+      "summary": "This imported card has an editable prompt.",
+      "prompt": "画面中的人物主体不变，不要改变人物的动作和表情，主体的细节不变，固定主体人物在画面大小和透视关系，一定不要改变画面的背景，保留原画面背景，保留背景，在主体人背后增加一个比主体人物稍大的白色的镂空的windowsUI浏览器窗口框架，窗口像门一样靠近人物，人物背后两台复古电视，两台复古电视上也堆叠了一台复古电视，三台复古电视上播放着带有彩色色散效果的黑白横条雪花画面，地面有大量错综复杂的黑色软电线弯曲，连接着电视，画面由35mm镜头拍摄，画面向右倾斜，f1.8光圈，具有照片级的真实感，充满的cg感，具有高精度和极致的细节，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
+      "tags": [
+        "场照半合成预制菜",
+        "To edit"
+      ],
+      "categoryLabel": "场照半合成预制菜",
+      "meta": "场照半合成预制菜 / Editable prompt"
+    },
+    "/works::[data-editor-id=\"category-title-portrait\"]": {
+      "selector": "[data-editor-id=\"category-title-portrait\"]",
+      "page": "/works",
+      "kind": "text",
+      "value": "合成预制菜",
+      "src": "",
+      "alt": "",
+      "hidden": false,
+      "styles": {},
+      "parentStyles": {},
+      "title": "",
+      "summary": "",
+      "prompt": "",
+      "tags": [],
+      "categoryLabel": "",
+      "meta": ""
+    },
+    "/works::[data-editor-insert-id=\"gallery-batch-1785340453016-3\"][data-editor-insert-image=\"true\"]": {
+      "selector": "[data-editor-insert-id=\"gallery-batch-1785340453016-3\"][data-editor-insert-image=\"true\"]",
+      "page": "/works",
+      "kind": "image",
+      "value": "",
+      "src": "/images/editor/batch-1785340453016-3-ScreenShot_2026-07-29_235358_310.webp",
+      "alt": "ScreenShot_2026-07-29_235358_310",
+      "hidden": false,
+      "styles": {},
+      "parentStyles": {},
+      "title": "ScreenShot_2026-07-29_235358_310",
+      "summary": "This imported card has an editable prompt.",
+      "prompt": "画面中的人物主体不变，不要改变人物的动作和表情，主体的细节不变，固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，为人物增加背景，背景是一个巴洛克风的古典欧式宫殿，宫殿中央有3面非常高的巨大的落地彩窗，每个落地彩窗中间有罗马柱间隔，榭寄生长在罗马柱和彩窗高处，人物脚底是彩窗底部的平台，平台由5层台阶构成，平台上的地面上有散落的碎石和书籍还有烛台，在台阶前是一条从镜头前通向人物的罗马水池，水面波光嶙峋，水池两边是欧式古代图书馆的图书墙，墙面斑驳，书架上摆满书籍，寄生植物长在图书墙上，整个场景仿佛神迹废墟，在人物头顶上方有一束阳光射下，有电影感的顶光效果，形成丁达尔效应，在画面右下角还有一处灌木丛作为前景虚化，画面由35mm镜头拍摄，f1.8光圈，具有照片级的真实感，充满的cg感，具有高精度和极致的细节，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系\n\n画面中的人物主体不变，不要改变人物的动作和表情，主体的细节不变，固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，在水池两旁增加肩扛水瓶的女神雕像，水流从瓶子落下流向水池中，同时在水池两边的地面上增加灰白色碎石和从石缝中长出的植物，在画面左侧的墙上增加一个斜靠在墙上的爬梯，同时在人物背后的罗马柱上方增加开着白花的寄生植物，画面由35mm镜头拍摄，f1.8光圈，具有照片级的真实感，充满的cg感，具有高精度和极致的细节，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，虚化近景和远景，拥有优秀的透视关系",
+      "tags": [
+        "场照半合成预制菜",
+        "To edit"
+      ],
+      "categoryLabel": "场照半合成预制菜",
+      "meta": "场照半合成预制菜 / Editable prompt"
+    },
+    "/works::[data-editor-insert-id=\"gallery-batch-1785340453016-2\"][data-editor-insert-image=\"true\"]": {
+      "selector": "[data-editor-insert-id=\"gallery-batch-1785340453016-2\"][data-editor-insert-image=\"true\"]",
+      "page": "/works",
+      "kind": "image",
+      "value": "",
+      "src": "/images/editor/batch-1785340453016-2-ScreenShot_2026-07-29_234811_101.webp",
+      "alt": "ScreenShot_2026-07-29_234811_101",
+      "hidden": false,
+      "styles": {},
+      "parentStyles": {},
+      "title": "ScreenShot_2026-07-29_234811_101",
+      "summary": "This imported card has an editable prompt.",
+      "prompt": "画面中的人物主体不变，不要改变人物的动作和表情，主体的细节不变，固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，一定不要改变画面的背景，保留原画面背景，人物脚下是密集的草丛，草丛里散落着破碎的木梁、木车残骸，画面左侧还有燃烧的损毁木材地上有水洼反射，还有死亡的《进击的巨人》里的士兵面部朝下躺在地上，主体人物脚下散落着石头，画面左下角还有杂草作为前景虚化，场景昏暗，整个画面由35mm镜头仰拍拍摄，f1.8光圈，具有照片级的真实感，充满的cg感，具有高精度和极致的细节，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
+      "tags": [
+        "场照半合成预制菜",
+        "To edit"
+      ],
+      "categoryLabel": "场照半合成预制菜",
+      "meta": "场照半合成预制菜 / Editable prompt"
+    },
+    "/works::[data-editor-insert-id=\"gallery-batch-1785340453016-1\"][data-editor-insert-image=\"true\"]": {
+      "selector": "[data-editor-insert-id=\"gallery-batch-1785340453016-1\"][data-editor-insert-image=\"true\"]",
+      "page": "/works",
+      "kind": "image",
+      "value": "",
+      "src": "/images/editor/batch-1785340453016-1-ScreenShot_2026-07-29_234602_331.webp",
+      "alt": "ScreenShot_2026-07-29_234602_331",
+      "hidden": false,
+      "styles": {},
+      "parentStyles": {},
+      "title": "ScreenShot_2026-07-29_234602_331",
+      "summary": "This imported card has an editable prompt.",
+      "prompt": "画面中的人物主体不变，不要改变人物的动作和表情，主体的细节不变，固定主体人物在画面大小和透视关系，一定不要改变画面的背景，保留原画面背景，人物背后有低矮的残垣断壁，把地面改成一片石砖地面，地面有水洼反射，石砖缝隙中长出杂草和白色和黄色的野花，人物的背后右边有个干草堆，人物背后的左边有3个训练用的稻草假人，画面右边有燃烧的火堆，场景昏暗，整个画面由35mm镜头仰拍拍摄，f1.8光圈，具有照片级的真实感，充满的cg感，具有高精度和极致的细节，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
       "tags": [
         "场照半合成预制菜",
         "To edit"
@@ -1135,7 +1232,107 @@
       "meta": "场照半合成预制菜 / Editable prompt",
       "styles": {
         "width": "100%",
-        "aspect-ratio": "419 / 351",
+        "aspect-ratio": "16 / 9",
+        "object-fit": "contain",
+        "display": "block",
+        "border-radius": "12px"
+      }
+    },
+    {
+      "id": "gallery-batch-1785339243332-1",
+      "page": "/works",
+      "parentSelector": "[data-editor-gallery-id=\"portrait\"]",
+      "insertPosition": "end",
+      "kind": "image",
+      "src": "/images/editor/batch-1785339243332-1-ScreenShot_2026-07-29_232744_894.webp",
+      "alt": "ScreenShot_2026-07-29_232744_894",
+      "title": "ScreenShot_2026-07-29_232744_894",
+      "summary": "This imported card has an editable prompt.",
+      "prompt": "画面中的人物主体不变，不要改变人物的动作和表情，主体的细节不变，固定主体人物在画面大小和透视关系，一定不要改变画面的背景，保留原画面背景，保留背景，在主体人背后增加一个比主体人物稍大的白色的镂空的windowsUI浏览器窗口框架，窗口像门一样靠近人物，人物背后两台复古电视，两台复古电视上也堆叠了一台复古电视，三台复古电视上播放着带有彩色色散效果的黑白横条雪花画面，地面有大量错综复杂的黑色软电线弯曲，连接着电视，画面由35mm镜头拍摄，画面向右倾斜，f1.8光圈，具有照片级的真实感，充满的cg感，具有高精度和极致的细节，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
+      "tags": [
+        "场照半合成预制菜",
+        "To edit"
+      ],
+      "categoryLabel": "场照半合成预制菜",
+      "meta": "场照半合成预制菜 / Editable prompt",
+      "styles": {
+        "width": "100%",
+        "aspect-ratio": "640 / 359",
+        "object-fit": "contain",
+        "display": "block",
+        "border-radius": "12px"
+      }
+    },
+    {
+      "id": "gallery-batch-1785340453016-1",
+      "page": "/works",
+      "parentSelector": "[data-editor-gallery-id=\"portrait\"]",
+      "insertPosition": "end",
+      "kind": "image",
+      "src": "/images/editor/batch-1785340453016-1-ScreenShot_2026-07-29_234602_331.webp",
+      "alt": "ScreenShot_2026-07-29_234602_331",
+      "title": "ScreenShot_2026-07-29_234602_331",
+      "summary": "This imported card has an editable prompt.",
+      "prompt": "画面中的人物主体不变，不要改变人物的动作和表情，主体的细节不变，固定主体人物在画面大小和透视关系，一定不要改变画面的背景，保留原画面背景，人物背后有低矮的残垣断壁，把地面改成一片石砖地面，地面有水洼反射，石砖缝隙中长出杂草和白色和黄色的野花，人物的背后右边有个干草堆，人物背后的左边有3个训练用的稻草假人，画面右边有燃烧的火堆，场景昏暗，整个画面由35mm镜头仰拍拍摄，f1.8光圈，具有照片级的真实感，充满的cg感，具有高精度和极致的细节，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
+      "tags": [
+        "场照半合成预制菜",
+        "To edit"
+      ],
+      "categoryLabel": "场照半合成预制菜",
+      "meta": "场照半合成预制菜 / Editable prompt",
+      "styles": {
+        "width": "100%",
+        "aspect-ratio": "16 / 9",
+        "object-fit": "contain",
+        "display": "block",
+        "border-radius": "12px"
+      }
+    },
+    {
+      "id": "gallery-batch-1785340453016-2",
+      "page": "/works",
+      "parentSelector": "[data-editor-gallery-id=\"portrait\"]",
+      "insertPosition": "end",
+      "kind": "image",
+      "src": "/images/editor/batch-1785340453016-2-ScreenShot_2026-07-29_234811_101.webp",
+      "alt": "ScreenShot_2026-07-29_234811_101",
+      "title": "ScreenShot_2026-07-29_234811_101",
+      "summary": "This imported card has an editable prompt.",
+      "prompt": "画面中的人物主体不变，不要改变人物的动作和表情，主体的细节不变，固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，一定不要改变画面的背景，保留原画面背景，人物脚下是密集的草丛，草丛里散落着破碎的木梁、木车残骸，画面左侧还有燃烧的损毁木材地上有水洼反射，还有死亡的《进击的巨人》里的士兵面部朝下躺在地上，主体人物脚下散落着石头，画面左下角还有杂草作为前景虚化，场景昏暗，整个画面由35mm镜头仰拍拍摄，f1.8光圈，具有照片级的真实感，充满的cg感，具有高精度和极致的细节，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
+      "tags": [
+        "场照半合成预制菜",
+        "To edit"
+      ],
+      "categoryLabel": "场照半合成预制菜",
+      "meta": "场照半合成预制菜 / Editable prompt",
+      "styles": {
+        "width": "100%",
+        "aspect-ratio": "16 / 9",
+        "object-fit": "contain",
+        "display": "block",
+        "border-radius": "12px"
+      }
+    },
+    {
+      "id": "gallery-batch-1785340453016-3",
+      "page": "/works",
+      "parentSelector": "[data-editor-gallery-id=\"portrait\"]",
+      "insertPosition": "end",
+      "kind": "image",
+      "src": "/images/editor/batch-1785340453016-3-ScreenShot_2026-07-29_235358_310.webp",
+      "alt": "ScreenShot_2026-07-29_235358_310",
+      "title": "ScreenShot_2026-07-29_235358_310",
+      "summary": "This imported card has an editable prompt.",
+      "prompt": "画面中的人物主体不变，不要改变人物的动作和表情，主体的细节不变，固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，为人物增加背景，背景是一个巴洛克风的古典欧式宫殿，宫殿中央有3面非常高的巨大的落地彩窗，每个落地彩窗中间有罗马柱间隔，榭寄生长在罗马柱和彩窗高处，人物脚底是彩窗底部的平台，平台由5层台阶构成，平台上的地面上有散落的碎石和书籍还有烛台，在台阶前是一条从镜头前通向人物的罗马水池，水面波光嶙峋，水池两边是欧式古代图书馆的图书墙，墙面斑驳，书架上摆满书籍，寄生植物长在图书墙上，整个场景仿佛神迹废墟，在人物头顶上方有一束阳光射下，有电影感的顶光效果，形成丁达尔效应，在画面右下角还有一处灌木丛作为前景虚化，画面由35mm镜头拍摄，f1.8光圈，具有照片级的真实感，充满的cg感，具有高精度和极致的细节，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系\n\n画面中的人物主体不变，不要改变人物的动作和表情，主体的细节不变，固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，在水池两旁增加肩扛水瓶的女神雕像，水流从瓶子落下流向水池中，同时在水池两边的地面上增加灰白色碎石和从石缝中长出的植物，在画面左侧的墙上增加一个斜靠在墙上的爬梯，同时在人物背后的罗马柱上方增加开着白花的寄生植物，画面由35mm镜头拍摄，f1.8光圈，具有照片级的真实感，充满的cg感，具有高精度和极致的细节，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，虚化近景和远景，拥有优秀的透视关系",
+      "tags": [
+        "场照半合成预制菜",
+        "To edit"
+      ],
+      "categoryLabel": "场照半合成预制菜",
+      "meta": "场照半合成预制菜 / Editable prompt",
+      "styles": {
+        "width": "100%",
+        "aspect-ratio": "851 / 858",
         "object-fit": "contain",
         "display": "block",
         "border-radius": "12px"

@@ -376,10 +376,9 @@ function applyState(state: EditorState, page: string) {
         image.alt = item.alt || ''
         applyStyles(image, item.styles)
       }
-      const title = existing.querySelector<HTMLElement>('[data-editor-insert-title]')
-      if (title) title.textContent = item.title || item.alt || 'New work'
-      const tags = existing.querySelector<HTMLElement>('[data-editor-insert-tags]')
-      if (tags) tags.replaceChildren(...(item.tags?.length ? item.tags : ['To edit']).map((tag) => { const span = document.createElement('span'); span.textContent = tag; return span }))
+      existing.querySelector('[data-editor-insert-title]')?.remove()
+      existing.querySelector('[data-editor-insert-tags]')?.remove()
+      existing.querySelector('.work-card-topline')?.remove()
       const promptButton = existing.querySelector<HTMLButtonElement>('[data-editor-insert-prompt]')
       if (promptButton) promptButton.textContent = '查看提示词'
       applyStyles(card, { 'aspect-ratio': '16 / 9', ...(item.styles?.['aspect-ratio'] ? { 'aspect-ratio': item.styles['aspect-ratio'] } : {}) })
@@ -441,13 +440,11 @@ function applyState(state: EditorState, page: string) {
       }
       if (isPortfolioCard) {
         const ambient = document.createElement('div')
+        const meta = document.createElement('div')
         ambient.className = 'work-card-ambient'
         ambient.setAttribute('aria-hidden', 'true')
         card.appendChild(ambient)
-        const meta = document.createElement('div')
-        meta.className = 'work-card-topline'
         meta.innerHTML = '<span>新作品</span><span>点击查看大图</span>'
-        card.appendChild(meta)
         const content = document.createElement('div')
         content.className = 'work-card-content'
         const copy = document.createElement('div')
@@ -468,14 +465,15 @@ function applyState(state: EditorState, page: string) {
         prompt.type = 'button'
         prompt.className = 'prompt-details-button'
         prompt.setAttribute('data-editor-insert-prompt', 'true')
-        prompt.textContent = '查看提示词'
+        prompt.textContent = '\u67e5\u770b\u5b8c\u6574\u63d0\u793a\u8bcd'
+        prompt.textContent = '\u67e5\u770b\u5b8c\u6574\u63d0\u793a\u8bcd'
         prompt.addEventListener('click', (event) => {
           event.preventDefault()
           event.stopPropagation()
           if (document.body.classList.contains('editor-preview-edit')) return
           emitInsertionEvent('editor:open-insertion-prompt', insertionRecords.get(element) || item, parent)
         })
-        content.append(copy, prompt)
+        content.append(prompt)
         card.appendChild(content)
       }
       element.appendChild(card)

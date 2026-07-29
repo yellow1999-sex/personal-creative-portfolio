@@ -10,8 +10,10 @@ const publicDir = path.join(root, 'public')
 const statePath = path.join(publicDir, 'editor-content.json')
 const settingsPath = path.join(root, '.editor-settings.json')
 const backupDir = path.join(root, 'website-backups')
-const apiPort = 4399
-const vitePort = 5173
+const apiPort = Number.parseInt(process.env.EDITOR_API_PORT || '4399', 10)
+const vitePort = Number.parseInt(process.env.EDITOR_VITE_PORT || '5173', 10)
+const shouldOpenBrowser = process.env.EDITOR_OPEN_BROWSER !== '0'
+const gitCommand = process.env.EDITOR_GIT_PATH || 'git'
 // Keep the original aspect ratio, preserve source pixels up to 4K, and never upscale.
 const maximumImageDimension = 4096
 const defaultSettings = {
@@ -114,7 +116,8 @@ async function copyProjectToBackup() {
 
 function run(command, args) {
   return new Promise((resolve, reject) => {
-    execFile(command, args, { cwd: root, windowsHide: true, maxBuffer: 8 * 1024 * 1024 }, (error, stdout, stderr) => {
+    const executable = command === 'git' ? gitCommand : command
+    execFile(executable, args, { cwd: root, windowsHide: true, maxBuffer: 8 * 1024 * 1024 }, (error, stdout, stderr) => {
       if (error) reject(Object.assign(error, { stdout, stderr }))
       else resolve({ stdout, stderr })
     })
@@ -123,7 +126,8 @@ function run(command, args) {
 
 function runWithInput(command, args, input) {
   return new Promise((resolve, reject) => {
-    const child = spawn(command, args, {
+    const executable = command === 'git' ? gitCommand : command
+    const child = spawn(executable, args, {
       cwd: root,
       windowsHide: true,
       env: { ...process.env, GIT_TERMINAL_PROMPT: '0' },
@@ -446,13 +450,20 @@ async function handleApi(request, response, url) {
     try {
       const settings = await resolveSettingsRepository(await writeSettings(await readJson(request)))
       if (!settings.githubRepo) throw new Error('请先填写 GitHub 仓库地址')
-      try { await run('git', ['rev-parse', '--git-dir']) } catch { await run('git', ['init']) }
-      await run('git', ['branch', '-M', settings.branch])
-      try { await run('git', ['remote', 'set-url', 'origin', settings.githubRepo]) }
-      catch { await run('git', ['remote', 'add', 'origin', settings.githubRepo]) }
-      const identity = await ensureGitIdentity(settings)
-      const remote = await run('git', ['remote', '-v'])
-      sendJson(response, 200, { ok: true, output: `${remote.stdout}\nGit 提交身份：${identity.username} <${identity.email}>`, settings })
+      let gitReady = true
+      try { await run('git', ['rev-parse', '--git-dir']) } catch {
+        try { await run('git', ['init']) } catch (error) { if (error.code !== 'ENOENT') throw error; gitReady = false }
+      }
+      if (gitReady) {
+        await run('git', ['branch', '-M', settings.branch])
+        try { await run('git', ['remote', 'set-url', 'origin', settings.githubRepo]) }
+        catch { await run('git', ['remote', 'add', 'origin', settings.githubRepo]) }
+        const identity = await ensureGitIdentity(settings)
+        const remote = await run('git', ['remote', '-v'])
+        sendJson(response, 200, { ok: true, output: `${remote.stdout}\nGit 提交身份：${identity.username} <${identity.email}>`, settings })
+      } else {
+        sendJson(response, 200, { ok: true, output: '已保存仓库地址。本电脑未检测到 Git，网站编辑和本地保存可以正常使用；发布上线时请使用内置 Git 的便携版或安装 Git。', settings })
+      }
     } catch (error) {
       sendJson(response, 500, { ok: false, message: error.stderr || error.message })
     }
@@ -504,7 +515,7 @@ async function handleApi(request, response, url) {
   if (url.pathname === '/api/editor/login-github' && request.method === 'POST') {
     try {
       await run('git', ['config', '--global', 'credential.helper', 'manager'])
-      const child = spawn('git', ['credential-manager', 'github', 'login'], { detached: true, stdio: 'ignore', windowsHide: false })
+      const child = spawn(gitCommand, ['credential-manager', 'github', 'login'], { detached: true, stdio: 'ignore', windowsHide: false })
       child.unref()
       sendJson(response, 200, { ok: true, message: 'GitHub 官方登录窗口已打开。完成一次登录后，系统会记住授权。' })
     } catch (error) {
@@ -714,12 +725,12 @@ await ensureState()
 apiServer.listen(apiPort, '127.0.0.1', () => {
   const vite = spawn(process.execPath, [path.join(root, 'node_modules', 'vite', 'bin', 'vite.js'), '--host', '127.0.0.1', '--port', String(vitePort)], {
     cwd: root,
-    stdio: 'inherit',
+    stdio: shouldOpenBrowser ? 'inherit' : 'ignore',
     windowsHide: true,
   })
 
   const openPromise = waitForPreview().then((ready) => {
-    if (!ready || process.platform !== 'win32') return
+    if (!ready || process.platform !== 'win32' || !shouldOpenBrowser) return
     const opener = spawn('cmd.exe', ['/c', 'start', '', `http://127.0.0.1:${vitePort}/editor`], { detached: true, stdio: 'ignore', windowsHide: true })
     opener.unref()
   })

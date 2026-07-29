@@ -257,20 +257,11 @@ export function WorkCard({
       />
       <img data-editor-id={`image-${work.id}`} src={work.image} alt={duplicate ? '' : work.alt} loading="lazy" decoding="async" width={1400} height={600} />
       <div className="work-card-ambient" aria-hidden="true" />
-      <div className="work-card-topline">
-        <span>{String(work.index).padStart(2, '0')}</span>
-        <span>点击查看大图</span>
-      </div>
       <div className="work-card-content">
-        <div>
-          <div className="work-tags">
-            {work.tags.slice(0, 2).map((tag) => <span key={tag}>{tag}</span>)}
-          </div>
-          <h3 data-editor-id={`title-${work.id}`}>{work.title}</h3>
-        </div>
         <PromptDetailsButton
           onOpen={() => onOpenPrompt(work)}
           compact
+          label="查看完整提示词"
           tabIndex={duplicate ? -1 : undefined}
         />
       </div>
@@ -541,8 +532,6 @@ export function HeroWorksLoop({
           aria-label={'查看大图：' + work.title}
         >
           <img src={work.image} alt={duplicate ? '' : work.alt} width={620} height={260} />
-          <span>{String(index + 1).padStart(2, '0')}</span>
-          <small>{work.title}</small>
         </motion.button>
       ))}
     </div>
@@ -893,10 +882,6 @@ function WorkLightboxPanel({
         </div>
 
         <div className="lightbox-footer">
-          <div>
-            <span>{work.tags.join(' / ')}</span>
-            <h2>{work.title}</h2>
-          </div>
           <PromptDetailsButton
             onOpen={() => onOpenPrompt(work)}
             label="查看完整提示词"
@@ -1008,8 +993,6 @@ function PromptDialogPanel({
         ) : null}
 
         <div className="prompt-dialog-copy">
-          <span className="prompt-dialog-category">{data.category}</span>
-          <h2 data-editor-prompt-title-id={data.id}>{data.title}</h2>
           {data.summary ? <p className="prompt-dialog-summary">{data.summary}</p> : null}
           <div className="prompt-dialog-text" data-editor-prompt-id={data.id}>{data.prompt}</div>
           <div className="prompt-dialog-footer">

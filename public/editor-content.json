@@ -66,6 +66,77 @@
       "hidden": true,
       "styles": {},
       "parentStyles": {}
+    },
+    "/works::[data-editor-insert-id=\"gallery-batch-1785086209008-1\"][data-editor-insert-image=\"true\"]": {
+      "selector": "[data-editor-insert-id=\"gallery-batch-1785086209008-1\"][data-editor-insert-image=\"true\"]",
+      "page": "/works",
+      "kind": "image",
+      "value": "",
+      "src": "/images/editor/batch-1785086209008-1-QQ20260725-001222.webp",
+      "alt": "QQ20260725-001222",
+      "hidden": false,
+      "styles": {},
+      "parentStyles": {},
+      "title": "",
+      "summary": "",
+      "prompt": "固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，保持画面的色温和色彩风格不变，保留原图远处的背景，在人物的正前方生成一个紫色幽暗的水池，水池中有5朵幽暗的紫色莲花，其中两朵靠近镜头，水池中央升起两道能量流，以曲线的形态汇入人物左手上的花朵，水池周围地上有草地和扭曲的树根，远处有数个散落的中式石质灯柱，其中几个石柱破损，在画面的左右两侧有两颗扭曲的幽暗奇幻树木，树木枝干斑驳，枝干上有缠绕的荆棘，树叶为深蓝绿色，紫色花瓣随风飘落，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
+      "tags": [
+        "场照半合成预制菜",
+        "To edit"
+      ],
+      "categoryLabel": "场照半合成预制菜",
+      "meta": "场照半合成预制菜 / Editable prompt"
+    },
+    "/prompts::[data-editor-prompt-id=\"source-494\"]": {
+      "selector": "[data-editor-prompt-id=\"source-494\"]",
+      "page": "/prompts",
+      "kind": "text",
+      "value": "\n双图层图像合成编辑，底板图 1 为绝对固定几何基准底板，参考图 2 为目标替换角色外形、五官、发型、配饰、道具唯一参考标准；全局永久锁定图 1 骨架、肢体动作、手部姿态、身体比例、画面构图、镜头透视、背景环境、全局光影色温、明暗阴影、景深，全程禁止裁切、缩放、旋转、重绘背景、改动人物站位与肢体结构。\n最高强制锁死铁律（优先级最高，严禁违反）\n图 1 全套服饰资产 100% 完整保留不修改：上衣、披肩、披帛、腰饰、长短裙、裤装、内搭、裙摆、腿环、丝袜、袜套、绑带、手套、鞋子、鞋饰全部原样留存，服饰褶皱、色彩、纹样、前后遮挡、尺寸位置不变，完整穿戴在替换后的目标角色躯体外侧，不得删除、改款、剪裁、变形任何原图服装；\n仅开放两类可迁移内容，全部依据图 2 生成：\n① 人物本体替换：将图 1 人物所有裸露面部、颈部、手臂、手掌、腿脚皮肤，以及服装内部隐藏身体体积，完整替换为图 2 角色原生躯体、肤色、五官结构；半透明丝袜完整保留，丝袜下透出图二角色肤色，透肤强度跟随原图丝袜透明度、雾度、明暗自动适配，不会整块纯色覆盖腿部；\n② 全套头部 & 身上配饰迁移：同步提取图二全部特征，包含发型、发色、帽子、口罩、面具、眼镜、耳饰、发饰、项链、手环、戒指、肩饰、腰带、随身饰品、手持道具；图二存在的帽子、口罩、各类配饰、道具全部适配到图一人物身上，贴合原图头部角度、手部动作、身体透视，不悬浮、不穿模；\n表情视线强制同步规则\n参考图 2 仅提供角色外形、发型、配饰材质，禁止照搬图二原生站姿、默认正视表情、固定视线；替换后的目标角色面部 1:1 复刻图 1 原人物神态：瞳孔朝向、视线落点、眼睑开合、嘴部弧度、头部俯仰 / 侧转角度、整体情绪完全统一，双眼同步原图视线，无斜视、斗鸡眼、呆滞居中瞳孔，不套用图二自带无情绪面瘫脸。\n光影材质融合标准\n影视级 PBR 物理渲染，Blender 高精度 3D 建模写实质感，8K 超高清极致细节；目标角色、迁移发型、帽子、口罩、各类饰品道具完整承接图一原生主辅光源、环境反光、阴影层次、画面色温；配件与人体、服装接触处生成真实接触阴影，无拼接白边、色彩断层、贴纸割裂感；柔和哑光原生材质，杜绝廉价塑料玩具质感、低模锯齿、二次元平涂 / 厚涂插画风格。\n分层合成固定逻辑\n底层：图 1 原始完整背景、场景固定摆件\n躯体层：图二替换角色内部身体与裸露皮肤\n透肤层：半透明丝袜下随材质衰减的角色肤色层\n服装层：图 1 全套原有上衣、裙装、裤袜、手套、鞋子完整覆盖\n配饰发型层：图二迁移发型、帽子、口罩、眼镜、耳饰、项链、腰带等全身饰品\n手持道具层：图二同步迁移手持道具，贴合原图手部握持动作\n最终效果：原图人物姿势、服装、构图完全不变，仅人物本体皮肤、发型、帽子、口罩、全身配饰、手持道具替换为图二角色全套特征，原图服饰完整包裹角色躯体，无身体穿出覆盖服装。\n二、英文镜像正向提示词（适配 AI 双语识别）\nDual-image composite editing, image 1 is fixed geometric base, reference image 2 is the only standard of target character appearance, facial features, hairstyle, accessories and props. Fully lock skeleton, limb movements, hand gestures, body proportion, composition, lens perspective, background, global light, color temperature, shadow and depth of field of image 1, no cropping, scaling, rotation or background repainting.\nAll original costumes of image 1 are fully retained without modification: tops, shawls, skirts, pants, inner clothes, stockings, shoes, folds, colors, patterns and occlusion relations stay intact, all clothes wear outside the target character body, no deletion or restyle.\nTwo parts can be replaced according to image 2:\nCharacter body replacement: Replace all exposed skin and invisible internal body volume under clothes with the body shape, skin tone and facial structure from image 2; semi-transparent stockings remain original, target character skin tone penetrates under stockings following local transparency and shadow of original stockings.\nFull set of accessories migration: Extract all features from image 2 including hairstyle, hair color, hat, mask, glasses, earrings, headdress, necklace, bracelet, belt and handheld props; all hats, masks, accessories and props from image 2 are generated on the character of image 1, fit original head angle, hand movement and perspective without floating or clipping.\nReference image 2 only provides character shape and accessory texture, do not copy its default standing pose, front blank expression or fixed gaze. The target character’s gaze, pupil position, eyelid opening, mouth shape, head tilt and emotion fully match the original character in image 1, no strabismus or dull centered pupils.\nFilm-level PBR physical rendering, Blender high-precision 3D realistic texture, 8K ultra HD. The target character, hairstyle, hat, mask and accessories inherit original light source, reflection and color temperature of image 1, no splicing white edges or color separation, no cheap plastic texture, low-poly jagged edges or flat anime painting style.\nLayer order: Original background from image 1 → Target character body layer → Stocking skin penetration layer → Original full costumes layer → Migrated hairstyle, hat, mask and all accessories layer → Migrated handheld props layer.\n三、高强度反向负面提示词（规避所有错误生成）\n图一人物姿势改动，肢体错位变形，手部动作改变，骨架比例篡改，人物偏移；画面裁切拉伸、透视畸变、重绘背景、色温色彩割裂；原图上衣 / 裙摆 / 裤装 / 丝袜 / 鞋子删除、改款、剪裁变形；原图原有服饰褶皱、纹样、颜色被修改；照搬图二原生站姿、图二默认呆滞正面表情、双眼视线偏移、斗鸡眼、瞳孔居中无情绪；替换角色身体放大缩小、肢体拉长缩短、关节错位、人体比例崩坏；丝袜消失、整条腿部纯色覆盖、残留原图人类肤色、双腿透肤强度不一致；帽子 / 口罩 / 眼镜 / 耳饰 / 项链 / 道具悬浮、穿模、错位；角色身体穿出服装、覆盖裙摆上衣；廉价塑料玩具质感、二次元平涂 / 厚涂插画、低模锯齿、贴图贴纸感；拼接白边、黑边断层、水印文字、噪点模糊、整体画面变形、饰品与原图服装互相遮挡错乱",
+      "src": "",
+      "alt": "",
+      "hidden": false,
+      "styles": {},
+      "parentStyles": {},
+      "title": "",
+      "summary": "",
+      "prompt": "",
+      "tags": [],
+      "categoryLabel": "",
+      "meta": ""
+    },
+    "/prompts::[data-editor-prompt-title-id=\"source-494\"]": {
+      "selector": "[data-editor-prompt-title-id=\"source-494\"]",
+      "page": "/prompts",
+      "kind": "text",
+      "value": "一键奶龙一键豆包万能一键（需要添加参考图2）",
+      "src": "",
+      "alt": "",
+      "hidden": false,
+      "styles": {},
+      "parentStyles": {},
+      "title": "",
+      "summary": "",
+      "prompt": "",
+      "tags": [],
+      "categoryLabel": "",
+      "meta": ""
+    },
+    "/prompts::#root > div.route-transition > div.inner-page.prompt-library-page > div.prompt-video-background > video": {
+      "selector": "#root > div.route-transition > div.inner-page.prompt-library-page > div.prompt-video-background > video",
+      "page": "/prompts",
+      "kind": "video",
+      "value": "",
+      "src": "/videos/prompts-background-web.mp4",
+      "alt": "",
+      "hidden": false,
+      "styles": {},
+      "parentStyles": {},
+      "title": "",
+      "summary": "",
+      "prompt": "",
+      "tags": [],
+      "categoryLabel": "",
+      "meta": ""
     }
   },
   "insertions": [
@@ -79,7 +150,7 @@
       "alt": "QQ20260725-001222",
       "title": "QQ20260725-001222",
       "summary": "This imported card has an editable prompt.",
-      "prompt": "Please edit this image prompt in the visual editor.",
+      "prompt": "固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，保持画面的色温和色彩风格不变，保留原图远处的背景，在人物的正前方生成一个紫色幽暗的水池，水池中有5朵幽暗的紫色莲花，其中两朵靠近镜头，水池中央升起两道能量流，以曲线的形态汇入人物左手上的花朵，水池周围地上有草地和扭曲的树根，远处有数个散落的中式石质灯柱，其中几个石柱破损，在画面的左右两侧有两颗扭曲的幽暗奇幻树木，树木枝干斑驳，枝干上有缠绕的荆棘，树叶为深蓝绿色，紫色花瓣随风飘落，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
       "tags": [
         "场照半合成预制菜",
         "To edit"

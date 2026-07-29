@@ -199,8 +199,6 @@ function RailColumn({ works, title, reverse = false, onOpenWork }: { works: Work
           aria-label={duplicate ? undefined : '查看大图：' + work.title}
         >
           <img src={work.image} alt={duplicate ? '' : work.alt} loading="lazy" decoding="async" width={900} height={600} />
-          <span>{String(work.index).padStart(2, '0')}</span>
-          <small>{work.title}</small>
         </motion.button>
       ))}
     </div>

@@ -484,6 +484,33 @@ function applyState(state: EditorState, page: string) {
     if (item.insertPosition === 'start') parent.prepend(element)
     else parent.appendChild(element)
   })
+
+  Object.entries(state.galleryOrders ?? {}).forEach(([galleryId, order]) => {
+    const gallery = document.querySelector<HTMLElement>(`[data-editor-gallery-id="${escapeSelector(galleryId)}"]`)
+    if (!gallery || !order.length) return
+    const cards = new Map<string, HTMLElement>()
+    Array.from(gallery.children).forEach((child) => {
+      const element = child as HTMLElement
+      const card = element.dataset.editorCardId ? element : element.querySelector<HTMLElement>('[data-editor-card-id]')
+      const id = element.dataset.editorInsertId || card?.dataset.editorCardId
+      if (id) cards.set(id, element)
+    })
+    order.forEach((id) => { const card = cards.get(id); if (card) gallery.appendChild(card) })
+    Array.from(gallery.children).forEach((child) => {
+      const element = child as HTMLElement
+      const card = element.dataset.editorCardId ? element : element.querySelector<HTMLElement>('[data-editor-card-id]')
+      const id = element.dataset.editorInsertId || card?.dataset.editorCardId
+      if (id && !order.includes(id)) gallery.appendChild(element)
+    })
+  })
+
+  if (document.body.classList.contains('editor-preview-edit')) {
+    document.querySelectorAll<HTMLElement>('[data-editor-gallery-id] > *, [data-editor-gallery-id] [data-editor-card-id]').forEach((element) => {
+      const card = element.dataset.editorCardId ? element : element.closest<HTMLElement>('[data-editor-card-id]')
+      const wrapper = element.parentElement?.dataset.editorGalleryId ? element : element.closest<HTMLElement>('[data-editor-gallery-id] > *')
+      ;(wrapper || card)?.setAttribute('draggable', 'true')
+    })
+  }
 }
 
 export function EditorRuntime() {
@@ -536,6 +563,54 @@ export function EditorRuntime() {
     let previewMode: 'edit' | 'browse' = new URLSearchParams(window.location.search).get('editorMode') === 'browse' ? 'browse' : 'edit'
     document.body.classList.toggle('editor-preview-browse', previewMode === 'browse')
     document.body.classList.toggle('editor-preview-edit', previewMode === 'edit')
+    let draggedCard: HTMLElement | null = null
+    const cardElement = (target: EventTarget | null) => {
+      if (!(target instanceof Element)) return null
+      const inserted = target.closest<HTMLElement>('[data-editor-insert-id]')
+      if (inserted) return inserted
+      return target.closest<HTMLElement>('[data-editor-card-id]')
+    }
+    const onDragStart = (event: DragEvent) => {
+      if (previewMode !== 'edit') return
+      const card = cardElement(event.target)
+      const gallery = card?.closest<HTMLElement>('[data-editor-gallery-id]')
+      if (!card || !gallery || !event.dataTransfer) return
+      draggedCard = card
+      event.dataTransfer.effectAllowed = 'move'
+      event.dataTransfer.setData('text/plain', card.dataset.editorInsertId || card.dataset.editorCardId || '')
+      card.classList.add('editor-preview-dragging')
+    }
+    const onDragOver = (event: DragEvent) => {
+      if (!draggedCard || previewMode !== 'edit') return
+      const target = cardElement(event.target)
+      if (!target || target === draggedCard || target.closest('[data-editor-gallery-id]') !== draggedCard.closest('[data-editor-gallery-id]')) return
+      event.preventDefault()
+      event.dataTransfer!.dropEffect = 'move'
+    }
+    const onDrop = (event: DragEvent) => {
+      if (!draggedCard || previewMode !== 'edit') return
+      const target = cardElement(event.target)
+      const gallery = draggedCard.closest<HTMLElement>('[data-editor-gallery-id]')
+      if (!target || !gallery || target === draggedCard || target.closest('[data-editor-gallery-id]') !== gallery) return
+      event.preventDefault()
+      const targetRect = target.getBoundingClientRect()
+      const insertBefore = event.clientY < targetRect.top + targetRect.height / 2
+      const directChild = (card: HTMLElement) => Array.from(gallery.children).find((child) => child === card || child.contains(card)) as HTMLElement | undefined
+      const moving = directChild(draggedCard)
+      const targetWrapper = directChild(target)
+      if (moving && targetWrapper) gallery.insertBefore(moving, insertBefore ? targetWrapper : targetWrapper.nextSibling)
+      const order = Array.from(gallery.children).map((child) => {
+        const element = child as HTMLElement
+        const card = element.dataset.editorCardId ? element : element.querySelector<HTMLElement>('[data-editor-card-id]')
+        return element.dataset.editorInsertId || card?.dataset.editorCardId || ''
+      }).filter(Boolean)
+      window.parent.postMessage({ type: 'editor:reorder-gallery', galleryId: gallery.dataset.editorGalleryId, order }, '*')
+    }
+    const onDragEnd = () => { draggedCard?.classList.remove('editor-preview-dragging'); draggedCard = null }
+    document.addEventListener('dragstart', onDragStart, true)
+    document.addEventListener('dragover', onDragOver, true)
+    document.addEventListener('drop', onDrop, true)
+    document.addEventListener('dragend', onDragEnd, true)
     let active: Element | null = null
     const select = (element: Element) => {
       active?.classList.remove('editor-preview-selected')
@@ -610,6 +685,10 @@ export function EditorRuntime() {
       document.body.classList.remove('editor-preview-browse')
       document.body.classList.remove('editor-preview-edit')
       document.removeEventListener('click', onClick, true)
+      document.removeEventListener('dragstart', onDragStart, true)
+      document.removeEventListener('dragover', onDragOver, true)
+      document.removeEventListener('drop', onDrop, true)
+      document.removeEventListener('dragend', onDragEnd, true)
       window.removeEventListener('message', onMessage)
     }
   }, [location.hash, location.pathname])

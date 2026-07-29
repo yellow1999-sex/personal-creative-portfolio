@@ -175,6 +175,7 @@ export function EditorPage() {
   const [batchBusy, setBatchBusy] = useState(false)
   const [batchProgress, setBatchProgress] = useState('')
   const [batchGalleryId, setBatchGalleryId] = useState<string | null>(null)
+  const [pendingGalleryOrder, setPendingGalleryOrder] = useState<{ galleryId: string; order: string[] } | null>(null)
   const addGalleryBusyRef = useRef(false)
   const addGalleryLastClickRef = useRef(0)
   const batchBusyRef = useRef(false)
@@ -239,6 +240,11 @@ export function EditorPage() {
       }
       if (event.data?.type === 'editor:add-gallery' && typeof event.data.galleryId === 'string') {
         void addGalleryWindow(event.data.galleryId)
+        return
+      }
+      if (event.data?.type === 'editor:reorder-gallery' && typeof event.data.galleryId === 'string' && Array.isArray(event.data.order)) {
+        setPendingGalleryOrder({ galleryId: event.data.galleryId, order: event.data.order.filter((item: unknown): item is string => typeof item === 'string') })
+        setNotice('卡片位置已调整，请点击保存位置固定')
         return
       }
       if (event.data?.type !== 'editor:select') return
@@ -331,6 +337,14 @@ export function EditorPage() {
         }
       }
     void saveState(next, '修改已保存到网站')
+  }
+
+  const saveGalleryOrder = () => {
+    if (!pendingGalleryOrder) return
+    const next = cloneState(state)
+    next.galleryOrders = { ...(next.galleryOrders ?? {}), [pendingGalleryOrder.galleryId]: pendingGalleryOrder.order }
+    void saveState(next, '卡片位置已保存，刷新后仍会保持')
+    setPendingGalleryOrder(null)
   }
 
   const restoreSelection = async () => {
@@ -799,6 +813,7 @@ export function EditorPage() {
               <label className="editor-check"><input type="checkbox" checked={Boolean(form.hidden)} onChange={(e) => updateForm({ hidden: e.target.checked })} />隐藏这个内容或模块 {form.hidden ? <EyeOff size={15} /> : <Eye size={15} />}</label>
               <div className="editor-style-heading"><strong>尺寸与外观</strong><small>可留空</small></div>
               <div className="editor-style-grid">{styleFields.map(([name,label]) => <label className="editor-field" key={name}><span>{label}</span><input value={form.styles?.[name] ?? ''} placeholder={name === 'font-size' ? '例如 32px' : ''} onChange={(e) => updateForm({ styles: { ...(form.styles ?? {}), [name]: e.target.value } })} /></label>)}</div>
+              {pendingGalleryOrder ? <button className="editor-save-button" type="button" disabled={busy} onClick={saveGalleryOrder}><Save size={16} />保存卡片位置</button> : null}
               <button className="editor-save-button" type="button" disabled={busy} onClick={saveSelection}><Save size={16} />保存当前修改</button>
               {selection.insertionId ? <button className="editor-restore-button" type="button" disabled={busy} onClick={() => void deleteInsertion()}><Upload size={15} />删除这个新增窗口</button> : null}
               {selection.cardId && !selection.insertionId ? <button className="editor-delete-card-button" type="button" disabled={busy} onClick={() => void deleteOriginalCard()}><Trash2 size={15} />删除这个原始卡片</button> : null}

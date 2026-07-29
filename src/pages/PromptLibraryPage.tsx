@@ -32,7 +32,8 @@ function PromptRow({ item, index, onOpen }: { item: PromptLibraryItem; index: nu
         <span>{getPromptCategory(item.category).label}</span>
         <h2 data-editor-prompt-title-id={item.id}>{item.title}</h2>
       </button>
-      <CopyPromptButton id={'library-' + item.id} prompt={item.prompt} compact label="复制" />
+      <span className="prompt-list-prompt-source" data-editor-prompt-id={item.id} aria-hidden="true">{item.prompt}</span>
+      <CopyPromptButton id={'library-' + item.id} promptId={item.id} prompt={item.prompt} compact label="复制" />
     </article>
   )
 }

@@ -156,19 +156,22 @@ export function FloatingNav() {
 export function CopyPromptButton({
   id,
   prompt,
+  promptId,
   label = '复制完整提示词',
   compact = false,
   tabIndex,
 }: {
   id: string
   prompt: string
+  promptId?: string
   label?: string
   compact?: boolean
   tabIndex?: number
 }) {
-  const { copy, copiedId, failedId } = useClipboard()
+  const { copy, copiedId, failedId, emptyId } = useClipboard()
   const copied = copiedId === id
   const failed = failedId === id
+  const empty = emptyId === id
 
   return (
     <motion.button
@@ -177,14 +180,18 @@ export function CopyPromptButton({
       tabIndex={tabIndex}
       onClick={(event) => {
         event.stopPropagation()
-        void copy(id, prompt)
+        const dialogPrompt = event.currentTarget.closest<HTMLElement>('.prompt-dialog')?.querySelector<HTMLElement>('.prompt-dialog-text')?.textContent?.trim()
+        const sourcePrompt = promptId
+          ? document.querySelector<HTMLElement>(`[data-editor-prompt-id="${promptId}"]`)?.textContent?.trim()
+          : ''
+        void copy(id, dialogPrompt || sourcePrompt || prompt)
       }}
       aria-live="polite"
       whileTap={{ scale: 0.93 }}
       transition={elasticSpring}
     >
       {copied ? <Check size={14} /> : <Copy size={14} />}
-      <span>{failed ? '复制失败' : copied ? '已复制' : label}</span>
+      <span>{empty ? '暂无提示词' : failed ? '复制失败' : copied ? '已复制' : label}</span>
     </motion.button>
   )
 }
@@ -997,7 +1004,7 @@ function PromptDialogPanel({
           <div className="prompt-dialog-text" data-editor-prompt-id={data.id}>{data.prompt}</div>
           <div className="prompt-dialog-footer">
             <span>{data.meta || '完整提示词 / 可直接复制'}</span>
-            {!data.hideCopyButton ? <CopyPromptButton id={'dialog-' + data.id} prompt={data.prompt} /> : null}
+            {!data.hideCopyButton ? <CopyPromptButton id={'dialog-' + data.id} promptId={data.id} prompt={data.prompt} /> : null}
           </div>
         </div>
       </motion.section>

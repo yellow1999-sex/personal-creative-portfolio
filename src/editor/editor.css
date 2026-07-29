@@ -101,6 +101,7 @@
 .editor-device-switch button.is-active { color: #dfff3f; border-color: rgba(223,255,63,.55); background: #252b29; }
 .editor-preview-stage { display: flex; justify-content: center; min-height: calc(100vh - 129px); padding: 25px; overflow: auto; }
 .editor-preview-frame { width: 100%; min-height: calc(100vh - 179px); border: 1px solid rgba(255,255,255,.13); border-radius: 10px; background: #070808; box-shadow: 0 22px 60px rgba(0,0,0,.35); transition: width .2s ease; }
+.editor-preview-dragging { opacity: .45 !important; outline: 2px dashed #dfff3f !important; cursor: grabbing !important; }
 .editor-preview-stage.is-mobile .editor-preview-frame { width: 390px; }
 .editor-empty-inspector { display: grid; justify-items: center; gap: 12px; padding: 100px 28px; color: #78817b; text-align: center; }
 .editor-empty-inspector h2 { margin: 0; color: #e5e9e1; font-size: 16px; }

@@ -77,9 +77,9 @@
       "hidden": false,
       "styles": {},
       "parentStyles": {},
-      "title": "",
-      "summary": "",
-      "prompt": "固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，保持画面的色温和色彩风格不变，保留原图远处的背景，在人物的正前方生成一个紫色幽暗的水池，水池中有5朵幽暗的紫色莲花，其中两朵靠近镜头，水池中央升起两道能量流，以曲线的形态汇入人物左手上的花朵，水池周围地上有草地和扭曲的树根，远处有数个散落的中式石质灯柱，其中几个石柱破损，在画面的左右两侧有两颗扭曲的幽暗奇幻树木，树木枝干斑驳，枝干上有缠绕的荆棘，树叶为深蓝绿色，紫色花瓣随风飘落，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
+      "title": "QQ20260725-001222",
+      "summary": "This imported card has an editable prompt.",
+      "prompt": "固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，保持画面的色温和色彩风格不变，保留原图远处的背景，改变人物的地面，人物悬浮于一个紫色幽暗的水池之上，池塘倒映着水洼倒映着天空与角色的影子，池塘旁边有暗色的草地和扭曲的树根，远处有数个散落的中式石质灯柱，其中几个石柱破损，在画面的左右两侧有两颗扭曲的幽暗奇幻树木，树木枝干斑驳，树叶为深蓝绿色，紫色花瓣随风飘落，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
       "tags": [
         "场照半合成预制菜",
         "To edit"
@@ -137,6 +137,457 @@
       "tags": [],
       "categoryLabel": "",
       "meta": ""
+    },
+    "/works::[data-editor-insert-id=\"gallery-batch-1785086209008-2\"][data-editor-insert-image=\"true\"]": {
+      "selector": "[data-editor-insert-id=\"gallery-batch-1785086209008-2\"][data-editor-insert-image=\"true\"]",
+      "page": "/works",
+      "kind": "image",
+      "value": "",
+      "src": "/images/editor/batch-1785086209008-2-QQ20260725-001259.webp",
+      "alt": "QQ20260725-001259",
+      "hidden": false,
+      "styles": {},
+      "parentStyles": {
+        "aspect-ratio": "16 / 9"
+      },
+      "title": "QQ20260725-001259",
+      "summary": "This imported card has an editable prompt.",
+      "prompt": "画面中的人物主体不变，不要改变人物的动作和表情，主体的细节不变，固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，保持画面的色温和色彩风格不变，为主体人物更换背景为改变. 画面左侧是高耸的摩天大楼的玻璃幕墙，人物脚踩在高耸的摩天大楼的玻璃幕墙上，人物背后是俯拍的赛博朋克2077的都市场景，都市场景可以看到很多摩天大楼的楼顶，人物抬起的右手拉着一根钢索，时间是晚上，画面中间人物背后有一架《明日方舟》角色W的无人机，还有一架《明日方舟》角色W的无人机，在画面右下角靠近镜头虚化，画面的右上角有破碎的玻璃洒落，被风吹向画面的左侧，具有手游《明日方舟》的3D真实建模CG的风格和《明日方舟》的元素，画面由35mm镜头拍摄，f1.8光圈，地平线无倾斜，充满的cg感，具有高精度和极致的细节，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
+      "tags": [
+        "场照半合成预制菜",
+        "To edit"
+      ],
+      "categoryLabel": "场照半合成预制菜",
+      "meta": "场照半合成预制菜 / Editable prompt"
+    },
+    "/works::[data-editor-insert-id=\"gallery-batch-1785086209008-3\"][data-editor-insert-image=\"true\"]": {
+      "selector": "[data-editor-insert-id=\"gallery-batch-1785086209008-3\"][data-editor-insert-image=\"true\"]",
+      "page": "/works",
+      "kind": "image",
+      "value": "",
+      "src": "/images/editor/----_20260725011908_590_8.webp",
+      "alt": "QQ20260725-001326",
+      "hidden": false,
+      "styles": {},
+      "parentStyles": {
+        "aspect-ratio": "3839 / 2159"
+      },
+      "title": "QQ20260725-001326",
+      "summary": "This imported card has an editable prompt.",
+      "prompt": "固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，保持画面的色温和色彩风格不变，保留原图远处的背景，在人物的正前方生成一个紫色幽暗的水池，水池中有5朵幽暗的紫色莲花，其中两朵靠近镜头，水池中央升起两道能量流，以曲线的形态汇入人物左手上的花朵，水池周围地上有草地和扭曲的树根，远处有数个散落的中式石质灯柱，其中几个石柱破损，在画面的左右两侧有两颗扭曲的幽暗奇幻树木，树木枝干斑驳，枝干上有缠绕的荆棘，树叶为深蓝绿色，紫色花瓣随风飘落，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
+      "tags": [
+        "场照半合成预制菜",
+        "To edit"
+      ],
+      "categoryLabel": "场照半合成预制菜",
+      "meta": "场照半合成预制菜 / Editable prompt"
+    },
+    "/works::[data-editor-insert-id=\"gallery-batch-1785086209008-4\"][data-editor-insert-image=\"true\"]": {
+      "selector": "[data-editor-insert-id=\"gallery-batch-1785086209008-4\"][data-editor-insert-image=\"true\"]",
+      "page": "/works",
+      "kind": "image",
+      "value": "",
+      "src": "/images/editor/batch-1785086209008-4-QQ20260725-001340.webp",
+      "alt": "QQ20260725-001340",
+      "hidden": false,
+      "styles": {},
+      "parentStyles": {
+        "aspect-ratio": "16 / 9"
+      },
+      "title": "QQ20260725-001340",
+      "summary": "This imported card has an editable prompt.",
+      "prompt": "画面中的人物主体不变，不要改变人物的动作和表情，主体的细节不变，固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，保持画面的色温和色彩风格不变，为主体人物更换背景为改变. 主体人物身后增加一个一面监狱的墙墙上有铁质栏杆，人物背后右边是一个铁丝网，铁丝网下方有水泥砖块和油桶等杂物，铁丝网后方有一个警卫塔，警卫塔上有一顶探照灯，人物背后的左边有一个通往墙上的楼梯，楼梯旁堆放着纸箱，纸箱前堆放着红白相间的铁马和路障，人物脚下的地面时破碎的水泥地面，有几块破碎的砖头和多处反射天空的水洼，天空中有两架《明日方舟》风格的无人机，其中一架靠近镜头，在人物的后方还有两名带着防毒面具全服武装手持武器的士兵，人物背后右边的士兵持枪警戒，人物背后左边的士兵持枪向镜头方向奔跑，整体环境环境昏暗，烟尘弥漫，具有手游《明日方舟》的3D真实建模CG的风格和《明日方舟》的元素， 画面由35mm镜头拍摄，f1.8光圈，地平线无倾斜，充满的cg感，具有高精度和极致的细节，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
+      "tags": [
+        "场照半合成预制菜",
+        "To edit"
+      ],
+      "categoryLabel": "场照半合成预制菜",
+      "meta": "场照半合成预制菜 / Editable prompt"
+    },
+    "/works::[data-editor-insert-id=\"gallery-batch-1785086209008-6\"][data-editor-insert-image=\"true\"]": {
+      "selector": "[data-editor-insert-id=\"gallery-batch-1785086209008-6\"][data-editor-insert-image=\"true\"]",
+      "page": "/works",
+      "kind": "image",
+      "value": "",
+      "src": "/images/editor/batch-1785086209008-6-QQ20260725-001509.webp",
+      "alt": "QQ20260725-001509",
+      "hidden": false,
+      "styles": {},
+      "parentStyles": {},
+      "title": "QQ20260725-001509",
+      "summary": "This imported card has an editable prompt.",
+      "prompt": "画面中的人物主体不变，不要改变人物的动作和表情，主体的细节不变，固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，保持画面的色温和色彩风格不变，为主体人物更换背景为改变. 人物背后是灯光昏暗的监狱金属栅栏门，栅栏门打开，里面是具有科幻工业风格的监狱房间，房价里有一张简单的监狱床，床头有个小书柜，书柜里放着各种时尚杂志，床下的地面还散落着报纸，监狱房间内的墙上有《明日方舟》罗德岛的logo，同时还有一个监控头发出幽幽红光，同时在人物的两侧还有两个金属铁栅栏门打开在作为前景虚化， 画面由35mm镜头拍摄，f1.8光圈，地平线无倾斜，充满的cg感，具有高精度和极致的细节，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
+      "tags": [
+        "场照半合成预制菜",
+        "To edit"
+      ],
+      "categoryLabel": "场照半合成预制菜",
+      "meta": "场照半合成预制菜 / Editable prompt"
+    },
+    "/works::[data-editor-insert-id=\"gallery-batch-1785086209008-7\"][data-editor-insert-image=\"true\"]": {
+      "selector": "[data-editor-insert-id=\"gallery-batch-1785086209008-7\"][data-editor-insert-image=\"true\"]",
+      "page": "/works",
+      "kind": "image",
+      "value": "",
+      "src": "/images/editor/----_20260725004027_568_8.webp",
+      "alt": "QQ20260725-001527",
+      "hidden": false,
+      "styles": {},
+      "parentStyles": {
+        "aspect-ratio": "16 / 9"
+      },
+      "title": "QQ20260725-001527",
+      "summary": "This imported card has an editable prompt.",
+      "prompt": "不要改变人物在画面中的位置，以画面中的主体人物在画面中的位置来设计画面的透视，画面中的人物主体不变，不要改变人物的动作和表情，主体的细节不变，固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，保持画面的色温和色彩风格不变，为画面中的主体生成背景和环境，人物地面时破碎的水泥地，在人物正前方的地面生成一个小型的具有科技感的手提式照明设备，设备光源向上发出微微的暖色光芒，水泥地上有水洼反射，四处散落断裂的露出钢筋的钢筋混凝土，还有损坏的工程器械和黄色铁马以及轮胎，画面右边有个斑驳的带黄黑警戒标志的水泥路障，水泥路障旁还有陈旧的锥桶，同时画面右边还有黑色斑驳的长条形晶体虚化作为前景，背景是废弃的充满科技感的工厂废墟，工厂类似游戏《Apex》里的建筑风格，外部布满管线，画面整体昏暗，天空下着细雨，雨滴打在人物身上溅出水花，画面由35mm镜头拍摄，f1.8光圈，地平线向右倾斜，充满的cg感，具有高精度和极致的细节，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
+      "tags": [
+        "场照半合成预制菜",
+        "To edit"
+      ],
+      "categoryLabel": "场照半合成预制菜",
+      "meta": "场照半合成预制菜 / Editable prompt"
+    },
+    "/works::[data-editor-insert-id=\"gallery-batch-1785086209008-5\"][data-editor-insert-image=\"true\"]": {
+      "selector": "[data-editor-insert-id=\"gallery-batch-1785086209008-5\"][data-editor-insert-image=\"true\"]",
+      "page": "/works",
+      "kind": "image",
+      "value": "",
+      "src": "/images/editor/batch-1785086209008-5-QQ20260725-001349.webp",
+      "alt": "QQ20260725-001349",
+      "hidden": false,
+      "styles": {},
+      "parentStyles": {
+        "aspect-ratio": "16 / 9"
+      },
+      "title": "QQ20260725-001349",
+      "summary": "This imported card has an editable prompt.",
+      "prompt": "画面中的人物主体不变，不要改变人物的动作和表情，主体的细节不变，固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，保持画面的色温和色彩风格不变，为主体人物更换背景为改变.   在画面正中央的爆炸的火光组成的一个巨大的邪恶的笑脸，画面四周有黑烟和火星在空气中飞舞在画面空中生成大量飘落的美元钞票，其中有几张靠近镜头虚化作为前景           画面由35mm镜头拍摄，f1.8光圈，地平线无倾斜，充满的cg感，具有高精度和极致的细节，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
+      "tags": [
+        "场照半合成预制菜",
+        "To edit"
+      ],
+      "categoryLabel": "场照半合成预制菜",
+      "meta": "场照半合成预制菜 / Editable prompt"
+    },
+    "/works::[data-editor-insert-id=\"gallery-batch-1785086209008-8\"][data-editor-insert-image=\"true\"]": {
+      "selector": "[data-editor-insert-id=\"gallery-batch-1785086209008-8\"][data-editor-insert-image=\"true\"]",
+      "page": "/works",
+      "kind": "image",
+      "value": "",
+      "src": "/images/editor/batch-1785086209008-8-QQ20260725-001739.webp",
+      "alt": "QQ20260725-001739",
+      "hidden": false,
+      "styles": {},
+      "parentStyles": {
+        "aspect-ratio": "16 / 9"
+      },
+      "title": "QQ20260725-001739",
+      "summary": "This imported card has an editable prompt.",
+      "prompt": "画面中的人物主体不变，不要改变人物的动作和表情，主体的细节不变，固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，保持画面的色温和色彩风格不变，让画面左侧的建筑物发生剧烈爆炸，发出暖色的光芒，在画面的右侧人物背后，增加一个巨大的户外广告牌，广告牌的内容是《明日方舟》里的戴什维尔人物半身像和《明日方舟》风格的涂鸦风格的文字“WAADEL”，广告牌顶部有一排红色的探照灯发出微微红光，具有高精度和极致的细节，具有真实感的blender建模效果，如同UE5渲染的游戏，虚化近景和远景，拥有优秀的透视关系",
+      "tags": [
+        "场照半合成预制菜",
+        "To edit"
+      ],
+      "categoryLabel": "场照半合成预制菜",
+      "meta": "场照半合成预制菜 / Editable prompt"
+    },
+    "/works::[data-editor-insert-id=\"gallery-batch-1785338123352-1\"][data-editor-insert-image=\"true\"]": {
+      "selector": "[data-editor-insert-id=\"gallery-batch-1785338123352-1\"][data-editor-insert-image=\"true\"]",
+      "page": "/works",
+      "kind": "image",
+      "value": "",
+      "src": "/images/editor/batch-1785338123352-1-----_20260725005543_572_8.webp",
+      "alt": "微信图片_20260725005543_572_8",
+      "hidden": false,
+      "styles": {},
+      "parentStyles": {},
+      "title": "微信图片_20260725005543_572_8",
+      "summary": "This imported card has an editable prompt.",
+      "prompt": "画面中的人物主体不变，不要改变人物的动作和表情，主体的细节不变，固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，保持画面的色温和色彩风格不变，保留原场景不变增加一棵装饰精美的白色纸艺花树，枝头挂满红色果实状装饰，中式红木家具，包括雕花长凳、圆凳和低矮茶几，家具上覆盖着丝绸布幔，布幔随风轻扬，增添流动感。茶几上摆放着金元宝、红色果盘、香炉等传统婚庆摆件，细节精致，象征吉祥如意。中式格子窗，窗外透入柔和自然光，窗边悬挂着灯笼，字迹工整，充满文化韵。一只白色仙鹤雕塑，姿态优雅，象征长寿与吉祥.              画面由35mm镜头拍摄，f1.8光圈，地平线无倾斜，充满的cg感，具有高精度和极致的细节，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
+      "tags": [
+        "场照半合成预制菜",
+        "To edit"
+      ],
+      "categoryLabel": "场照半合成预制菜",
+      "meta": "场照半合成预制菜 / Editable prompt"
+    },
+    "/works::[data-editor-insert-id=\"gallery-batch-1785338123352-2\"][data-editor-insert-image=\"true\"]": {
+      "selector": "[data-editor-insert-id=\"gallery-batch-1785338123352-2\"][data-editor-insert-image=\"true\"]",
+      "page": "/works",
+      "kind": "image",
+      "value": "",
+      "src": "/images/editor/batch-1785338123352-2-----_20260725010625_577_8.webp",
+      "alt": "微信图片_20260725010625_577_8",
+      "hidden": false,
+      "styles": {},
+      "parentStyles": {},
+      "title": "微信图片_20260725010625_577_8",
+      "summary": "This imported card has an editable prompt.",
+      "prompt": "固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，保持画面的色温和色彩风格不变，保留原图远处的背景，在空中增加《英雄联盟》里的KDA2女团CG风格的菱形水晶，水晶漂浮在空中，并且发出闪烁光芒，其中有3个靠近镜头。画面由35mm镜头拍摄，f1.8光圈，地平线无倾斜，充满的cg感，具有高精度和极致的细节，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
+      "tags": [
+        "场照半合成预制菜",
+        "To edit"
+      ],
+      "categoryLabel": "场照半合成预制菜",
+      "meta": "场照半合成预制菜 / Editable prompt"
+    },
+    "/works::[data-editor-insert-id=\"gallery-batch-1785338123352-3\"][data-editor-insert-image=\"true\"]": {
+      "selector": "[data-editor-insert-id=\"gallery-batch-1785338123352-3\"][data-editor-insert-image=\"true\"]",
+      "page": "/works",
+      "kind": "image",
+      "value": "",
+      "src": "/images/editor/batch-1785338123352-3-----_20260725010831_579_8.webp",
+      "alt": "微信图片_20260725010831_579_8",
+      "hidden": false,
+      "styles": {},
+      "parentStyles": {},
+      "title": "微信图片_20260725010831_579_8",
+      "summary": "This imported card has an editable prompt.",
+      "prompt": "固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，保持画面的色温和色彩风格不变，保留原图远处的背景，改变画面人物脚下的地面，把地面改成被自然重新占领的废弃废墟中的绿色草地和向日葵花田，废墟的风格时手游《崩坏：星穹铁道》里的场景，画面由35mm镜头拍摄，f1.8光圈，充满的cg感，具有高精度和极致的细节，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
+      "tags": [
+        "场照半合成预制菜",
+        "To edit"
+      ],
+      "categoryLabel": "场照半合成预制菜",
+      "meta": "场照半合成预制菜 / Editable prompt"
+    },
+    "/works::[data-editor-insert-id=\"gallery-batch-1785338123352-4\"][data-editor-insert-image=\"true\"]": {
+      "selector": "[data-editor-insert-id=\"gallery-batch-1785338123352-4\"][data-editor-insert-image=\"true\"]",
+      "page": "/works",
+      "kind": "image",
+      "value": "",
+      "src": "/images/editor/batch-1785338123352-4-----_20260725011030_581_8.webp",
+      "alt": "微信图片_20260725011030_581_8",
+      "hidden": false,
+      "styles": {},
+      "parentStyles": {},
+      "title": "微信图片_20260725011030_581_8",
+      "summary": "This imported card has an editable prompt.",
+      "prompt": "固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，保持画面的色温和色彩风格不变，保留原图远处的背景，改变画面人物脚下的地面，地面和场景整体是《绝区零》里的场景风格，人物脚底是个复古舞台，舞台充满古典爵士和蒸汽朋克的元素，舞台上人物的背后有一台复古钢琴，复古钢琴旁是两个半个人高的舞台音响，一把吉他靠在左边音响上，左边有个半人高的书架，书架里有一排黑胶专辑，书架顶上有个调音台，右边还有一台复古留声机，留声机前有一个键盘，画面右边靠近画面的地方有一套爵士鼓，乐谱和含有人物主体的演出广告单在空中飞舞，其中有2张靠近镜头，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
+      "tags": [
+        "场照半合成预制菜",
+        "To edit"
+      ],
+      "categoryLabel": "场照半合成预制菜",
+      "meta": "场照半合成预制菜 / Editable prompt"
+    },
+    "/works::[data-editor-insert-id=\"gallery-batch-1785338123352-5\"][data-editor-insert-image=\"true\"]": {
+      "selector": "[data-editor-insert-id=\"gallery-batch-1785338123352-5\"][data-editor-insert-image=\"true\"]",
+      "page": "/works",
+      "kind": "image",
+      "value": "",
+      "src": "/images/editor/batch-1785338123352-5-----_20260725011133_583_8.webp",
+      "alt": "微信图片_20260725011133_583_8",
+      "hidden": false,
+      "styles": {},
+      "parentStyles": {},
+      "title": "微信图片_20260725011133_583_8",
+      "summary": "This imported card has an editable prompt.",
+      "prompt": "固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，保持画面的色温和色彩风格不变，保留原图远处的背景，地面和场景整体是《无畏契约》里的场景风格，地面有大量绿色毒气弥漫，毒气中有大量全身深色着装的特种士兵中毒躺下，地面还有绿色毒液沸腾，同时在人物前方也有大量绿色毒气从地面上升到腰部位置，一只青绿色的蝰蛇从画面右方毒气中窜出，蛇头靠近镜头，张大嘴巴露出毒牙，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
+      "tags": [
+        "场照半合成预制菜",
+        "To edit"
+      ],
+      "categoryLabel": "场照半合成预制菜",
+      "meta": "场照半合成预制菜 / Editable prompt"
+    },
+    "/works::[data-editor-insert-id=\"gallery-batch-1785338123352-6\"][data-editor-insert-image=\"true\"]": {
+      "selector": "[data-editor-insert-id=\"gallery-batch-1785338123352-6\"][data-editor-insert-image=\"true\"]",
+      "page": "/works",
+      "kind": "image",
+      "value": "",
+      "src": "/images/editor/batch-1785338123352-6-----_20260725011253_585_8.webp",
+      "alt": "微信图片_20260725011253_585_8",
+      "hidden": false,
+      "styles": {},
+      "parentStyles": {},
+      "title": "微信图片_20260725011253_585_8",
+      "summary": "This imported card has an editable prompt.",
+      "prompt": "固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，保持画面的色温和色彩风格不变，保留原图远处的背景，改变画面人物脚下的地面，地面和场景整体是动漫《赛马娘》里的场景风格，但是写实化，场景内物体也尽量带有《赛马娘》的元素，将人物放置在日本的赛马场中，人物脚下是有草地铺设而成的赛马跑道，将赛马场的跑道栏杆作为前景，镜头透过赛马场跑道的栏杆拍摄人物主体，人物背后也有栏杆，同时栏杆下有《赛马娘》番剧的广告牌，栏杆外有一个巨大的户外LED赛马记分牌，除了积分信息，上面还播放着当前的画面，人物的脚下溅起草屑和灰尘，还有其他的和赛马相关的信息或元素以及道具你可以自行添加，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
+      "tags": [
+        "场照半合成预制菜",
+        "To edit"
+      ],
+      "categoryLabel": "场照半合成预制菜",
+      "meta": "场照半合成预制菜 / Editable prompt"
+    },
+    "/works::[data-editor-insert-id=\"gallery-batch-1785338123352-7\"][data-editor-insert-image=\"true\"]": {
+      "selector": "[data-editor-insert-id=\"gallery-batch-1785338123352-7\"][data-editor-insert-image=\"true\"]",
+      "page": "/works",
+      "kind": "image",
+      "value": "",
+      "src": "/images/editor/batch-1785338123352-7-----_20260725011341_586_8.webp",
+      "alt": "微信图片_20260725011341_586_8",
+      "hidden": false,
+      "styles": {},
+      "parentStyles": {},
+      "title": "微信图片_20260725011341_586_8",
+      "summary": "This imported card has an editable prompt.",
+      "prompt": "固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，保持画面的色温和色彩风格不变，保留原图远处的背景，改变画面人物脚下的地面，地面和场景整体是《明日方舟》里的场景风格，场景内物体也尽量带有《明日方舟》的ui元素，把地面改成白雪皑皑的场景，地面上散落着被白雪覆盖的碎裂石头，地面上散落几个《明日方舟》风格的箱子和一些科学仪器，画面左侧人物后方有一个极地科考营地，营地门口有一个具有科技感的桌子，桌子上放着各种地质勘探仪器，人物右侧后下方有一摞燃烧的轮胎，发出暖色的光，画面右侧靠近镜头的位置地上有有一个光测绘仪，空中飘落雪花，狂风吹起雪花由左下角向右上角吹起，雪花落在主体人物身上，尤其是鼻子和头顶还有胸口腹部和腿上，周围的物体上也覆盖大量雪花和冰晶，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
+      "tags": [
+        "场照半合成预制菜",
+        "To edit"
+      ],
+      "categoryLabel": "场照半合成预制菜",
+      "meta": "场照半合成预制菜 / Editable prompt"
+    },
+    "/works::[data-editor-insert-id=\"gallery-batch-1785338123352-8\"][data-editor-insert-image=\"true\"]": {
+      "selector": "[data-editor-insert-id=\"gallery-batch-1785338123352-8\"][data-editor-insert-image=\"true\"]",
+      "page": "/works",
+      "kind": "image",
+      "value": "",
+      "src": "/images/editor/batch-1785338123352-8-----_20260725012407_592_8.webp",
+      "alt": "微信图片_20260725012407_592_8",
+      "hidden": false,
+      "styles": {},
+      "parentStyles": {},
+      "title": "微信图片_20260725012407_592_8",
+      "summary": "This imported card has an editable prompt.",
+      "prompt": "固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，保持画面的色温和色彩风格不变，保留原图远处的背景，将人物脚下地面改成矿洞里的地面，地上在人物右边有一辆矿车，矿车上堆满紫红色的水晶，人物背后左边有一台蒸汽朋克风格的采矿设备，采矿设备前有一张木桌，木桌上放着地质探矿仪器，木桌前放着一把铁铲，在人物周围的地面有几处紫红色水晶簇，其中有一簇水晶在人物右边靠近镜头作为前景，在场景中还有多张印有主体人物形象得海报张贴在场景中得物体上，地面还有多处水洼反射，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
+      "tags": [
+        "场照半合成预制菜",
+        "To edit"
+      ],
+      "categoryLabel": "场照半合成预制菜",
+      "meta": "场照半合成预制菜 / Editable prompt"
+    },
+    "/works::[data-editor-insert-id=\"gallery-batch-1785338123352-9\"][data-editor-insert-image=\"true\"]": {
+      "selector": "[data-editor-insert-id=\"gallery-batch-1785338123352-9\"][data-editor-insert-image=\"true\"]",
+      "page": "/works",
+      "kind": "image",
+      "value": "",
+      "src": "/images/editor/batch-1785338123352-9-----_20260725012459_595_8.webp",
+      "alt": "微信图片_20260725012459_595_8",
+      "hidden": false,
+      "styles": {},
+      "parentStyles": {},
+      "title": "微信图片_20260725012459_595_8",
+      "summary": "This imported card has an editable prompt.",
+      "prompt": "固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，保持画面的色温和色彩风格不变，保留原图远处的背景，为主体人物添加傍晚时分梦幻森林的背景，森林由手游《王者荣耀》风格树木构成在远处虚化，有幽兰的萤火虫在森林中飞舞，背景中远处画面右侧有几块较大的石头，地面铺满青苔与野花，有低矮的灌木丛在画面右侧作为前景，同时在画面的左下方增加两个具有《英雄联盟》艺术风格的狐狸，狐狸从画面的左下方向右方前后追逐，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
+      "tags": [
+        "场照半合成预制菜",
+        "To edit"
+      ],
+      "categoryLabel": "场照半合成预制菜",
+      "meta": "场照半合成预制菜 / Editable prompt"
+    },
+    "/works::[data-editor-insert-id=\"gallery-batch-1785338123352-10\"][data-editor-insert-image=\"true\"]": {
+      "selector": "[data-editor-insert-id=\"gallery-batch-1785338123352-10\"][data-editor-insert-image=\"true\"]",
+      "page": "/works",
+      "kind": "image",
+      "value": "",
+      "src": "/images/editor/batch-1785338123352-10-----_20260725012852_597_8.webp",
+      "alt": "微信图片_20260725012852_597_8",
+      "hidden": false,
+      "styles": {},
+      "parentStyles": {},
+      "title": "微信图片_20260725012852_597_8",
+      "summary": "This imported card has an editable prompt.",
+      "prompt": "固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，保持画面的色温和色彩风格不变，在人物后方增加一个白色栅栏，有大量榭寄生寄生在栅栏上，在栅栏前有个日式公交站牌，公交站牌旁停放着一辆自行车，自行车旁摞着两箱鲜牛奶，同时在在栅栏旁还有2个电线杆中间连接着电线，电线杆上也长着榭寄生，栅栏后方一只奶牛正在吃着饲料，还有几只奶牛在栅栏后吃草，旁边还有堆放饲料的乡下小仓库，在人物前景添加乡下黄绿色的杂草和狗尾巴草，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
+      "tags": [
+        "场照半合成预制菜",
+        "To edit"
+      ],
+      "categoryLabel": "场照半合成预制菜",
+      "meta": "场照半合成预制菜 / Editable prompt"
+    },
+    "/works::[data-editor-insert-id=\"gallery-batch-1785338123352-12\"][data-editor-insert-image=\"true\"]": {
+      "selector": "[data-editor-insert-id=\"gallery-batch-1785338123352-12\"][data-editor-insert-image=\"true\"]",
+      "page": "/works",
+      "kind": "image",
+      "value": "",
+      "src": "/images/editor/batch-1785338123352-12-----_20260725020413_602_8.webp",
+      "alt": "微信图片_20260725020413_602_8",
+      "hidden": false,
+      "styles": {},
+      "parentStyles": {},
+      "title": "微信图片_20260725020413_602_8",
+      "summary": "This imported card has an editable prompt.",
+      "prompt": "画面中的人物主体不变，不要改变人物的动作和表情，主体的细节不变，固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，不要改变画面的背景，一定不要改变画面的背景，保留原画面背景，昏暗的傍晚，人物脚下是破碎的地面，地面上有杂草和碎石以及燃烧的罗马战车残骸，还有受伤和死亡全副武装的十字军战士倒在地上，地面上环绕主体人物插满剑，的在人物背后有一排全副武装的十字军战士步兵和骑兵做出各种不同向前进攻的姿势，也有全副武装的十字军战士手握十字军战旗，战旗破损在空中飘扬，在画面前景增加弥漫的烟尘作为前景，画面由35mm镜头俯拍拍摄，f1.8光圈，具有照片级的真实感，充满的cg感，具有高精度和极致的细节，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
+      "tags": [
+        "场照半合成预制菜",
+        "To edit"
+      ],
+      "categoryLabel": "场照半合成预制菜",
+      "meta": "场照半合成预制菜 / Editable prompt"
+    },
+    "/works::[data-editor-insert-id=\"gallery-batch-1785338123352-11\"][data-editor-insert-image=\"true\"]": {
+      "selector": "[data-editor-insert-id=\"gallery-batch-1785338123352-11\"][data-editor-insert-image=\"true\"]",
+      "page": "/works",
+      "kind": "image",
+      "value": "",
+      "src": "/images/editor/batch-1785338123352-11-----_20260725020103_598_8.webp",
+      "alt": "微信图片_20260725020103_598_8",
+      "hidden": false,
+      "styles": {},
+      "parentStyles": {},
+      "title": "微信图片_20260725020103_598_8",
+      "summary": "This imported card has an editable prompt.",
+      "prompt": "画面中的人物主体不变，不要改变人物的动作和表情，主体的细节不变，固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，不要改变画面的背景，保留原画面背景，人物脚下是破碎的地面，地面上有杂草和碎石，还有受伤和死亡全副武装的十字军战士倒在地上，在人物背后有一排全副武装的十字军战士做出各种不同向前进攻的姿势，也有全副武装的十字军战士手握十字军战旗，战旗破损在空中飘扬，为人物的武器增加像游戏《fgo》里角色尼禄的武器一样的特效，微微泛着红色光芒，被粒子效果环绕，另外让人物的脚底飞溅起泥浆和沙石，画面由35mm镜头俯拍拍摄，f1.8光圈，具有照片级的真实感，充满的cg感，具有高精度和极致的细节，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
+      "tags": [
+        "场照半合成预制菜",
+        "To edit"
+      ],
+      "categoryLabel": "场照半合成预制菜",
+      "meta": "场照半合成预制菜 / Editable prompt"
+    },
+    "/works::[data-editor-insert-id=\"gallery-batch-1785338123352-13\"][data-editor-insert-image=\"true\"]": {
+      "selector": "[data-editor-insert-id=\"gallery-batch-1785338123352-13\"][data-editor-insert-image=\"true\"]",
+      "page": "/works",
+      "kind": "image",
+      "value": "",
+      "src": "/images/editor/batch-1785338123352-13-----_20260725021443_605_8.webp",
+      "alt": "微信图片_20260725021443_605_8",
+      "hidden": false,
+      "styles": {},
+      "parentStyles": {},
+      "title": "微信图片_20260725021443_605_8",
+      "summary": "This imported card has an editable prompt.",
+      "prompt": "画面中的人物主体不变，不要改变人物的动作和表情，主体的细节不变，固定主体人物在画面大小和透视关系，一定不要改变画面的背景，保留原画面背景，保留背景，保留场馆主题框架，固定人物在画面中的位置，不要改变人物的位置，人物腿部泡在黑色波光嶙峋的水里，人物的腿部与水面接触的地方有浪花，正在水里前景，人物背后的水中有一辆具有《COD》风格的充气皮筏艇，画面的左边有钢架泡在水中，钢架上有发出微微暖光的探照灯，画面右侧有礁石靠近镜头虚化，有一根铁链从画面顶部拉直落下连接礁石，有浪花靠近镜头虚化，并且激起水珠虚化，整体画面昏暗，画面由35mm镜头拍摄，画面向右倾斜，f1.8光圈，具有照片级的真实感，充满的cg感，具有高精度和极致的细节，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关",
+      "tags": [
+        "场照半合成预制菜",
+        "To edit"
+      ],
+      "categoryLabel": "场照半合成预制菜",
+      "meta": "场照半合成预制菜 / Editable prompt"
+    },
+    "/works::#root > div.route-transition > div.inner-page.portfolio-page > main.inner-page-shell > footer.site-footer > div.footer-links": {
+      "selector": "#root > div.route-transition > div.inner-page.portfolio-page > main.inner-page-shell > footer.site-footer > div.footer-links",
+      "page": "/works",
+      "kind": "element",
+      "value": "首页场景包预设提示词库工作流分享联系方式",
+      "src": "",
+      "alt": "",
+      "hidden": false,
+      "styles": {},
+      "parentStyles": {},
+      "title": "",
+      "summary": "",
+      "prompt": "",
+      "tags": [],
+      "categoryLabel": "",
+      "meta": ""
+    },
+    "/works::[data-editor-insert-id=\"gallery-window-1785338647883\"][data-editor-insert-image=\"true\"]": {
+      "selector": "[data-editor-insert-id=\"gallery-window-1785338647883\"][data-editor-insert-image=\"true\"]",
+      "page": "/works",
+      "kind": "image",
+      "value": "",
+      "src": "/images/editor/QQ20260725-010009.webp",
+      "alt": "例图窗口",
+      "hidden": false,
+      "styles": {},
+      "parentStyles": {
+        "aspect-ratio": "419 / 351"
+      },
+      "title": "New work",
+      "summary": "This imported card has an editable prompt.",
+      "prompt": "画面中的人物主体不变，不要改变人物的动作和表情，主体的细节不变，固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，保持画面的色温和色彩风格不变，为主体人物更换背景为改变.人物处在牛奶灌装生产线的厂房中，工厂内部大型金属机器和管道错落分布，天花板上整齐排列的长条形LED灯带提供均匀照明，营造出高效、洁净、科技感十足的氛围，光线从顶部投射下来，形成明暗对比，工厂内有多个牛奶罐装流水线，流水线上的玻璃瓶瓶身为中国产的大白兔奶糖包装，内装乳白色牛奶，瓶口整齐排列在传送带上，机械臂正在自动灌装，还有多个fufu娃娃风格的兔子在流水线上工作，同时厂房内还有一个大型透明圆柱形生物舱，舱内隐约可见一只黑白花奶牛，还有一张金属办公桌，桌上摆放着一台亮着蓝光的电脑显示器，旁边是黑色办公椅，椅子微微向后倾斜，墙上布满通风口和控制面板，画面由35mm镜头拍摄，f1.8光圈，地平线无倾斜，充满的cg感，具有高精度和极致的细节，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
+      "tags": [
+        "场照半合成预制菜",
+        "To edit"
+      ],
+      "categoryLabel": "场照半合成预制菜",
+      "meta": "场照半合成预制菜 / Editable prompt"
     }
   },
   "insertions": [
@@ -150,7 +601,7 @@
       "alt": "QQ20260725-001222",
       "title": "QQ20260725-001222",
       "summary": "This imported card has an editable prompt.",
-      "prompt": "固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，保持画面的色温和色彩风格不变，保留原图远处的背景，在人物的正前方生成一个紫色幽暗的水池，水池中有5朵幽暗的紫色莲花，其中两朵靠近镜头，水池中央升起两道能量流，以曲线的形态汇入人物左手上的花朵，水池周围地上有草地和扭曲的树根，远处有数个散落的中式石质灯柱，其中几个石柱破损，在画面的左右两侧有两颗扭曲的幽暗奇幻树木，树木枝干斑驳，枝干上有缠绕的荆棘，树叶为深蓝绿色，紫色花瓣随风飘落，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
+      "prompt": "固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，保持画面的色温和色彩风格不变，保留原图远处的背景，改变人物的地面，人物悬浮于一个紫色幽暗的水池之上，池塘倒映着水洼倒映着天空与角色的影子，池塘旁边有暗色的草地和扭曲的树根，远处有数个散落的中式石质灯柱，其中几个石柱破损，在画面的左右两侧有两颗扭曲的幽暗奇幻树木，树木枝干斑驳，树叶为深蓝绿色，紫色花瓣随风飘落，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
       "tags": [
         "场照半合成预制菜",
         "To edit"
@@ -175,7 +626,7 @@
       "alt": "QQ20260725-001259",
       "title": "QQ20260725-001259",
       "summary": "This imported card has an editable prompt.",
-      "prompt": "Please edit this image prompt in the visual editor.",
+      "prompt": "画面中的人物主体不变，不要改变人物的动作和表情，主体的细节不变，固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，保持画面的色温和色彩风格不变，为主体人物更换背景为改变. 画面左侧是高耸的摩天大楼的玻璃幕墙，人物脚踩在高耸的摩天大楼的玻璃幕墙上，人物背后是俯拍的赛博朋克2077的都市场景，都市场景可以看到很多摩天大楼的楼顶，人物抬起的右手拉着一根钢索，时间是晚上，画面中间人物背后有一架《明日方舟》角色W的无人机，还有一架《明日方舟》角色W的无人机，在画面右下角靠近镜头虚化，画面的右上角有破碎的玻璃洒落，被风吹向画面的左侧，具有手游《明日方舟》的3D真实建模CG的风格和《明日方舟》的元素，画面由35mm镜头拍摄，f1.8光圈，地平线无倾斜，充满的cg感，具有高精度和极致的细节，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
       "tags": [
         "场照半合成预制菜",
         "To edit"
@@ -184,7 +635,7 @@
       "meta": "场照半合成预制菜 / Editable prompt",
       "styles": {
         "width": "100%",
-        "aspect-ratio": "3459 / 1480",
+        "aspect-ratio": "16 / 9",
         "object-fit": "contain",
         "display": "block",
         "border-radius": "12px"
@@ -196,11 +647,11 @@
       "parentSelector": "[data-editor-gallery-id=\"portrait\"]",
       "insertPosition": "end",
       "kind": "image",
-      "src": "/images/editor/batch-1785086209008-3-QQ20260725-001326.webp",
+      "src": "/images/editor/----_20260725011908_590_8.webp",
       "alt": "QQ20260725-001326",
       "title": "QQ20260725-001326",
       "summary": "This imported card has an editable prompt.",
-      "prompt": "Please edit this image prompt in the visual editor.",
+      "prompt": "固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，保持画面的色温和色彩风格不变，保留原图远处的背景，在人物的正前方生成一个紫色幽暗的水池，水池中有5朵幽暗的紫色莲花，其中两朵靠近镜头，水池中央升起两道能量流，以曲线的形态汇入人物左手上的花朵，水池周围地上有草地和扭曲的树根，远处有数个散落的中式石质灯柱，其中几个石柱破损，在画面的左右两侧有两颗扭曲的幽暗奇幻树木，树木枝干斑驳，枝干上有缠绕的荆棘，树叶为深蓝绿色，紫色花瓣随风飘落，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
       "tags": [
         "场照半合成预制菜",
         "To edit"
@@ -209,7 +660,7 @@
       "meta": "场照半合成预制菜 / Editable prompt",
       "styles": {
         "width": "100%",
-        "aspect-ratio": "3454 / 1488",
+        "aspect-ratio": "3839 / 2159",
         "object-fit": "contain",
         "display": "block",
         "border-radius": "12px"
@@ -225,7 +676,7 @@
       "alt": "QQ20260725-001340",
       "title": "QQ20260725-001340",
       "summary": "This imported card has an editable prompt.",
-      "prompt": "Please edit this image prompt in the visual editor.",
+      "prompt": "画面中的人物主体不变，不要改变人物的动作和表情，主体的细节不变，固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，保持画面的色温和色彩风格不变，为主体人物更换背景为改变. 主体人物身后增加一个一面监狱的墙墙上有铁质栏杆，人物背后右边是一个铁丝网，铁丝网下方有水泥砖块和油桶等杂物，铁丝网后方有一个警卫塔，警卫塔上有一顶探照灯，人物背后的左边有一个通往墙上的楼梯，楼梯旁堆放着纸箱，纸箱前堆放着红白相间的铁马和路障，人物脚下的地面时破碎的水泥地面，有几块破碎的砖头和多处反射天空的水洼，天空中有两架《明日方舟》风格的无人机，其中一架靠近镜头，在人物的后方还有两名带着防毒面具全服武装手持武器的士兵，人物背后右边的士兵持枪警戒，人物背后左边的士兵持枪向镜头方向奔跑，整体环境环境昏暗，烟尘弥漫，具有手游《明日方舟》的3D真实建模CG的风格和《明日方舟》的元素， 画面由35mm镜头拍摄，f1.8光圈，地平线无倾斜，充满的cg感，具有高精度和极致的细节，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
       "tags": [
         "场照半合成预制菜",
         "To edit"
@@ -234,7 +685,7 @@
       "meta": "场照半合成预制菜 / Editable prompt",
       "styles": {
         "width": "100%",
-        "aspect-ratio": "3453 / 1489",
+        "aspect-ratio": "16 / 9",
         "object-fit": "contain",
         "display": "block",
         "border-radius": "12px"
@@ -250,7 +701,7 @@
       "alt": "QQ20260725-001349",
       "title": "QQ20260725-001349",
       "summary": "This imported card has an editable prompt.",
-      "prompt": "Please edit this image prompt in the visual editor.",
+      "prompt": "画面中的人物主体不变，不要改变人物的动作和表情，主体的细节不变，固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，保持画面的色温和色彩风格不变，为主体人物更换背景为改变.   在画面正中央的爆炸的火光组成的一个巨大的邪恶的笑脸，画面四周有黑烟和火星在空气中飞舞在画面空中生成大量飘落的美元钞票，其中有几张靠近镜头虚化作为前景           画面由35mm镜头拍摄，f1.8光圈，地平线无倾斜，充满的cg感，具有高精度和极致的细节，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
       "tags": [
         "场照半合成预制菜",
         "To edit"
@@ -259,7 +710,7 @@
       "meta": "场照半合成预制菜 / Editable prompt",
       "styles": {
         "width": "100%",
-        "aspect-ratio": "3452 / 1485",
+        "aspect-ratio": "16 / 9",
         "object-fit": "contain",
         "display": "block",
         "border-radius": "12px"
@@ -275,7 +726,7 @@
       "alt": "QQ20260725-001509",
       "title": "QQ20260725-001509",
       "summary": "This imported card has an editable prompt.",
-      "prompt": "Please edit this image prompt in the visual editor.",
+      "prompt": "画面中的人物主体不变，不要改变人物的动作和表情，主体的细节不变，固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，保持画面的色温和色彩风格不变，为主体人物更换背景为改变. 人物背后是灯光昏暗的监狱金属栅栏门，栅栏门打开，里面是具有科幻工业风格的监狱房间，房价里有一张简单的监狱床，床头有个小书柜，书柜里放着各种时尚杂志，床下的地面还散落着报纸，监狱房间内的墙上有《明日方舟》罗德岛的logo，同时还有一个监控头发出幽幽红光，同时在人物的两侧还有两个金属铁栅栏门打开在作为前景虚化， 画面由35mm镜头拍摄，f1.8光圈，地平线无倾斜，充满的cg感，具有高精度和极致的细节，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
       "tags": [
         "场照半合成预制菜",
         "To edit"
@@ -296,11 +747,11 @@
       "parentSelector": "[data-editor-gallery-id=\"portrait\"]",
       "insertPosition": "end",
       "kind": "image",
-      "src": "/images/editor/batch-1785086209008-7-QQ20260725-001527.webp",
+      "src": "/images/editor/----_20260725004027_568_8.webp",
       "alt": "QQ20260725-001527",
       "title": "QQ20260725-001527",
       "summary": "This imported card has an editable prompt.",
-      "prompt": "Please edit this image prompt in the visual editor.",
+      "prompt": "不要改变人物在画面中的位置，以画面中的主体人物在画面中的位置来设计画面的透视，画面中的人物主体不变，不要改变人物的动作和表情，主体的细节不变，固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，保持画面的色温和色彩风格不变，为画面中的主体生成背景和环境，人物地面时破碎的水泥地，在人物正前方的地面生成一个小型的具有科技感的手提式照明设备，设备光源向上发出微微的暖色光芒，水泥地上有水洼反射，四处散落断裂的露出钢筋的钢筋混凝土，还有损坏的工程器械和黄色铁马以及轮胎，画面右边有个斑驳的带黄黑警戒标志的水泥路障，水泥路障旁还有陈旧的锥桶，同时画面右边还有黑色斑驳的长条形晶体虚化作为前景，背景是废弃的充满科技感的工厂废墟，工厂类似游戏《Apex》里的建筑风格，外部布满管线，画面整体昏暗，天空下着细雨，雨滴打在人物身上溅出水花，画面由35mm镜头拍摄，f1.8光圈，地平线向右倾斜，充满的cg感，具有高精度和极致的细节，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
       "tags": [
         "场照半合成预制菜",
         "To edit"
@@ -309,7 +760,7 @@
       "meta": "场照半合成预制菜 / Editable prompt",
       "styles": {
         "width": "100%",
-        "aspect-ratio": "3726 / 1653",
+        "aspect-ratio": "16 / 9",
         "object-fit": "contain",
         "display": "block",
         "border-radius": "12px"
@@ -325,7 +776,7 @@
       "alt": "QQ20260725-001739",
       "title": "QQ20260725-001739",
       "summary": "This imported card has an editable prompt.",
-      "prompt": "Please edit this image prompt in the visual editor.",
+      "prompt": "画面中的人物主体不变，不要改变人物的动作和表情，主体的细节不变，固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，保持画面的色温和色彩风格不变，让画面左侧的建筑物发生剧烈爆炸，发出暖色的光芒，在画面的右侧人物背后，增加一个巨大的户外广告牌，广告牌的内容是《明日方舟》里的戴什维尔人物半身像和《明日方舟》风格的涂鸦风格的文字“WAADEL”，广告牌顶部有一排红色的探照灯发出微微红光，具有高精度和极致的细节，具有真实感的blender建模效果，如同UE5渲染的游戏，虚化近景和远景，拥有优秀的透视关系",
       "tags": [
         "场照半合成预制菜",
         "To edit"
@@ -334,23 +785,48 @@
       "meta": "场照半合成预制菜 / Editable prompt",
       "styles": {
         "width": "100%",
-        "aspect-ratio": "3828 / 1647",
+        "aspect-ratio": "16 / 9",
         "object-fit": "contain",
         "display": "block",
         "border-radius": "12px"
       }
     },
     {
-      "id": "gallery-batch-1785086209008-9",
+      "id": "gallery-batch-1785338123352-1",
       "page": "/works",
       "parentSelector": "[data-editor-gallery-id=\"portrait\"]",
       "insertPosition": "end",
       "kind": "image",
-      "src": "/images/editor/batch-1785086209008-9-QQ20260725-010009.webp",
-      "alt": "QQ20260725-010009",
-      "title": "QQ20260725-010009",
+      "src": "/images/editor/batch-1785338123352-1-----_20260725005543_572_8.webp",
+      "alt": "微信图片_20260725005543_572_8",
+      "title": "微信图片_20260725005543_572_8",
       "summary": "This imported card has an editable prompt.",
-      "prompt": "Please edit this image prompt in the visual editor.",
+      "prompt": "画面中的人物主体不变，不要改变人物的动作和表情，主体的细节不变，固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，保持画面的色温和色彩风格不变，保留原场景不变增加一棵装饰精美的白色纸艺花树，枝头挂满红色果实状装饰，中式红木家具，包括雕花长凳、圆凳和低矮茶几，家具上覆盖着丝绸布幔，布幔随风轻扬，增添流动感。茶几上摆放着金元宝、红色果盘、香炉等传统婚庆摆件，细节精致，象征吉祥如意。中式格子窗，窗外透入柔和自然光，窗边悬挂着灯笼，字迹工整，充满文化韵。一只白色仙鹤雕塑，姿态优雅，象征长寿与吉祥.              画面由35mm镜头拍摄，f1.8光圈，地平线无倾斜，充满的cg感，具有高精度和极致的细节，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
+      "tags": [
+        "场照半合成预制菜",
+        "To edit"
+      ],
+      "categoryLabel": "场照半合成预制菜",
+      "meta": "场照半合成预制菜 / Editable prompt",
+      "styles": {
+        "width": "100%",
+        "aspect-ratio": "1488 / 845",
+        "object-fit": "contain",
+        "display": "block",
+        "border-radius": "12px"
+      }
+    },
+    {
+      "id": "gallery-batch-1785338123352-2",
+      "page": "/works",
+      "parentSelector": "[data-editor-gallery-id=\"portrait\"]",
+      "insertPosition": "end",
+      "kind": "image",
+      "src": "/images/editor/batch-1785338123352-2-----_20260725010625_577_8.webp",
+      "alt": "微信图片_20260725010625_577_8",
+      "title": "微信图片_20260725010625_577_8",
+      "summary": "This imported card has an editable prompt.",
+      "prompt": "固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，保持画面的色温和色彩风格不变，保留原图远处的背景，在空中增加《英雄联盟》里的KDA2女团CG风格的菱形水晶，水晶漂浮在空中，并且发出闪烁光芒，其中有3个靠近镜头。画面由35mm镜头拍摄，f1.8光圈，地平线无倾斜，充满的cg感，具有高精度和极致的细节，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
       "tags": [
         "场照半合成预制菜",
         "To edit"
@@ -360,6 +836,306 @@
       "styles": {
         "width": "100%",
         "aspect-ratio": "3839 / 2159",
+        "object-fit": "contain",
+        "display": "block",
+        "border-radius": "12px"
+      }
+    },
+    {
+      "id": "gallery-batch-1785338123352-3",
+      "page": "/works",
+      "parentSelector": "[data-editor-gallery-id=\"portrait\"]",
+      "insertPosition": "end",
+      "kind": "image",
+      "src": "/images/editor/batch-1785338123352-3-----_20260725010831_579_8.webp",
+      "alt": "微信图片_20260725010831_579_8",
+      "title": "微信图片_20260725010831_579_8",
+      "summary": "This imported card has an editable prompt.",
+      "prompt": "固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，保持画面的色温和色彩风格不变，保留原图远处的背景，改变画面人物脚下的地面，把地面改成被自然重新占领的废弃废墟中的绿色草地和向日葵花田，废墟的风格时手游《崩坏：星穹铁道》里的场景，画面由35mm镜头拍摄，f1.8光圈，充满的cg感，具有高精度和极致的细节，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
+      "tags": [
+        "场照半合成预制菜",
+        "To edit"
+      ],
+      "categoryLabel": "场照半合成预制菜",
+      "meta": "场照半合成预制菜 / Editable prompt",
+      "styles": {
+        "width": "100%",
+        "aspect-ratio": "3839 / 2159",
+        "object-fit": "contain",
+        "display": "block",
+        "border-radius": "12px"
+      }
+    },
+    {
+      "id": "gallery-batch-1785338123352-4",
+      "page": "/works",
+      "parentSelector": "[data-editor-gallery-id=\"portrait\"]",
+      "insertPosition": "end",
+      "kind": "image",
+      "src": "/images/editor/batch-1785338123352-4-----_20260725011030_581_8.webp",
+      "alt": "微信图片_20260725011030_581_8",
+      "title": "微信图片_20260725011030_581_8",
+      "summary": "This imported card has an editable prompt.",
+      "prompt": "固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，保持画面的色温和色彩风格不变，保留原图远处的背景，改变画面人物脚下的地面，地面和场景整体是《绝区零》里的场景风格，人物脚底是个复古舞台，舞台充满古典爵士和蒸汽朋克的元素，舞台上人物的背后有一台复古钢琴，复古钢琴旁是两个半个人高的舞台音响，一把吉他靠在左边音响上，左边有个半人高的书架，书架里有一排黑胶专辑，书架顶上有个调音台，右边还有一台复古留声机，留声机前有一个键盘，画面右边靠近画面的地方有一套爵士鼓，乐谱和含有人物主体的演出广告单在空中飞舞，其中有2张靠近镜头，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
+      "tags": [
+        "场照半合成预制菜",
+        "To edit"
+      ],
+      "categoryLabel": "场照半合成预制菜",
+      "meta": "场照半合成预制菜 / Editable prompt",
+      "styles": {
+        "width": "100%",
+        "aspect-ratio": "2205 / 1244",
+        "object-fit": "contain",
+        "display": "block",
+        "border-radius": "12px"
+      }
+    },
+    {
+      "id": "gallery-batch-1785338123352-5",
+      "page": "/works",
+      "parentSelector": "[data-editor-gallery-id=\"portrait\"]",
+      "insertPosition": "end",
+      "kind": "image",
+      "src": "/images/editor/batch-1785338123352-5-----_20260725011133_583_8.webp",
+      "alt": "微信图片_20260725011133_583_8",
+      "title": "微信图片_20260725011133_583_8",
+      "summary": "This imported card has an editable prompt.",
+      "prompt": "固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，保持画面的色温和色彩风格不变，保留原图远处的背景，地面和场景整体是《无畏契约》里的场景风格，地面有大量绿色毒气弥漫，毒气中有大量全身深色着装的特种士兵中毒躺下，地面还有绿色毒液沸腾，同时在人物前方也有大量绿色毒气从地面上升到腰部位置，一只青绿色的蝰蛇从画面右方毒气中窜出，蛇头靠近镜头，张大嘴巴露出毒牙，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
+      "tags": [
+        "场照半合成预制菜",
+        "To edit"
+      ],
+      "categoryLabel": "场照半合成预制菜",
+      "meta": "场照半合成预制菜 / Editable prompt",
+      "styles": {
+        "width": "100%",
+        "aspect-ratio": "3839 / 2161",
+        "object-fit": "contain",
+        "display": "block",
+        "border-radius": "12px"
+      }
+    },
+    {
+      "id": "gallery-batch-1785338123352-6",
+      "page": "/works",
+      "parentSelector": "[data-editor-gallery-id=\"portrait\"]",
+      "insertPosition": "end",
+      "kind": "image",
+      "src": "/images/editor/batch-1785338123352-6-----_20260725011253_585_8.webp",
+      "alt": "微信图片_20260725011253_585_8",
+      "title": "微信图片_20260725011253_585_8",
+      "summary": "This imported card has an editable prompt.",
+      "prompt": "固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，保持画面的色温和色彩风格不变，保留原图远处的背景，改变画面人物脚下的地面，地面和场景整体是动漫《赛马娘》里的场景风格，但是写实化，场景内物体也尽量带有《赛马娘》的元素，将人物放置在日本的赛马场中，人物脚下是有草地铺设而成的赛马跑道，将赛马场的跑道栏杆作为前景，镜头透过赛马场跑道的栏杆拍摄人物主体，人物背后也有栏杆，同时栏杆下有《赛马娘》番剧的广告牌，栏杆外有一个巨大的户外LED赛马记分牌，除了积分信息，上面还播放着当前的画面，人物的脚下溅起草屑和灰尘，还有其他的和赛马相关的信息或元素以及道具你可以自行添加，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
+      "tags": [
+        "场照半合成预制菜",
+        "To edit"
+      ],
+      "categoryLabel": "场照半合成预制菜",
+      "meta": "场照半合成预制菜 / Editable prompt",
+      "styles": {
+        "width": "100%",
+        "aspect-ratio": "3839 / 2159",
+        "object-fit": "contain",
+        "display": "block",
+        "border-radius": "12px"
+      }
+    },
+    {
+      "id": "gallery-batch-1785338123352-7",
+      "page": "/works",
+      "parentSelector": "[data-editor-gallery-id=\"portrait\"]",
+      "insertPosition": "end",
+      "kind": "image",
+      "src": "/images/editor/batch-1785338123352-7-----_20260725011341_586_8.webp",
+      "alt": "微信图片_20260725011341_586_8",
+      "title": "微信图片_20260725011341_586_8",
+      "summary": "This imported card has an editable prompt.",
+      "prompt": "固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，保持画面的色温和色彩风格不变，保留原图远处的背景，改变画面人物脚下的地面，地面和场景整体是《明日方舟》里的场景风格，场景内物体也尽量带有《明日方舟》的ui元素，把地面改成白雪皑皑的场景，地面上散落着被白雪覆盖的碎裂石头，地面上散落几个《明日方舟》风格的箱子和一些科学仪器，画面左侧人物后方有一个极地科考营地，营地门口有一个具有科技感的桌子，桌子上放着各种地质勘探仪器，人物右侧后下方有一摞燃烧的轮胎，发出暖色的光，画面右侧靠近镜头的位置地上有有一个光测绘仪，空中飘落雪花，狂风吹起雪花由左下角向右上角吹起，雪花落在主体人物身上，尤其是鼻子和头顶还有胸口腹部和腿上，周围的物体上也覆盖大量雪花和冰晶，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
+      "tags": [
+        "场照半合成预制菜",
+        "To edit"
+      ],
+      "categoryLabel": "场照半合成预制菜",
+      "meta": "场照半合成预制菜 / Editable prompt",
+      "styles": {
+        "width": "100%",
+        "aspect-ratio": "3839 / 2159",
+        "object-fit": "contain",
+        "display": "block",
+        "border-radius": "12px"
+      }
+    },
+    {
+      "id": "gallery-batch-1785338123352-8",
+      "page": "/works",
+      "parentSelector": "[data-editor-gallery-id=\"portrait\"]",
+      "insertPosition": "end",
+      "kind": "image",
+      "src": "/images/editor/batch-1785338123352-8-----_20260725012407_592_8.webp",
+      "alt": "微信图片_20260725012407_592_8",
+      "title": "微信图片_20260725012407_592_8",
+      "summary": "This imported card has an editable prompt.",
+      "prompt": "固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，保持画面的色温和色彩风格不变，保留原图远处的背景，将人物脚下地面改成矿洞里的地面，地上在人物右边有一辆矿车，矿车上堆满紫红色的水晶，人物背后左边有一台蒸汽朋克风格的采矿设备，采矿设备前有一张木桌，木桌上放着地质探矿仪器，木桌前放着一把铁铲，在人物周围的地面有几处紫红色水晶簇，其中有一簇水晶在人物右边靠近镜头作为前景，在场景中还有多张印有主体人物形象得海报张贴在场景中得物体上，地面还有多处水洼反射，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
+      "tags": [
+        "场照半合成预制菜",
+        "To edit"
+      ],
+      "categoryLabel": "场照半合成预制菜",
+      "meta": "场照半合成预制菜 / Editable prompt",
+      "styles": {
+        "width": "100%",
+        "aspect-ratio": "1931 / 1169",
+        "object-fit": "contain",
+        "display": "block",
+        "border-radius": "12px"
+      }
+    },
+    {
+      "id": "gallery-batch-1785338123352-9",
+      "page": "/works",
+      "parentSelector": "[data-editor-gallery-id=\"portrait\"]",
+      "insertPosition": "end",
+      "kind": "image",
+      "src": "/images/editor/batch-1785338123352-9-----_20260725012459_595_8.webp",
+      "alt": "微信图片_20260725012459_595_8",
+      "title": "微信图片_20260725012459_595_8",
+      "summary": "This imported card has an editable prompt.",
+      "prompt": "固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，保持画面的色温和色彩风格不变，保留原图远处的背景，为主体人物添加傍晚时分梦幻森林的背景，森林由手游《王者荣耀》风格树木构成在远处虚化，有幽兰的萤火虫在森林中飞舞，背景中远处画面右侧有几块较大的石头，地面铺满青苔与野花，有低矮的灌木丛在画面右侧作为前景，同时在画面的左下方增加两个具有《英雄联盟》艺术风格的狐狸，狐狸从画面的左下方向右方前后追逐，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
+      "tags": [
+        "场照半合成预制菜",
+        "To edit"
+      ],
+      "categoryLabel": "场照半合成预制菜",
+      "meta": "场照半合成预制菜 / Editable prompt",
+      "styles": {
+        "width": "100%",
+        "aspect-ratio": "3839 / 2159",
+        "object-fit": "contain",
+        "display": "block",
+        "border-radius": "12px"
+      }
+    },
+    {
+      "id": "gallery-batch-1785338123352-10",
+      "page": "/works",
+      "parentSelector": "[data-editor-gallery-id=\"portrait\"]",
+      "insertPosition": "end",
+      "kind": "image",
+      "src": "/images/editor/batch-1785338123352-10-----_20260725012852_597_8.webp",
+      "alt": "微信图片_20260725012852_597_8",
+      "title": "微信图片_20260725012852_597_8",
+      "summary": "This imported card has an editable prompt.",
+      "prompt": "固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，保持画面的色温和色彩风格不变，在人物后方增加一个白色栅栏，有大量榭寄生寄生在栅栏上，在栅栏前有个日式公交站牌，公交站牌旁停放着一辆自行车，自行车旁摞着两箱鲜牛奶，同时在在栅栏旁还有2个电线杆中间连接着电线，电线杆上也长着榭寄生，栅栏后方一只奶牛正在吃着饲料，还有几只奶牛在栅栏后吃草，旁边还有堆放饲料的乡下小仓库，在人物前景添加乡下黄绿色的杂草和狗尾巴草，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
+      "tags": [
+        "场照半合成预制菜",
+        "To edit"
+      ],
+      "categoryLabel": "场照半合成预制菜",
+      "meta": "场照半合成预制菜 / Editable prompt",
+      "styles": {
+        "width": "100%",
+        "aspect-ratio": "3839 / 2159",
+        "object-fit": "contain",
+        "display": "block",
+        "border-radius": "12px"
+      }
+    },
+    {
+      "id": "gallery-batch-1785338123352-11",
+      "page": "/works",
+      "parentSelector": "[data-editor-gallery-id=\"portrait\"]",
+      "insertPosition": "end",
+      "kind": "image",
+      "src": "/images/editor/batch-1785338123352-11-----_20260725020103_598_8.webp",
+      "alt": "微信图片_20260725020103_598_8",
+      "title": "微信图片_20260725020103_598_8",
+      "summary": "This imported card has an editable prompt.",
+      "prompt": "画面中的人物主体不变，不要改变人物的动作和表情，主体的细节不变，固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，不要改变画面的背景，保留原画面背景，人物脚下是破碎的地面，地面上有杂草和碎石，还有受伤和死亡全副武装的十字军战士倒在地上，在人物背后有一排全副武装的十字军战士做出各种不同向前进攻的姿势，也有全副武装的十字军战士手握十字军战旗，战旗破损在空中飘扬，为人物的武器增加像游戏《fgo》里角色尼禄的武器一样的特效，微微泛着红色光芒，被粒子效果环绕，另外让人物的脚底飞溅起泥浆和沙石，画面由35mm镜头俯拍拍摄，f1.8光圈，具有照片级的真实感，充满的cg感，具有高精度和极致的细节，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
+      "tags": [
+        "场照半合成预制菜",
+        "To edit"
+      ],
+      "categoryLabel": "场照半合成预制菜",
+      "meta": "场照半合成预制菜 / Editable prompt",
+      "styles": {
+        "width": "100%",
+        "aspect-ratio": "3827 / 2142",
+        "object-fit": "contain",
+        "display": "block",
+        "border-radius": "12px"
+      }
+    },
+    {
+      "id": "gallery-batch-1785338123352-12",
+      "page": "/works",
+      "parentSelector": "[data-editor-gallery-id=\"portrait\"]",
+      "insertPosition": "end",
+      "kind": "image",
+      "src": "/images/editor/batch-1785338123352-12-----_20260725020413_602_8.webp",
+      "alt": "微信图片_20260725020413_602_8",
+      "title": "微信图片_20260725020413_602_8",
+      "summary": "This imported card has an editable prompt.",
+      "prompt": "画面中的人物主体不变，不要改变人物的动作和表情，主体的细节不变，固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，不要改变画面的背景，一定不要改变画面的背景，保留原画面背景，昏暗的傍晚，人物脚下是破碎的地面，地面上有杂草和碎石以及燃烧的罗马战车残骸，还有受伤和死亡全副武装的十字军战士倒在地上，地面上环绕主体人物插满剑，的在人物背后有一排全副武装的十字军战士步兵和骑兵做出各种不同向前进攻的姿势，也有全副武装的十字军战士手握十字军战旗，战旗破损在空中飘扬，在画面前景增加弥漫的烟尘作为前景，画面由35mm镜头俯拍拍摄，f1.8光圈，具有照片级的真实感，充满的cg感，具有高精度和极致的细节，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
+      "tags": [
+        "场照半合成预制菜",
+        "To edit"
+      ],
+      "categoryLabel": "场照半合成预制菜",
+      "meta": "场照半合成预制菜 / Editable prompt",
+      "styles": {
+        "width": "100%",
+        "aspect-ratio": "3839 / 2133",
+        "object-fit": "contain",
+        "display": "block",
+        "border-radius": "12px"
+      }
+    },
+    {
+      "id": "gallery-batch-1785338123352-13",
+      "page": "/works",
+      "parentSelector": "[data-editor-gallery-id=\"portrait\"]",
+      "insertPosition": "end",
+      "kind": "image",
+      "src": "/images/editor/batch-1785338123352-13-----_20260725021443_605_8.webp",
+      "alt": "微信图片_20260725021443_605_8",
+      "title": "微信图片_20260725021443_605_8",
+      "summary": "This imported card has an editable prompt.",
+      "prompt": "画面中的人物主体不变，不要改变人物的动作和表情，主体的细节不变，固定主体人物在画面大小和透视关系，一定不要改变画面的背景，保留原画面背景，保留背景，保留场馆主题框架，固定人物在画面中的位置，不要改变人物的位置，人物腿部泡在黑色波光嶙峋的水里，人物的腿部与水面接触的地方有浪花，正在水里前景，人物背后的水中有一辆具有《COD》风格的充气皮筏艇，画面的左边有钢架泡在水中，钢架上有发出微微暖光的探照灯，画面右侧有礁石靠近镜头虚化，有一根铁链从画面顶部拉直落下连接礁石，有浪花靠近镜头虚化，并且激起水珠虚化，整体画面昏暗，画面由35mm镜头拍摄，画面向右倾斜，f1.8光圈，具有照片级的真实感，充满的cg感，具有高精度和极致的细节，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关",
+      "tags": [
+        "场照半合成预制菜",
+        "To edit"
+      ],
+      "categoryLabel": "场照半合成预制菜",
+      "meta": "场照半合成预制菜 / Editable prompt",
+      "styles": {
+        "width": "100%",
+        "aspect-ratio": "2273 / 1267",
+        "object-fit": "contain",
+        "display": "block",
+        "border-radius": "12px"
+      }
+    },
+    {
+      "id": "gallery-window-1785338647883",
+      "page": "/works",
+      "parentSelector": "[data-editor-gallery-id=\"portrait\"]",
+      "insertPosition": "end",
+      "kind": "image",
+      "src": "/images/editor/QQ20260725-010009.webp",
+      "alt": "例图窗口",
+      "title": "New work",
+      "summary": "This imported card has an editable prompt.",
+      "prompt": "画面中的人物主体不变，不要改变人物的动作和表情，主体的细节不变，固定主体人物在画面大小和透视关系，人物的大小不变，保持人物与画面的比例不变，不要改变主体与画面的透视，保持画面的色温和色彩风格不变，为主体人物更换背景为改变.人物处在牛奶灌装生产线的厂房中，工厂内部大型金属机器和管道错落分布，天花板上整齐排列的长条形LED灯带提供均匀照明，营造出高效、洁净、科技感十足的氛围，光线从顶部投射下来，形成明暗对比，工厂内有多个牛奶罐装流水线，流水线上的玻璃瓶瓶身为中国产的大白兔奶糖包装，内装乳白色牛奶，瓶口整齐排列在传送带上，机械臂正在自动灌装，还有多个fufu娃娃风格的兔子在流水线上工作，同时厂房内还有一个大型透明圆柱形生物舱，舱内隐约可见一只黑白花奶牛，还有一张金属办公桌，桌上摆放着一台亮着蓝光的电脑显示器，旁边是黑色办公椅，椅子微微向后倾斜，墙上布满通风口和控制面板，画面由35mm镜头拍摄，f1.8光圈，地平线无倾斜，充满的cg感，具有高精度和极致的细节，具有真实感的blender建模效果，如同UE5渲染的游戏，让画面具有35mm电影镜头的畸变，在画面边缘失焦的部分增加3D游戏里微弱色散色差的后处理效果，虚化近景和远景，拥有优秀的透视关系",
+      "tags": [
+        "场照半合成预制菜",
+        "To edit"
+      ],
+      "categoryLabel": "场照半合成预制菜",
+      "meta": "场照半合成预制菜 / Editable prompt",
+      "styles": {
+        "width": "100%",
+        "aspect-ratio": "419 / 351",
         "object-fit": "contain",
         "display": "block",
         "border-radius": "12px"

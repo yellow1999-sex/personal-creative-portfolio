@@ -4561,6 +4561,14 @@ small {
   background: rgba(6, 16, 10, 0.5);
   backdrop-filter: blur(2px);
 }
+.prompt-library-page .prompt-list-prompt-source {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
 
 .prompt-library-page .prompt-list-index,
 .prompt-library-page .prompt-list-open > span {

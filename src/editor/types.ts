@@ -48,6 +48,7 @@ export type EditorState = {
   overrides: Record<string, EditorOverride>
   insertions: EditorInsertion[]
   removedCards: Record<string, string[]>
+  galleryOrders: Record<string, string[]>
   pages: EditorPageDefinition[]
 }
 
@@ -80,5 +81,6 @@ export const defaultEditorState: EditorState = {
   overrides: {},
   insertions: [],
   removedCards: {},
+  galleryOrders: {},
   pages: [],
 }

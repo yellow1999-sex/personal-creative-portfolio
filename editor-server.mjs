@@ -13,7 +13,8 @@ const backupDir = path.join(root, 'website-backups')
 const apiPort = Number.parseInt(process.env.EDITOR_API_PORT || '4399', 10)
 const vitePort = Number.parseInt(process.env.EDITOR_VITE_PORT || '5173', 10)
 const shouldOpenBrowser = process.env.EDITOR_OPEN_BROWSER !== '0'
-const gitCommand = process.env.EDITOR_GIT_PATH || 'git'
+const bundledGitCommand = path.resolve(root, '..', '运行时', 'git', 'cmd', process.platform === 'win32' ? 'git.exe' : 'git')
+const gitCommand = process.env.EDITOR_GIT_PATH || (process.platform === 'win32' ? bundledGitCommand : 'git')
 // Keep the original aspect ratio, preserve source pixels up to 4K, and never upscale.
 const maximumImageDimension = 4096
 const defaultSettings = {
